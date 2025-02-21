@@ -27,7 +27,7 @@ interface CategoryUpdateRequest {
   oldCategoryName: string;
 }
 
-const API_URL = 'http://localhost:3001/api/menu';
+const API_URL = import.meta.env.VITE_API_URL + '/api/menu';
 
 export const loadMenuData = async (): Promise<MenuData> => {
   try {

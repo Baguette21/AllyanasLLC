@@ -72,7 +72,7 @@ export const ManageMenuSection = ({ onBack }: ManageMenuSectionProps) => {
       formData.append('image', file);
 
       console.log('Uploading image...');
-      const response = await fetch('/api/menu/upload-image', {
+      const response = await fetch(`${import.meta.env.VITE_API_URL}/api/menu/upload-image`, {
         method: 'POST',
         body: formData,
       });
@@ -109,7 +109,7 @@ export const ManageMenuSection = ({ onBack }: ManageMenuSectionProps) => {
       formData.append('image', file);
 
       console.log('Uploading image...');
-      const response = await fetch('http://localhost:3001/api/menu/upload-image', {
+      const response = await fetch(`${import.meta.env.VITE_API_URL}/api/menu/upload-image`, {
         method: 'POST',
         body: formData,
       });

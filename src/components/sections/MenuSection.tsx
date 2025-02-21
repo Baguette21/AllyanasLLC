@@ -43,7 +43,7 @@ export const MenuSection = ({ orderInfo, onBack, onCheckout }: MenuSectionProps)
     const fetchMenuData = async () => {
       try {
         console.log('Fetching menu data...');
-        const response = await fetch('http://localhost:3001/api/menu/get-menu');
+        const response = await fetch(`${import.meta.env.VITE_API_URL}/api/menu/get-menu`);
         console.log('Response status:', response.status);
         const data = await response.json() as MenuData;
         console.log('Menu data:', data);
