@@ -1,0 +1,1018 @@
+{
+  "items": [
+    {
+      "id": "174012107855015",
+      "name": "Crispy Chicken",
+      "price": 105,
+      "category": "chicken",
+      "categoryOrder": "chicken",
+      "description": "Classic Filipino-style fried chicken with crispy skin and juicy meat",
+      "image": "blank.png",
+      "isAvailable": true,
+      "itemOrder": 0,
+      "isEditing": false
+    },
+    {
+      "id": "174012107855016",
+      "name": "Buttered Chicken",
+      "price": 110,
+      "category": "chicken",
+      "categoryOrder": "chicken",
+      "description": "Tender chicken pieces tossed in rich butter garlic sauce",
+      "image": "blank.png",
+      "isAvailable": true,
+      "itemOrder": 1
+    },
+    {
+      "id": "174012107855017",
+      "name": "Spicy Chicken",
+      "price": 115,
+      "category": "chicken",
+      "categoryOrder": "chicken",
+      "description": "Crispy fried chicken with a spicy coating",
+      "image": "blank.png",
+      "isAvailable": true,
+      "itemOrder": 2
+    },
+    {
+      "id": "174012107855018",
+      "name": "Sweet & Sour Chicken",
+      "price": 115,
+      "category": "chicken",
+      "categoryOrder": "chicken",
+      "description": "Crispy chicken pieces in tangy sweet and sour sauce with bell peppers",
+      "image": "blank.png",
+      "isAvailable": true,
+      "itemOrder": 3
+    },
+    {
+      "id": "174012107855019",
+      "name": "Chili Chicken",
+      "price": 115,
+      "category": "chicken",
+      "categoryOrder": "chicken",
+      "description": "Stir-fried chicken in spicy chili sauce with vegetables",
+      "image": "blank.png",
+      "isAvailable": true,
+      "itemOrder": 4
+    },
+    {
+      "id": "174012107855020",
+      "name": "Fried Chicken (HALF)",
+      "price": 225,
+      "category": "chicken",
+      "categoryOrder": "chicken",
+      "description": "Half portion of traditional Filipino-style fried chicken",
+      "image": "blank.png",
+      "isAvailable": true,
+      "itemOrder": 5
+    },
+    {
+      "id": "174012107855021",
+      "name": "Hongkong Chicken (HALF)",
+      "price": 235,
+      "category": "chicken",
+      "categoryOrder": "chicken",
+      "description": "Half portion of Cantonese-style roasted chicken",
+      "image": "blank.png",
+      "isAvailable": true,
+      "itemOrder": 6
+    },
+    {
+      "id": "174012107855022",
+      "name": "Soy Chicken (HALF)",
+      "price": 225,
+      "category": "chicken",
+      "categoryOrder": "chicken",
+      "description": "Half portion of chicken marinated and cooked in soy sauce",
+      "image": "blank.png",
+      "isAvailable": true,
+      "itemOrder": 7
+    },
+    {
+      "id": "174012107855023",
+      "name": "Beef Ampalaya",
+      "price": 115,
+      "category": "beef",
+      "categoryOrder": "beef",
+      "description": "Tender beef slices stir-fried with bitter gourd in garlic sauce",
+      "image": "blank.png",
+      "isAvailable": true,
+      "itemOrder": 8
+    },
+    {
+      "id": "174012107855024",
+      "name": "Beef Broccoli",
+      "price": 115,
+      "category": "beef",
+      "categoryOrder": "beef",
+      "description": "Stir-fried beef slices with fresh broccoli in oyster sauce",
+      "image": "blank.png",
+      "isAvailable": true,
+      "itemOrder": 9
+    },
+    {
+      "id": "174012107855025",
+      "name": "Beef Curry",
+      "price": 115,
+      "category": "beef",
+      "categoryOrder": "beef",
+      "description": "Filipino-style beef curry with potatoes and carrots in coconut milk",
+      "image": "blank.png",
+      "isAvailable": true,
+      "itemOrder": 10
+    },
+    {
+      "id": "174012107855026",
+      "name": "Beef Mushroom",
+      "price": 115,
+      "category": "beef",
+      "categoryOrder": "beef",
+      "description": "Tender beef slices with mushrooms in savory sauce",
+      "image": "blank.png",
+      "isAvailable": true,
+      "itemOrder": 11
+    },
+    {
+      "id": "174012107855027",
+      "name": "Beef Steak",
+      "price": 115,
+      "category": "beef",
+      "categoryOrder": "beef",
+      "description": "Filipino-style bistek with onions in soy-calamansi sauce",
+      "image": "blank.png",
+      "isAvailable": true,
+      "itemOrder": 12
+    },
+    {
+      "id": "174012107855028",
+      "name": "Beef Young Corn",
+      "price": 115,
+      "category": "beef",
+      "categoryOrder": "beef",
+      "description": "Stir-fried beef with young corn kernels in savory sauce",
+      "image": "blank.png",
+      "isAvailable": true,
+      "itemOrder": 13
+    },
+    {
+      "id": "174012107855029",
+      "name": "Chili Pork",
+      "price": 120,
+      "category": "pork",
+      "categoryOrder": "pork",
+      "description": "Spicy stir-fried pork with chili sauce and vegetables",
+      "image": "blank.png",
+      "isAvailable": true,
+      "itemOrder": 14
+    },
+    {
+      "id": "174012107855030",
+      "name": "Lechong Kawali",
+      "price": 120,
+      "category": "pork",
+      "categoryOrder": "pork",
+      "description": "Crispy deep-fried pork belly",
+      "image": "blank.png",
+      "isAvailable": true,
+      "itemOrder": 15
+    },
+    {
+      "id": "174012107855031",
+      "name": "Pork Steak",
+      "price": 120,
+      "category": "pork",
+      "categoryOrder": "pork",
+      "description": "Filipino-style pork steak with onions in soy-calamansi sauce",
+      "image": "blank.png",
+      "isAvailable": true,
+      "itemOrder": 16
+    },
+    {
+      "id": "174012107855032",
+      "name": "Sinigang na Baboy",
+      "price": 120,
+      "category": "pork",
+      "categoryOrder": "pork",
+      "description": "Sour tamarind-based soup with pork and vegetables",
+      "image": "blank.png",
+      "isAvailable": true,
+      "itemOrder": 17
+    },
+    {
+      "id": "174012107855033",
+      "name": "Pork Mushroom",
+      "price": 125,
+      "category": "pork",
+      "categoryOrder": "pork",
+      "description": "Tender pork slices with mushrooms in savory sauce",
+      "image": "blank.png",
+      "isAvailable": true,
+      "itemOrder": 18
+    },
+    {
+      "id": "174012107855034",
+      "name": "Sweet & Sour Pork",
+      "price": 125,
+      "category": "pork",
+      "categoryOrder": "pork",
+      "description": "Crispy pork in sweet and sour sauce with pineapple and bell peppers",
+      "image": "blank.png",
+      "isAvailable": true,
+      "itemOrder": 19
+    },
+    {
+      "id": "174012107855035",
+      "name": "Lumpiang Shanghai",
+      "price": 125,
+      "category": "pork",
+      "categoryOrder": "pork",
+      "description": "Filipino-style spring rolls filled with ground pork",
+      "image": "blank.png",
+      "isAvailable": true,
+      "itemOrder": 20
+    },
+    {
+      "id": "174012107855036",
+      "name": "Salt & Peper Spareribs",
+      "price": 125,
+      "category": "pork",
+      "categoryOrder": "pork",
+      "description": "Crispy pork spareribs seasoned with salt and pepper",
+      "image": "blank.png",
+      "isAvailable": true,
+      "itemOrder": 21
+    },
+    {
+      "id": "174012107855037",
+      "name": "Sisig",
+      "price": 125,
+      "category": "pork",
+      "categoryOrder": "pork",
+      "description": "Chopped pork face and belly seasoned with calamansi and chili",
+      "image": "blank.png",
+      "isAvailable": true,
+      "itemOrder": 22
+    },
+    {
+      "id": "174012107855038",
+      "name": "Spareribs in Tausi Sauce",
+      "price": 130,
+      "category": "pork",
+      "categoryOrder": "pork",
+      "description": "Pork spareribs in fermented black bean sauce",
+      "image": "blank.png",
+      "isAvailable": true,
+      "itemOrder": 23
+    },
+    {
+      "id": "174012107855039",
+      "name": "Lechong Kawali with Tausi & Tofu",
+      "price": 135,
+      "category": "pork",
+      "categoryOrder": "pork",
+      "description": "Crispy pork belly with fermented black beans and tofu",
+      "image": "blank.png",
+      "isAvailable": true,
+      "itemOrder": 24
+    },
+    {
+      "id": "174012107855040",
+      "name": "Patatim (HALF)",
+      "price": 300,
+      "category": "pork",
+      "categoryOrder": "pork",
+      "description": "Braised pork pata in sweet soy sauce with mushrooms",
+      "image": "blank.png",
+      "isAvailable": true,
+      "itemOrder": 25
+    },
+    {
+      "id": "174012107855041",
+      "name": "Crispy Shrimp",
+      "price": 105,
+      "category": "shrimp",
+      "categoryOrder": "shrimp",
+      "description": "Breaded and deep-fried shrimp",
+      "image": "blank.png",
+      "isAvailable": true,
+      "itemOrder": 26
+    },
+    {
+      "id": "174012107855042",
+      "name": "Camaroon Rebusado",
+      "price": 110,
+      "category": "shrimp",
+      "categoryOrder": "shrimp",
+      "description": "Battered and fried shrimp",
+      "image": "blank.png",
+      "isAvailable": true,
+      "itemOrder": 27
+    },
+    {
+      "id": "174012107855043",
+      "name": "Sinigang na Hipon",
+      "price": 110,
+      "category": "shrimp",
+      "categoryOrder": "shrimp",
+      "description": "Sour tamarind-based soup with shrimp and vegetables",
+      "image": "blank.png",
+      "isAvailable": true,
+      "itemOrder": 28
+    },
+    {
+      "id": "174012107855044",
+      "name": "Chili Shrimp",
+      "price": 115,
+      "category": "shrimp",
+      "categoryOrder": "shrimp",
+      "description": "Stir-fried shrimp in spicy chili sauce",
+      "image": "blank.png",
+      "isAvailable": true,
+      "itemOrder": 29
+    },
+    {
+      "id": "174012107855045",
+      "name": "Halabos",
+      "price": 115,
+      "category": "shrimp",
+      "categoryOrder": "shrimp",
+      "description": "Shrimp cooked in garlic and butter",
+      "image": "blank.png",
+      "isAvailable": true,
+      "itemOrder": 30
+    },
+    {
+      "id": "174012107855046",
+      "name": "Shrimp with Salt & Pepper",
+      "price": 115,
+      "category": "shrimp",
+      "categoryOrder": "shrimp",
+      "description": "Salt and pepper seasoned crispy shrimp",
+      "image": "blank.png",
+      "isAvailable": true,
+      "itemOrder": 31
+    },
+    {
+      "id": "174012107855047",
+      "name": "Shrimp Broccoli",
+      "price": 120,
+      "category": "shrimp",
+      "categoryOrder": "shrimp",
+      "description": "Stir-fried shrimp with broccoli in garlic sauce",
+      "image": "blank.png",
+      "isAvailable": true,
+      "itemOrder": 32
+    },
+    {
+      "id": "174012107855048",
+      "name": "Shrimp Mixed Vegetables",
+      "price": 120,
+      "category": "shrimp",
+      "categoryOrder": "shrimp",
+      "description": "Stir-fried shrimp with assorted vegetables",
+      "image": "blank.png",
+      "isAvailable": true,
+      "itemOrder": 33
+    },
+    {
+      "id": "174012107855049",
+      "name": "Shrimp Mushroom",
+      "price": 120,
+      "category": "shrimp",
+      "categoryOrder": "shrimp",
+      "description": "Shrimp and mushrooms in savory sauce",
+      "image": "blank.png",
+      "isAvailable": true,
+      "itemOrder": 34
+    },
+    {
+      "id": "174012107855050",
+      "name": "Calamares",
+      "price": 110,
+      "category": "squid",
+      "categoryOrder": "squid",
+      "description": "Breaded and deep-fried squid rings",
+      "image": "blank.png",
+      "isAvailable": true,
+      "itemOrder": 35
+    },
+    {
+      "id": "174012107855051",
+      "name": "Salt & Pepper Squid",
+      "price": 120,
+      "category": "squid",
+      "categoryOrder": "squid",
+      "description": "Crispy squid seasoned with salt and pepper",
+      "image": "blank.png",
+      "isAvailable": true,
+      "itemOrder": 36
+    },
+    {
+      "id": "174012107855052",
+      "name": "Sizzling Lengua",
+      "price": 130,
+      "category": "sizzling",
+      "categoryOrder": "sizzling",
+      "description": "Tender ox tongue served on a sizzling plate",
+      "image": "blank.png",
+      "isAvailable": true,
+      "itemOrder": 37
+    },
+    {
+      "id": "174012107855053",
+      "name": "Sizzling Mixed Seafood",
+      "price": 145,
+      "category": "sizzling",
+      "categoryOrder": "sizzling",
+      "description": "Mixed seafood in special sauce on a sizzling plate",
+      "image": "blank.png",
+      "isAvailable": true,
+      "itemOrder": 38
+    },
+    {
+      "id": "174012107855054",
+      "name": "Sizzling Pusit",
+      "price": 145,
+      "category": "sizzling",
+      "categoryOrder": "sizzling",
+      "description": "Grilled squid served on a sizzling plate",
+      "image": "blank.png",
+      "isAvailable": true,
+      "itemOrder": 39
+    },
+    {
+      "id": "174012107855055",
+      "name": "Sizzling Chicken",
+      "price": 250,
+      "category": "sizzling",
+      "categoryOrder": "sizzling",
+      "description": "Chicken in gravy sauce served on a sizzling plate",
+      "image": "blank.png",
+      "isAvailable": true,
+      "itemOrder": 40
+    },
+    {
+      "id": "174012107855056",
+      "name": "Sizzling Sisig",
+      "price": 145,
+      "category": "sizzling",
+      "categoryOrder": "sizzling",
+      "description": "Chopped pork face and belly on a sizzling plate",
+      "image": "blank.png",
+      "isAvailable": true,
+      "itemOrder": 41
+    },
+    {
+      "id": "174012107855057",
+      "name": "Fish Fillet Fried",
+      "price": 105,
+      "category": "fish",
+      "categoryOrder": "fish",
+      "description": "Crispy fried fish fillet",
+      "image": "blank.png",
+      "isAvailable": true,
+      "itemOrder": 42
+    },
+    {
+      "id": "174012107855058",
+      "name": "Sweet & Sour Fish",
+      "price": 115,
+      "category": "fish",
+      "categoryOrder": "fish",
+      "description": "Fish fillet in sweet and sour sauce",
+      "image": "blank.png",
+      "isAvailable": true,
+      "itemOrder": 43
+    },
+    {
+      "id": "174012107855059",
+      "name": "Fish Fillet with Tausi & Tofu",
+      "price": 125,
+      "category": "fish",
+      "categoryOrder": "fish",
+      "description": "Fish fillet with fermented black beans and tofu",
+      "image": "blank.png",
+      "isAvailable": true,
+      "itemOrder": 44
+    },
+    {
+      "id": "174012107855060",
+      "name": "Fish Fillet in White Sauce",
+      "price": 125,
+      "category": "fish",
+      "categoryOrder": "fish",
+      "description": "Fish fillet in creamy white sauce",
+      "image": "blank.png",
+      "isAvailable": true,
+      "itemOrder": 45
+    },
+    {
+      "id": "174012107855061",
+      "name": "Chopsuey",
+      "price": 95,
+      "category": "vegetables",
+      "categoryOrder": "vegetables",
+      "description": "Mixed vegetables stir-fry",
+      "image": "blank.png",
+      "isAvailable": true,
+      "itemOrder": 46
+    },
+    {
+      "id": "174012107855062",
+      "name": "Lohan Chay",
+      "price": 95,
+      "category": "vegetables",
+      "categoryOrder": "vegetables",
+      "description": "Buddhist-style mixed vegetable dish",
+      "image": "blank.png",
+      "isAvailable": true,
+      "itemOrder": 47
+    },
+    {
+      "id": "174012107855063",
+      "name": "Broccoli",
+      "price": 100,
+      "category": "vegetables",
+      "categoryOrder": "vegetables",
+      "description": "Stir-fried broccoli in garlic sauce",
+      "image": "blank.png",
+      "isAvailable": true,
+      "itemOrder": 48
+    },
+    {
+      "id": "174012107855064",
+      "name": "Gising - Gising",
+      "price": 100,
+      "category": "vegetables",
+      "categoryOrder": "vegetables",
+      "description": "Spicy winged beans and coconut milk dish",
+      "image": "blank.png",
+      "isAvailable": true,
+      "itemOrder": 49
+    },
+    {
+      "id": "174012107855065",
+      "name": "Tortang Macao",
+      "price": 105,
+      "category": "vegetables",
+      "categoryOrder": "vegetables",
+      "description": "Filipino-style vegetable omelet",
+      "image": "blank.png",
+      "isAvailable": true,
+      "itemOrder": 50
+    },
+    {
+      "id": "174012107855066",
+      "name": "Yana's Fried Chicken",
+      "price": 450,
+      "category": "house specialty",
+      "categoryOrder": "house specialty",
+      "description": "Signature whole fried chicken",
+      "image": "blank.png",
+      "isAvailable": true,
+      "itemOrder": 51
+    },
+    {
+      "id": "174012107855067",
+      "name": "Yana's Buttered Chicken",
+      "price": 320,
+      "category": "house specialty",
+      "categoryOrder": "house specialty",
+      "description": "Whole chicken in special butter sauce",
+      "image": "blank.png",
+      "isAvailable": true,
+      "itemOrder": 52
+    },
+    {
+      "id": "174012107855068",
+      "name": "Yana's Hongkong Chicken",
+      "price": 470,
+      "category": "house specialty",
+      "categoryOrder": "house specialty",
+      "description": "Whole Cantonese-style roasted chicken",
+      "image": "blank.png",
+      "isAvailable": true,
+      "itemOrder": 53
+    },
+    {
+      "id": "174012107855069",
+      "name": "Yana's Soy Chicken",
+      "price": 450,
+      "category": "house specialty",
+      "categoryOrder": "house specialty",
+      "description": "Whole chicken marinated and cooked in special soy sauce",
+      "image": "blank.png",
+      "isAvailable": true,
+      "itemOrder": 54
+    },
+    {
+      "id": "174012107855070",
+      "name": "Yana's Spicy Chicken",
+      "price": 330,
+      "category": "house specialty",
+      "categoryOrder": "house specialty",
+      "description": "Whole chicken with special spicy coating",
+      "image": "blank.png",
+      "isAvailable": true,
+      "itemOrder": 55
+    },
+    {
+      "id": "174012107855071",
+      "name": "Yana's Crispy Pata",
+      "price": 650,
+      "category": "house specialty",
+      "categoryOrder": "house specialty",
+      "description": "Signature deep-fried pork leg",
+      "image": "blank.png",
+      "isAvailable": true,
+      "itemOrder": 56
+    },
+    {
+      "id": "174012107855072",
+      "name": "Yana's Patatim",
+      "price": 650,
+      "category": "house specialty",
+      "categoryOrder": "house specialty",
+      "description": "Braised pork leg in special sauce",
+      "image": "blank.png",
+      "isAvailable": true,
+      "itemOrder": 57
+    },
+    {
+      "id": "174012107855073",
+      "name": "Yana's Whole Sizzling Chicken",
+      "price": 480,
+      "category": "house specialty",
+      "categoryOrder": "house specialty",
+      "description": "Whole chicken in gravy on sizzling plate",
+      "image": "blank.png",
+      "isAvailable": true,
+      "itemOrder": 58
+    },
+    {
+      "id": "174012107855074",
+      "name": "Yana's Crispy Ulo",
+      "price": 650,
+      "category": "house specialty",
+      "categoryOrder": "house specialty",
+      "description": "Crispy fried pork head",
+      "image": "blank.png",
+      "isAvailable": true,
+      "itemOrder": 59
+    },
+    {
+      "id": "174012107855075",
+      "name": "Asadong Dila",
+      "price": 110,
+      "category": "asado",
+      "categoryOrder": "asado",
+      "description": "Braised ox tongue asado-style",
+      "image": "blank.png",
+      "isAvailable": true,
+      "itemOrder": 60
+    },
+    {
+      "id": "174012107855076",
+      "name": "Asadong Tito",
+      "price": 110,
+      "category": "asado",
+      "categoryOrder": "asado",
+      "description": "Special pork asado",
+      "image": "blank.png",
+      "isAvailable": true,
+      "itemOrder": 61
+    },
+    {
+      "id": "174012107855077",
+      "name": "Assorted Asado",
+      "price": 115,
+      "category": "asado",
+      "categoryOrder": "asado",
+      "description": "Mix of different asado varieties",
+      "image": "blank.png",
+      "isAvailable": true,
+      "itemOrder": 62
+    },
+    {
+      "id": "174012107855078",
+      "name": "Hototay",
+      "price": 90,
+      "category": "soup",
+      "categoryOrder": "soup",
+      "description": "Chinese-inspired soup with mixed meat and vegetables",
+      "image": "blank.png",
+      "isAvailable": true,
+      "itemOrder": 63
+    },
+    {
+      "id": "174012107855079",
+      "name": "Sotanghon Soup",
+      "price": 90,
+      "category": "soup",
+      "categoryOrder": "soup",
+      "description": "Clear glass noodle soup with vegetables",
+      "image": "blank.png",
+      "isAvailable": true,
+      "itemOrder": 64
+    },
+    {
+      "id": "174012107855080",
+      "name": "Chicken Mushroom",
+      "price": 90,
+      "category": "soup",
+      "categoryOrder": "soup",
+      "description": "Chicken and mushroom soup",
+      "image": "blank.png",
+      "isAvailable": true,
+      "itemOrder": 65
+    },
+    {
+      "id": "174012107855081",
+      "name": "Bihon",
+      "price": 90,
+      "category": "noodles",
+      "categoryOrder": "noodles",
+      "description": "Thin rice noodles stir-fry",
+      "image": "blank.png",
+      "isAvailable": true,
+      "itemOrder": 66
+    },
+    {
+      "id": "174012107855082",
+      "name": "Canton",
+      "price": 90,
+      "category": "noodles",
+      "categoryOrder": "noodles",
+      "description": "Yellow wheat noodles stir-fry",
+      "image": "blank.png",
+      "isAvailable": true,
+      "itemOrder": 67
+    },
+    {
+      "id": "174012107855083",
+      "name": "Canton Bihon",
+      "price": 90,
+      "category": "noodles",
+      "categoryOrder": "noodles",
+      "description": "Combination of rice and wheat noodles stir-fry",
+      "image": "blank.png",
+      "isAvailable": true,
+      "itemOrder": 68
+    },
+    {
+      "id": "174012107855084",
+      "name": "Chami",
+      "price": 90,
+      "category": "noodles",
+      "categoryOrder": "noodles",
+      "description": "Dark soy sauce based noodle dish",
+      "image": "blank.png",
+      "isAvailable": true,
+      "itemOrder": 69
+    },
+    {
+      "id": "174012107855085",
+      "name": "Lomi",
+      "price": 90,
+      "category": "noodles",
+      "categoryOrder": "noodles",
+      "description": "Thick egg noodles in thick savory soup",
+      "image": "blank.png",
+      "isAvailable": true,
+      "itemOrder": 70
+    },
+    {
+      "id": "174012107855086",
+      "name": "Miki Bihon",
+      "price": 90,
+      "category": "noodles",
+      "categoryOrder": "noodles",
+      "description": "Combination of egg and rice noodles",
+      "image": "blank.png",
+      "isAvailable": true,
+      "itemOrder": 71
+    },
+    {
+      "id": "174012107855087",
+      "name": "Sotanghon Guisado",
+      "price": 95,
+      "category": "noodles",
+      "categoryOrder": "noodles",
+      "description": "Stir-fried glass noodles with vegetables and meat",
+      "image": "blank.png",
+      "isAvailable": true,
+      "itemOrder": 72
+    },
+    {
+      "id": "174012107855088",
+      "name": "Buttered Chicken",
+      "price": 80,
+      "category": "rice toppings",
+      "categoryOrder": "rice toppings",
+      "description": "Rice topped with buttered chicken and soup",
+      "image": "blank.png",
+      "isAvailable": true,
+      "itemOrder": 73
+    },
+    {
+      "id": "174012107855089",
+      "name": "Lechong Kawali",
+      "price": 85,
+      "category": "rice toppings",
+      "categoryOrder": "rice toppings",
+      "description": "Rice topped with crispy pork belly and soup",
+      "image": "blank.png",
+      "isAvailable": true,
+      "itemOrder": 74
+    },
+    {
+      "id": "174012107855090",
+      "name": "Chopsuey",
+      "price": 80,
+      "category": "rice toppings",
+      "categoryOrder": "rice toppings",
+      "description": "Rice topped with mixed vegetables and soup",
+      "image": "blank.png",
+      "isAvailable": true,
+      "itemOrder": 75
+    },
+    {
+      "id": "174012107855091",
+      "name": "Sisig",
+      "price": 85,
+      "category": "rice toppings",
+      "categoryOrder": "rice toppings",
+      "description": "Rice topped with sizzling sisig and soup",
+      "image": "blank.png",
+      "isAvailable": true,
+      "itemOrder": 76
+    },
+    {
+      "id": "174012107855092",
+      "name": "Chili Chicken",
+      "price": 85,
+      "category": "rice toppings",
+      "categoryOrder": "rice toppings",
+      "description": "Rice topped with spicy chicken and soup",
+      "image": "blank.png",
+      "isAvailable": true,
+      "itemOrder": 77
+    },
+    {
+      "id": "174012107855093",
+      "name": "Beef Steak",
+      "price": 85,
+      "category": "rice toppings",
+      "categoryOrder": "rice toppings",
+      "description": "Rice topped with beef steak and soup",
+      "image": "blank.png",
+      "isAvailable": true,
+      "itemOrder": 78
+    },
+    {
+      "id": "174012107855094",
+      "name": "Plain",
+      "price": 20,
+      "category": "rice",
+      "categoryOrder": "rice",
+      "description": "Steamed white rice",
+      "image": "blank.png",
+      "isAvailable": true,
+      "itemOrder": 79
+    },
+    {
+      "id": "174012107855095",
+      "name": "Garlic Rice",
+      "price": 95,
+      "category": "rice",
+      "categoryOrder": "rice",
+      "description": "Fried rice with garlic",
+      "image": "blank.png",
+      "isAvailable": true,
+      "itemOrder": 80
+    },
+    {
+      "id": "174012107855096",
+      "name": "Yang Chow Rice",
+      "price": 105,
+      "category": "rice",
+      "categoryOrder": "rice",
+      "description": "Chinese-style fried rice with mixed vegetables and meat",
+      "image": "blank.png",
+      "isAvailable": true,
+      "itemOrder": 81
+    },
+    {
+      "id": "174012107855097",
+      "name": "MISMO",
+      "price": 22,
+      "category": "drinks",
+      "categoryOrder": "drinks",
+      "description": "Regular-sized Coke Royal or Sprite",
+      "image": "blank.png",
+      "isAvailable": true,
+      "itemOrder": 82
+    },
+    {
+      "id": "174012107855098",
+      "name": "1.5",
+      "price": 85,
+      "category": "drinks",
+      "categoryOrder": "drinks",
+      "description": "1.5 liter Coke Royal or Sprite",
+      "image": "blank.png",
+      "isAvailable": true,
+      "itemOrder": 83
+    },
+    {
+      "id": "174012107855099",
+      "name": "Mineral Water",
+      "price": 18,
+      "category": "drinks",
+      "categoryOrder": "drinks",
+      "description": "Bottled mineral water",
+      "image": "blank.png",
+      "isAvailable": true,
+      "itemOrder": 84
+    }
+  ],
+  "categories": [
+    {
+      "name": "chicken",
+      "id": "17401210785500",
+      "order": 0
+    },
+    {
+      "name": "beef",
+      "id": "17401210785501",
+      "order": 1
+    },
+    {
+      "name": "pork",
+      "id": "17401210785502",
+      "order": 2
+    },
+    {
+      "name": "shrimp",
+      "id": "17401210785503",
+      "order": 3
+    },
+    {
+      "name": "squid",
+      "id": "17401210785504",
+      "order": 4
+    },
+    {
+      "name": "sizzling",
+      "id": "17401210785505",
+      "order": 5
+    },
+    {
+      "name": "fish",
+      "id": "17401210785506",
+      "order": 6
+    },
+    {
+      "name": "vegetables",
+      "id": "17401210785507",
+      "order": 7
+    },
+    {
+      "name": "house specialty",
+      "id": "17401210785508",
+      "order": 8
+    },
+    {
+      "name": "asado",
+      "id": "17401210785509",
+      "order": 9
+    },
+    {
+      "name": "soup",
+      "id": "174012107855010",
+      "order": 10
+    },
+    {
+      "name": "noodles",
+      "id": "174012107855011",
+      "order": 11
+    },
+    {
+      "name": "rice toppings",
+      "id": "174012107855012",
+      "order": 12
+    },
+    {
+      "name": "rice",
+      "id": "174012107855013",
+      "order": 13
+    },
+    {
+      "name": "drinks",
+      "id": "174012107855014",
+      "order": 14
+    }
+  ],
+  "lastUpdated": "2025-02-21T06:57:58.550Z"
+}
