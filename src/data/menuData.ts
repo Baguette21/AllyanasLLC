@@ -22,6 +22,11 @@ interface MenuData {
   lastUpdated: string;
 }
 
+interface CategoryUpdateRequest {
+  category: Category;
+  oldCategoryName: string;
+}
+
 const API_URL = 'http://localhost:3001/api/menu';
 
 export const loadMenuData = async (): Promise<MenuData> => {
@@ -147,14 +152,14 @@ export const addCategory = async (category: Omit<Category, 'id' | 'order'>): Pro
   }
 };
 
-export const updateCategory = async (category: Category): Promise<Category> => {
+export const updateCategory = async (category: Category, oldCategoryName: string): Promise<Category> => {
   try {
     const response = await fetch(`${API_URL}/categories/${category.id}`, {
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify(category),
+      body: JSON.stringify({ category, oldCategoryName }),
     });
     if (!response.ok) {
       const error = await response.text();

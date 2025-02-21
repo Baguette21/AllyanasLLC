@@ -4,20 +4,19 @@
       "id": "174012107855015",
       "name": "Crispy Chicken",
       "price": 105,
-      "category": "chicken",
-      "categoryOrder": "chicken",
+      "category": "Chicken",
+      "categoryOrder": "Chicken",
       "description": "Classic Filipino-style fried chicken with crispy skin and juicy meat",
-      "image": "blank.png",
+      "image": "/uploads/1740127443934-528867604.png",
       "isAvailable": true,
-      "itemOrder": 0,
-      "isEditing": false
+      "itemOrder": 0
     },
     {
       "id": "174012107855016",
       "name": "Buttered Chicken",
       "price": 110,
-      "category": "chicken",
-      "categoryOrder": "chicken",
+      "category": "Chicken",
+      "categoryOrder": "Chicken",
       "description": "Tender chicken pieces tossed in rich butter garlic sauce",
       "image": "blank.png",
       "isAvailable": true,
@@ -27,8 +26,8 @@
       "id": "174012107855017",
       "name": "Spicy Chicken",
       "price": 115,
-      "category": "chicken",
-      "categoryOrder": "chicken",
+      "category": "Chicken",
+      "categoryOrder": "Chicken",
       "description": "Crispy fried chicken with a spicy coating",
       "image": "blank.png",
       "isAvailable": true,
@@ -38,8 +37,8 @@
       "id": "174012107855018",
       "name": "Sweet & Sour Chicken",
       "price": 115,
-      "category": "chicken",
-      "categoryOrder": "chicken",
+      "category": "Chicken",
+      "categoryOrder": "Chicken",
       "description": "Crispy chicken pieces in tangy sweet and sour sauce with bell peppers",
       "image": "blank.png",
       "isAvailable": true,
@@ -49,8 +48,8 @@
       "id": "174012107855019",
       "name": "Chili Chicken",
       "price": 115,
-      "category": "chicken",
-      "categoryOrder": "chicken",
+      "category": "Chicken",
+      "categoryOrder": "Chicken",
       "description": "Stir-fried chicken in spicy chili sauce with vegetables",
       "image": "blank.png",
       "isAvailable": true,
@@ -60,8 +59,8 @@
       "id": "174012107855020",
       "name": "Fried Chicken (HALF)",
       "price": 225,
-      "category": "chicken",
-      "categoryOrder": "chicken",
+      "category": "Chicken",
+      "categoryOrder": "Chicken",
       "description": "Half portion of traditional Filipino-style fried chicken",
       "image": "blank.png",
       "isAvailable": true,
@@ -71,8 +70,8 @@
       "id": "174012107855021",
       "name": "Hongkong Chicken (HALF)",
       "price": 235,
-      "category": "chicken",
-      "categoryOrder": "chicken",
+      "category": "Chicken",
+      "categoryOrder": "Chicken",
       "description": "Half portion of Cantonese-style roasted chicken",
       "image": "blank.png",
       "isAvailable": true,
@@ -82,8 +81,8 @@
       "id": "174012107855022",
       "name": "Soy Chicken (HALF)",
       "price": 225,
-      "category": "chicken",
-      "categoryOrder": "chicken",
+      "category": "Chicken",
+      "categoryOrder": "Chicken",
       "description": "Half portion of chicken marinated and cooked in soy sauce",
       "image": "blank.png",
       "isAvailable": true,
@@ -93,8 +92,8 @@
       "id": "174012107855023",
       "name": "Beef Ampalaya",
       "price": 115,
-      "category": "beef",
-      "categoryOrder": "beef",
+      "category": "Beef",
+      "categoryOrder": "Beef",
       "description": "Tender beef slices stir-fried with bitter gourd in garlic sauce",
       "image": "blank.png",
       "isAvailable": true,
@@ -104,8 +103,8 @@
       "id": "174012107855024",
       "name": "Beef Broccoli",
       "price": 115,
-      "category": "beef",
-      "categoryOrder": "beef",
+      "category": "Beef",
+      "categoryOrder": "Beef",
       "description": "Stir-fried beef slices with fresh broccoli in oyster sauce",
       "image": "blank.png",
       "isAvailable": true,
@@ -115,8 +114,8 @@
       "id": "174012107855025",
       "name": "Beef Curry",
       "price": 115,
-      "category": "beef",
-      "categoryOrder": "beef",
+      "category": "Beef",
+      "categoryOrder": "Beef",
       "description": "Filipino-style beef curry with potatoes and carrots in coconut milk",
       "image": "blank.png",
       "isAvailable": true,
@@ -126,8 +125,8 @@
       "id": "174012107855026",
       "name": "Beef Mushroom",
       "price": 115,
-      "category": "beef",
-      "categoryOrder": "beef",
+      "category": "Beef",
+      "categoryOrder": "Beef",
       "description": "Tender beef slices with mushrooms in savory sauce",
       "image": "blank.png",
       "isAvailable": true,
@@ -137,8 +136,8 @@
       "id": "174012107855027",
       "name": "Beef Steak",
       "price": 115,
-      "category": "beef",
-      "categoryOrder": "beef",
+      "category": "Beef",
+      "categoryOrder": "Beef",
       "description": "Filipino-style bistek with onions in soy-calamansi sauce",
       "image": "blank.png",
       "isAvailable": true,
@@ -148,8 +147,8 @@
       "id": "174012107855028",
       "name": "Beef Young Corn",
       "price": 115,
-      "category": "beef",
-      "categoryOrder": "beef",
+      "category": "Beef",
+      "categoryOrder": "Beef",
       "description": "Stir-fried beef with young corn kernels in savory sauce",
       "image": "blank.png",
       "isAvailable": true,
@@ -939,80 +938,80 @@
   ],
   "categories": [
     {
-      "name": "chicken",
       "id": "17401210785500",
+      "name": "Chicken",
       "order": 0
     },
     {
-      "name": "beef",
       "id": "17401210785501",
+      "name": "Beef",
       "order": 1
     },
     {
-      "name": "pork",
       "id": "17401210785502",
+      "name": "pork",
       "order": 2
     },
     {
-      "name": "shrimp",
       "id": "17401210785503",
+      "name": "shrimp",
       "order": 3
     },
     {
-      "name": "squid",
       "id": "17401210785504",
+      "name": "squid",
       "order": 4
     },
     {
-      "name": "sizzling",
       "id": "17401210785505",
+      "name": "sizzling",
       "order": 5
     },
     {
-      "name": "fish",
       "id": "17401210785506",
+      "name": "fish",
       "order": 6
     },
     {
-      "name": "vegetables",
       "id": "17401210785507",
+      "name": "vegetables",
       "order": 7
     },
     {
-      "name": "house specialty",
       "id": "17401210785508",
+      "name": "house specialty",
       "order": 8
     },
     {
-      "name": "asado",
       "id": "17401210785509",
+      "name": "asado",
       "order": 9
     },
     {
-      "name": "soup",
       "id": "174012107855010",
+      "name": "soup",
       "order": 10
     },
     {
-      "name": "noodles",
       "id": "174012107855011",
+      "name": "noodles",
       "order": 11
     },
     {
-      "name": "rice toppings",
       "id": "174012107855012",
+      "name": "rice toppings",
       "order": 12
     },
     {
-      "name": "rice",
       "id": "174012107855013",
+      "name": "rice",
       "order": 13
     },
     {
-      "name": "drinks",
       "id": "174012107855014",
+      "name": "drinks",
       "order": 14
     }
   ],
-  "lastUpdated": "2025-02-21T06:57:58.550Z"
+  "lastUpdated": "2025-02-21T08:44:04.787Z"
 }

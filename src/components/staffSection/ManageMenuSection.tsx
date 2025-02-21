@@ -42,7 +42,124 @@ export const ManageMenuSection = ({ onBack }: ManageMenuSectionProps) => {
   const [editingCategory, setEditingCategory] = useState<Category | null>(null);
   const [isReorderingCategories, setIsReorderingCategories] = useState(false);
   const [isEditMode, setIsEditMode] = useState(false);
+  const [isRenamingCategory, setIsRenamingCategory] = useState(false);
+  const [renameCategoryName, setRenameCategoryName] = useState('');
   const scrollContainerRef = useRef<HTMLDivElement>(null);
+
+  // Helper function to get image URL
+  const getImageUrl = (imagePath: string) => {
+    if (!imagePath) return '';
+    if (imagePath.startsWith('http')) return imagePath;
+    if (imagePath === 'blank.png') return '/blank.png';
+    return imagePath; // Path should already include /uploads/
+  };
+
+  const handleImageUpload = async (file: File): Promise<string> => {
+    try {
+      // Validate file type
+      const allowedTypes = ['image/jpeg', 'image/png', 'image/gif', 'image/webp'];
+      if (!allowedTypes.includes(file.type)) {
+        throw new Error('Only image files (JPEG, PNG, GIF, WEBP) are allowed');
+      }
+
+      // Validate file size (5MB)
+      const maxSize = 5 * 1024 * 1024; // 5MB
+      if (file.size > maxSize) {
+        throw new Error('Image size must be less than 5MB');
+      }
+
+      const formData = new FormData();
+      formData.append('image', file);
+
+      console.log('Uploading image...');
+      const response = await fetch('/api/menu/upload-image', {
+        method: 'POST',
+        body: formData,
+      });
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.error || 'Failed to upload image');
+      }
+
+      const data = await response.json();
+      console.log('Upload successful:', data);
+      return data.imagePath;
+    } catch (error) {
+      console.error('Error uploading image:', error);
+      throw error;
+    }
+  };
+
+  const handleFileSelect = async (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+    if (!file) {
+      console.log('No file selected');
+      return;
+    }
+
+    try {
+      console.log('Selected file:', {
+        name: file.name,
+        type: file.type,
+        size: file.size,
+      });
+
+      const formData = new FormData();
+      formData.append('image', file);
+
+      console.log('Uploading image...');
+      const response = await fetch('http://localhost:3001/api/menu/upload-image', {
+        method: 'POST',
+        body: formData,
+      });
+
+      console.log('Upload response status:', response.status);
+      const responseText = await response.text();
+      console.log('Upload response text:', responseText);
+
+      if (!response.ok) {
+        let errorMessage = 'Failed to upload image';
+        try {
+          const errorData = JSON.parse(responseText);
+          errorMessage = errorData.error || errorMessage;
+        } catch (e) {
+          console.error('Error parsing error response:', e);
+        }
+        throw new Error(errorMessage);
+      }
+
+      let data;
+      try {
+        data = JSON.parse(responseText);
+      } catch (e) {
+        console.error('Error parsing success response:', e);
+        throw new Error('Invalid response from server');
+      }
+
+      console.log('Upload successful:', data);
+      
+      if (editingItemId) {
+        // Update existing item's image
+        setDraftItems(prevItems =>
+          prevItems.map(prevItem =>
+            prevItem.id === editingItemId
+              ? { ...prevItem, image: data.imagePath }
+              : prevItem
+          )
+        );
+      } else {
+        // Set image for new item
+        setNewItemImage(data.imagePath);
+      }
+    } catch (error) {
+      console.error('Error handling file selection:', error);
+      alert(error instanceof Error ? error.message : 'Failed to upload image');
+    } finally {
+      // Reset the file input
+      event.target.value = '';
+    }
+  };
 
   useEffect(() => {
     const fetchData = async () => {
@@ -155,7 +272,23 @@ export const ManageMenuSection = ({ onBack }: ManageMenuSectionProps) => {
   const handleUpdateCategory = async () => {
     if (!editingCategory || !editingCategory.name.trim()) return;
     try {
-      const updatedCategory = await updateCategory(editingCategory);
+      // Get the original category before any changes
+      const originalCategory = draftCategories.find(cat => cat.id === editingCategory.id);
+      if (!originalCategory) {
+        console.error('Original category not found');
+        return;
+      }
+
+      console.log('Updating category:', {
+        editingCategory,
+        originalCategoryName: originalCategory.name
+      });
+
+      const updatedCategory = await updateCategory({
+        id: editingCategory.id,
+        name: editingCategory.name.trim(),
+        order: editingCategory.order
+      }, originalCategory.name);
       
       // Update categories in state
       setDraftCategories(prevCategories => 
@@ -163,19 +296,16 @@ export const ManageMenuSection = ({ onBack }: ManageMenuSectionProps) => {
       );
 
       // Update items with the old category name to use the new category name
-      const oldName = draftCategories.find(cat => cat.id === editingCategory.id)?.name;
-      if (oldName && oldName !== updatedCategory.name) {
-        setDraftItems(prevItems =>
-          prevItems.map(item =>
-            item.category === oldName
-              ? { ...item, category: updatedCategory.name }
-              : item
-          )
-        );
-      }
+      setDraftItems(prevItems =>
+        prevItems.map(item =>
+          item.category === originalCategory.name
+            ? { ...item, category: updatedCategory.name }
+            : item
+        )
+      );
 
       // Update selected category if it was renamed
-      if (selectedCategory === oldName) {
+      if (selectedCategory === originalCategory.name) {
         setSelectedCategory(updatedCategory.name);
       }
 
@@ -298,7 +428,45 @@ export const ManageMenuSection = ({ onBack }: ManageMenuSectionProps) => {
     setEditingCategory(category);
   };
 
-  const filteredItems = draftItems.filter(item => item.category === selectedCategory);
+  const handleRenameCategory = async () => {
+    if (!selectedCategory || !renameCategoryName.trim()) return;
+    
+    try {
+      const categoryToRename = draftCategories.find(cat => cat.name === selectedCategory);
+      if (!categoryToRename) {
+        console.error('Category not found');
+        return;
+      }
+
+      const updatedCategory = await updateCategory({
+        id: categoryToRename.id,
+        name: renameCategoryName.trim(),
+        order: categoryToRename.order
+      }, selectedCategory);
+
+      // Update categories in state
+      setDraftCategories(prevCategories => 
+        prevCategories.map(cat => cat.id === categoryToRename.id ? updatedCategory : cat)
+      );
+
+      // Update items with the old category name to use the new category name
+      setDraftItems(prevItems =>
+        prevItems.map(item =>
+          item.category === selectedCategory
+            ? { ...item, category: updatedCategory.name }
+            : item
+        )
+      );
+
+      // Update selected category
+      setSelectedCategory(updatedCategory.name);
+      setIsRenamingCategory(false);
+      setRenameCategoryName('');
+    } catch (error) {
+      console.error('Error renaming category:', error);
+      alert('Failed to rename category');
+    }
+  };
 
   const handleUpdateMenu = async () => {
     try {
@@ -345,92 +513,170 @@ export const ManageMenuSection = ({ onBack }: ManageMenuSectionProps) => {
     <DragDropContext onDragEnd={handleDragEnd}>
       <div className="min-h-screen bg-[#F5F2EE]">
         <div className="container mx-auto px-4 py-8">
+          {/* Header */}
           <div className="flex justify-between items-center mb-6">
-            <button
-              onClick={onBack}
-              className="text-gray-600 hover:text-gray-800"
-            >
-              ← Back
-            </button>
-            <h1 className="text-3xl font-bold text-center text-gray-800">
-              Manage Menu
-            </h1>
-            <button
-              onClick={handleUpdateMenu}
-              className="px-4 py-2 bg-[#473E1D] text-white rounded-lg hover:bg-[#5C4F26] transition-colors"
-            >
-              Update Menu
-            </button>
+            <div className="flex items-center gap-4">
+              <button
+                onClick={onBack}
+                className="text-[#473E1D] hover:text-[#5C4F26] transition-colors"
+              >
+                ← Back
+              </button>
+              <h1 className="text-2xl font-semibold text-[#473E1D]">
+                Manage Menu
+              </h1>
+            </div>
+            <div className="flex gap-4">
+              {isEditMode && (
+                <button
+                  onClick={() => {
+                    if (window.confirm('Are you sure you want to delete this section?')) {
+                      const categoryToDelete = draftCategories.find(
+                        (cat) => cat.name === selectedCategory
+                      );
+                      if (categoryToDelete) {
+                        handleDeleteCategory(categoryToDelete.id);
+                      }
+                    }
+                  }}
+                  className="px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700"
+                >
+                  Delete Section
+                </button>
+              )}
+              {isEditMode && (
+                <button
+                  onClick={() => {
+                    if (selectedCategory) {
+                      setIsRenamingCategory(true);
+                      setRenameCategoryName(selectedCategory);
+                    }
+                  }}
+                  className="px-4 py-2 bg-[#473E1D] text-white rounded-lg hover:bg-[#5C4F26]"
+                >
+                  Rename Section
+                </button>
+              )}
+              <button
+                onClick={handleUpdateMenu}
+                className="px-4 py-2 bg-[#473E1D] text-white rounded-lg hover:bg-[#5C4F26]"
+              >
+                Update Menu
+              </button>
+            </div>
           </div>
+
+          {/* Rename Category Modal */}
+          {isRenamingCategory && (
+            <div className="fixed inset-0 z-50 flex items-center justify-center">
+              <div className="absolute inset-0 bg-black/30 backdrop-blur-sm" onClick={() => setIsRenamingCategory(false)} />
+              <div className="relative bg-white rounded-lg p-6 w-96">
+                <h2 className="text-xl text-[#473E1D] mb-4">Rename Category</h2>
+                <input
+                  type="text"
+                  value={renameCategoryName}
+                  onChange={(e) => setRenameCategoryName(e.target.value)}
+                  className="w-full px-4 py-2 border border-gray-300 rounded-lg mb-4"
+                  placeholder="Enter new category name"
+                />
+                <div className="flex justify-end gap-2">
+                  <button
+                    onClick={() => {
+                      setIsRenamingCategory(false);
+                      setRenameCategoryName('');
+                    }}
+                    className="px-4 py-2 bg-gray-200 text-gray-700 rounded-lg hover:bg-gray-300"
+                  >
+                    Cancel
+                  </button>
+                  <button
+                    onClick={handleRenameCategory}
+                    className="px-4 py-2 bg-[#473E1D] text-white rounded-lg hover:bg-[#5C4F26]"
+                  >
+                    Save
+                  </button>
+                </div>
+              </div>
+            </div>
+          )}
 
           {/* Menu Actions */}
           <div className="fixed bottom-6 left-1/2 -translate-x-1/2 flex gap-4">
             <button
               onClick={() => setIsAddingCategory(true)}
-              className="bg-[#473E1D] text-white px-6 py-3 rounded-lg text-sm"
+              className="px-6 py-3 bg-[#473E1D] text-white rounded-lg hover:bg-[#5C4F26] shadow-lg"
             >
-              Add New Food Section
+              Add New Section
             </button>
             <button
               onClick={() => setIsAddingNew(true)}
-              className="bg-[#473E1D] text-white px-6 py-3 rounded-lg text-sm"
+              className="px-6 py-3 bg-[#473E1D] text-white rounded-lg hover:bg-[#5C4F26] shadow-lg"
             >
               Add New Food
             </button>
             <button
-              onClick={() => setIsReorderingCategories(!isReorderingCategories)}
-              className="bg-[#473E1D] text-white px-6 py-3 rounded-lg text-sm"
-            >
-              {isReorderingCategories ? 'Done Reordering' : 'Edit Category Order'}
-            </button>
-            <button
               onClick={() => {
-                const category = draftCategories.find(c => c.name === selectedCategory);
-                if (category) {
-                  setEditingCategory(category);
+                if (isEditMode) {
+                  // If we're in edit mode, enter reordering mode
+                  setIsEditMode(false);
+                  setEditingItemId(null);
+                  setIsReorderingCategories(true);
+                } else if (isReorderingCategories) {
+                  // If we're reordering, exit to normal mode
+                  setIsReorderingCategories(false);
+                  setIsEditMode(false);
+                } else {
+                  // If we're in normal mode, enter edit mode
                   setIsEditMode(true);
+                  setIsReorderingCategories(false);
                 }
               }}
-              className="bg-[#473E1D] text-white px-6 py-3 rounded-lg text-sm"
+              className="px-6 py-3 bg-[#473E1D] text-white rounded-lg hover:bg-[#5C4F26] shadow-lg"
             >
-              Edit Current Section
+              {isEditMode 
+                ? 'Arrange Menu' 
+                : isReorderingCategories 
+                  ? 'Save Order' 
+                  : 'Edit Menu'}
             </button>
           </div>
 
           {/* Categories */}
           {isReorderingCategories ? (
-            <div className="bg-[#473E1D] rounded-lg p-6 mb-6">
-              <h2 className="text-white text-xl mb-4">Arrange Menu Sections</h2>
-              <Droppable droppableId="categories" direction="vertical" type="category">
-                {(provided) => (
-                  <div
-                    ref={provided.innerRef}
-                    className="space-y-2"
-                    {...provided.droppableProps}
-                  >
-                    {draftCategories.map((category, index) => (
-                      <Draggable
-                        key={category.id}
-                        draggableId={category.id}
-                        index={index}
-                      >
-                        {(provided, snapshot) => (
-                          <div
-                            ref={provided.innerRef}
-                            {...provided.draggableProps}
-                            {...provided.dragHandleProps}
-                            className="bg-[#5C4F26] text-white p-4 rounded-lg cursor-grab active:cursor-grabbing"
-                          >
-                            {category.name}
+            <Droppable droppableId="categories">
+              {(provided) => (
+                <div
+                  {...provided.droppableProps}
+                  ref={provided.innerRef}
+                  className="space-y-4"
+                >
+                  {draftCategories.map((category, index) => (
+                    <Draggable
+                      key={category.id}
+                      draggableId={category.id}
+                      index={index}
+                    >
+                      {(provided) => (
+                        <div
+                          ref={provided.innerRef}
+                          {...provided.draggableProps}
+                          {...provided.dragHandleProps}
+                          className="bg-white rounded-lg p-4 shadow flex items-center justify-between"
+                        >
+                          <div className="flex items-center gap-4">
+                            <span className="text-gray-400">☰</span>
+                            <span className="font-medium text-[#473E1D]">
+                              {category.name}
+                            </span>
                           </div>
-                        )}
-                      </Draggable>
-                    ))}
-                    {provided.placeholder}
-                  </div>
-                )}
-              </Droppable>
-            </div>
+                        </div>
+                      )}
+                    </Draggable>
+                  ))}
+                  {provided.placeholder}
+                </div>
+              )}
+            </Droppable>
           ) : (
             <div className="flex overflow-x-auto gap-2 no-scrollbar pb-4">
               {draftCategories.map((category) => (
@@ -460,7 +706,8 @@ export const ManageMenuSection = ({ onBack }: ManageMenuSectionProps) => {
                   {...provided.droppableProps}
                   className="space-y-3"
                 >
-                  {filteredItems
+                  {draftItems
+                    .filter(item => item.category === selectedCategory)
                     .sort((a, b) => a.itemOrder - b.itemOrder)
                     .map((item, index) => (
                       <Draggable 
@@ -485,7 +732,7 @@ export const ManageMenuSection = ({ onBack }: ManageMenuSectionProps) => {
                               <div className="w-16 h-16 bg-gray-200 rounded-lg overflow-hidden">
                                 {item.image && (
                                   <img
-                                    src={item.image}
+                                    src={getImageUrl(item.image)}
                                     alt={item.name}
                                     className="w-full h-full object-cover"
                                   />
@@ -524,7 +771,8 @@ export const ManageMenuSection = ({ onBack }: ManageMenuSectionProps) => {
             </Droppable>
           ) : (
             <div className="space-y-3">
-              {filteredItems
+              {draftItems
+                .filter(item => item.category === selectedCategory)
                 .sort((a, b) => a.itemOrder - b.itemOrder)
                 .map((item, index) => (
                   <div
@@ -535,7 +783,7 @@ export const ManageMenuSection = ({ onBack }: ManageMenuSectionProps) => {
                       <div className="w-16 h-16 bg-gray-200 rounded-lg overflow-hidden">
                         {item.image && (
                           <img
-                            src={item.image}
+                            src={getImageUrl(item.image)}
                             alt={item.name}
                             className="w-full h-full object-cover"
                           />
@@ -707,23 +955,7 @@ export const ManageMenuSection = ({ onBack }: ManageMenuSectionProps) => {
                         accept="image/*"
                         className="hidden"
                         id="edit-item-image"
-                        onChange={(e) => {
-                          const file = e.target.files?.[0];
-                          if (file) {
-                            const reader = new FileReader();
-                            reader.onloadend = () => {
-                              const base64String = reader.result as string;
-                              setDraftItems(prevItems =>
-                                prevItems.map(prevItem =>
-                                  prevItem.id === editingItemId
-                                    ? { ...prevItem, image: base64String }
-                                    : prevItem
-                                )
-                              );
-                            };
-                            reader.readAsDataURL(file);
-                          }
-                        }}
+                        onChange={handleFileSelect}
                       />
                       <label
                         htmlFor="edit-item-image"
@@ -731,7 +963,7 @@ export const ManageMenuSection = ({ onBack }: ManageMenuSectionProps) => {
                       >
                         {draftItems.find(item => item.id === editingItemId)?.image ? (
                           <img
-                            src={draftItems.find(item => item.id === editingItemId)?.image}
+                            src={getImageUrl(draftItems.find(item => item.id === editingItemId)?.image)}
                             alt="Item"
                             className="w-full h-full object-cover rounded-lg"
                           />
@@ -849,17 +1081,7 @@ export const ManageMenuSection = ({ onBack }: ManageMenuSectionProps) => {
                         accept="image/*"
                         className="hidden"
                         id="new-item-image"
-                        onChange={(e) => {
-                          const file = e.target.files?.[0];
-                          if (file) {
-                            const reader = new FileReader();
-                            reader.onloadend = () => {
-                              const base64String = reader.result as string;
-                              setNewItemImage(base64String);
-                            };
-                            reader.readAsDataURL(file);
-                          }
-                        }}
+                        onChange={handleFileSelect}
                       />
                       <label
                         htmlFor="new-item-image"
@@ -867,7 +1089,7 @@ export const ManageMenuSection = ({ onBack }: ManageMenuSectionProps) => {
                       >
                         {newItemImage ? (
                           <img
-                            src={newItemImage}
+                            src={getImageUrl(newItemImage)}
                             alt="New Item"
                             className="w-full h-full object-cover rounded-lg"
                           />
