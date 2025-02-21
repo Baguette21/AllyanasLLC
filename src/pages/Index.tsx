@@ -8,7 +8,7 @@ import { ContactSection } from "@/components/sections/ContactSection";
 import { CheckoutSection } from "@/components/sections/CheckoutSection";
 import { CartProvider } from "@/context/CartContext";
 
-import { LoginSection } from "@/components/staffSection/loginSection";
+import { LoginSection } from "@/components/staffSection/LoginSection";
 import { HomepageSection } from "@/components/staffSection/HomepageSection";
 import { ManageMenuSection } from "@/components/staffSection/ManageMenuSection";
 
