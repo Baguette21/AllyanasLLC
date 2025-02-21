@@ -1,7 +1,23 @@
 import React, { useState, useRef, useEffect } from "react";
-import { MenuItem, parseMenuData } from '../../utils/menuData';
 import { useCart } from '../../context/CartContext';
 import { Cart } from '../Cart';
+
+interface MenuItem {
+  id: string;
+  name: string;
+  price: number;
+  category: string;
+  categoryOrder: string;
+  description: string;
+  image: string;
+  isAvailable: boolean;
+  itemOrder: number;
+}
+
+interface MenuData {
+  items: MenuItem[];
+  categories: { id: string; name: string; order: number; }[];
+}
 
 interface MenuSectionProps {
   orderInfo: {
@@ -15,45 +31,66 @@ interface MenuSectionProps {
   onCheckout: () => void;
 }
 
-// Categories in the desired order
-const CATEGORIES = [
-  "HOUSE SPECIALTY",
-  "CHICKEN",
-  "BEEF",
-  "PORK",
-  "SHRIMP",
-  "SQUID",
-  "SIZZLING",
-  "FISH",
-  "VEGETABLES",
-  "ASADO",
-  "SOUP",
-  "NOODLES",
-  "RICE TOPPINGS",
-  "RICE",
-  "DRINKS"
-];
-
 export const MenuSection = ({ orderInfo, onBack, onCheckout }: MenuSectionProps) => {
-  const [selectedCategory, setSelectedCategory] = useState(CATEGORIES[0]);
+  const [selectedCategory, setSelectedCategory] = useState<string>("");
   const [menuItems, setMenuItems] = useState<MenuItem[]>([]);
+  const [categories, setCategories] = useState<string[]>([]);
   const scrollContainerRef = useRef<HTMLDivElement>(null);
   const { addToCart } = useCart();
 
   useEffect(() => {
-    // Parse the CSV data when component mounts
-    const parsedData = parseMenuData();
-    setMenuItems(parsedData);
+    // Fetch menu data when component mounts
+    const fetchMenuData = async () => {
+      try {
+        console.log('Fetching menu data...');
+        const response = await fetch('http://localhost:3001/api/menu/get-menu');
+        console.log('Response status:', response.status);
+        const data = await response.json() as MenuData;
+        console.log('Menu data:', data);
+        
+        // Get unique categories from the categories array
+        const categories = data.categories
+          .sort((a, b) => a.order - b.order)
+          .map(c => c.name.toUpperCase());
+        
+        console.log('Categories:', categories);
+        setCategories(categories);
+        setMenuItems(data.items);
+        if (categories.length > 0) {
+          setSelectedCategory(categories[0]); // Select first category by default
+        }
+      } catch (error) {
+        console.error('Error fetching menu:', error);
+      }
+    };
+
+    fetchMenuData();
   }, []);
 
   // Filter menu items by selected category
-  const filteredItems = menuItems.filter(item => item.category === selectedCategory);
+  const filteredItems = menuItems.filter(item => 
+    item.category.toUpperCase() === selectedCategory
+  ).sort((a, b) => a.itemOrder - b.itemOrder);
+
+  console.log('Filtered items:', filteredItems);
+
+  const handleAddToCart = (item: MenuItem) => {
+    if (!item.isAvailable) return;
+    addToCart({
+      item_name: item.name,
+      category: item.category,
+      description: item.description,
+      price: item.price,
+      image: item.image,
+      isAvailable: item.isAvailable
+    });
+  };
 
   return (
     <section className="bg-[rgba(245,242,238,1)] min-h-screen">
       <div className="container mx-auto px-4 py-6">
         {/* Header with Back Button and Order Info */}
-        <div className="flex justify-between items-start">
+        <div className="flex justify-between items-start mb-6">
           <div className="text-lg">
             {orderInfo.selectedType === "dine-in" ? (
               <p>Table: {orderInfo.tableNumber}</p>
@@ -66,14 +103,14 @@ export const MenuSection = ({ orderInfo, onBack, onCheckout }: MenuSectionProps)
           </div>
           <button
             onClick={onBack}
-            className="bg-[#473E1D] text-white px-6 py-2 rounded-lg hover:bg-[#473E1D] transition-colors ml-4"
+            className="bg-[#473E1D] text-white px-6 py-2 rounded-lg hover:bg-[#5c4f26] transition-colors"
           >
             Back
           </button>
         </div>
 
         {/* Category Carousel */}
-        <div className="relative mb-16 mt-4">
+        <div className="relative mb-8">
           <div
             ref={scrollContainerRef}
             className="flex overflow-x-auto gap-4 no-scrollbar pb-4 -mx-4 px-4 md:mx-0"
@@ -93,16 +130,15 @@ export const MenuSection = ({ orderInfo, onBack, onCheckout }: MenuSectionProps)
                 scrollbar-width: none;
               }
             `}</style>
-            {CATEGORIES.map((category) => (
+            {categories.map((category) => (
               <button
                 key={category}
                 onClick={() => setSelectedCategory(category)}
                 className={`
                   flex-none px-6 py-2 rounded-full whitespace-nowrap transition-all
-                  ${
-                    selectedCategory === category
-                      ? "bg-[rgba(148,51,45,1)] text-white"
-                      : "bg-[rgba(238,167,51,1)] text-black hover:bg-[rgba(148,51,45,0.8)] hover:text-white"
+                  ${selectedCategory === category
+                    ? 'bg-[#473E1D] text-white'
+                    : 'bg-white text-[#473E1D] hover:bg-[#473E1D] hover:text-white'
                   }
                 `}
               >
@@ -110,56 +146,52 @@ export const MenuSection = ({ orderInfo, onBack, onCheckout }: MenuSectionProps)
               </button>
             ))}
           </div>
-          
-          {/* Scroll Indicators and Buttons - Hide on Mobile */}
-          <button
-            onClick={() => {
-              if (scrollContainerRef.current) {
-                scrollContainerRef.current.scrollLeft -= 200;
-              }
-            }}
-            className="absolute left-0 top-1/2 -translate-y-1/2 bg-white/80 p-2 rounded-full shadow-md hover:bg-white transition-colors hidden md:block"
-            style={{ top: '60%' }}
-            aria-label="Scroll left"
-          >
-            ←
-          </button>
-          <button
-            onClick={() => {
-              if (scrollContainerRef.current) {
-                scrollContainerRef.current.scrollLeft += 200;
-              }
-            }}
-            className="absolute right-0 top-1/2 -translate-y-1/2 bg-white/80 p-2 rounded-full shadow-md hover:bg-white transition-colors hidden md:block"
-            style={{ top: '60%' }}
-            aria-label="Scroll right"
-          >
-            →
-          </button>
         </div>
 
         {/* Menu Items Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
           {filteredItems.map((item) => (
-            <div key={item.item_name} className="bg-white p-6 rounded-lg shadow-md">
-              <h3 className="text-xl font-semibold mb-2">{item.item_name}</h3>
-              <p className="text-gray-600 mb-4">{item.description}</p>
-              <div className="flex justify-between items-center">
-                <span className="text-lg font-bold">₱{item.price.toFixed(2)}</span>
-                <button 
-                  onClick={() => {
-                    addToCart(item);
+            <div
+              key={item.id}
+              className={`bg-white rounded-lg shadow-md overflow-hidden ${
+                !item.isAvailable ? 'opacity-75' : ''
+              }`}
+            >
+              <div className="aspect-w-16 aspect-h-9 relative">
+                <img
+                  src={item.image === 'blank.png' ? '/placeholder-food.jpg' : item.image}
+                  alt={item.name}
+                  className="w-full h-48 object-cover"
+                  onError={(e) => {
+                    const target = e.target as HTMLImageElement;
+                    target.src = '/placeholder-food.jpg';
                   }}
-                  className="bg-[rgba(148,51,45,1)] text-white px-4 py-2 rounded-full hover:bg-[rgba(148,51,45,0.8)]"
-                >
-                  Add to Cart
-                </button>
+                />
+              </div>
+              <div className="p-4">
+                <div className="flex justify-between items-start mb-2">
+                  <h3 className="text-lg font-semibold text-[#473E1D]">{item.name}</h3>
+                  <span className="text-lg font-bold">₱{item.price}</span>
+                </div>
+                <p className="text-gray-600 text-sm mb-4">{item.description}</p>
+                {!item.isAvailable ? (
+                  <div className="bg-red-100 text-red-800 text-center py-2 rounded">
+                    Currently Unavailable
+                  </div>
+                ) : (
+                  <button
+                    onClick={() => handleAddToCart(item)}
+                    className="w-full bg-[#473E1D] text-white py-2 rounded hover:bg-[#5c4f26] transition-colors"
+                  >
+                    Add to Order
+                  </button>
+                )}
               </div>
             </div>
           ))}
         </div>
 
-        {/* Shopping Cart */}
+        {/* Cart Component */}
         <Cart onCheckout={onCheckout} />
       </div>
     </section>

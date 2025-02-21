@@ -67,14 +67,14 @@ export const OrderTypeSection: React.FC<OrderTypeSectionProps> = ({ onConfirm, s
             className={`bg-[rgba(245,242,238,1)] shadow-[0px_4px_4px_rgba(0,0,0,0.25)] flex flex-col items-stretch flex-1 pt-3 rounded-[15px] cursor-pointer transition-all ${selectedType === "dine-in" ? "ring-4 ring-[rgba(71,62,29,1)]" : ""}`}
             onClick={() => handleOrderTypeClick("dine-in")}
           >
-            <div className="self-center z-10 text-2xl sm:text-[32px]">DINE-IN</div>
-            <img loading="lazy" src="/images/dinein.png" alt="Dine-in" className="aspect-[0.92] object-contain w-[120px] sm:w-[156px] mx-auto" />
+            <div className="self-center z-10 text-2xl sm:text-[32px] font-bold">DINE-IN</div>
+            <img loading="lazy" src="/images/dinein.png" alt="Dine-in" className="aspect-[0.92] object-contain w-[120px] sm:w-[156px] mx-auto mt-2" />
           </div>
           <div 
             className={`bg-[rgba(245,242,238,1)] shadow-[0px_4px_4px_rgba(0,0,0,0.25)] flex flex-col items-stretch flex-1 pt-3 pb-1.5 px-1.5 rounded-[15px] cursor-pointer transition-all ${selectedType === "pick-up" ? "ring-4 ring-[rgba(71,62,29,1)]" : ""}`}
             onClick={() => handleOrderTypeClick("pick-up")}
           >
-            <div className="self-center text-2xl sm:text-[32px]">PICK-UP</div>
+            <div className="self-center text-2xl sm:text-[32px] font-bold">PICK-UP</div>
             <img loading="lazy" src="/images/pickup.png" alt="Pick-up" className="aspect-[0.93] object-contain w-[110px] sm:w-[141px] mt-[11px] mx-auto" />
           </div>
         </div>

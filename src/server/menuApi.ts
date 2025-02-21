@@ -12,7 +12,7 @@ const router = express.Router();
 router.use('/images', express.static(path.join(process.cwd(), 'public', 'uploads')));
 
 // Adjust the path to be relative to the project root
-const DATA_FILE = path.join(process.cwd(), 'src', 'data', 'menu.json');
+const DATA_FILE = path.join(__dirname, '..', 'data', 'menu.json');
 
 interface MenuItem {
   id: string;
@@ -173,6 +173,18 @@ async function saveMenuData(data: MenuData): Promise<void> {
     throw error;
   }
 }
+
+// Get menu data
+router.get('/get-menu', async (req: Request, res: Response) => {
+  try {
+    console.log('Loading menu data...');
+    const data = await loadMenuData();
+    res.json(data);
+  } catch (error) {
+    console.error('Error loading menu data:', error);
+    res.status(500).json({ error: 'Failed to load menu data' });
+  }
+});
 
 // Get menu data
 router.get('/', async (req: Request, res: Response) => {

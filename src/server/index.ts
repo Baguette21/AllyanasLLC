@@ -8,7 +8,7 @@ const port = 3001;
 
 // Enable CORS for all routes with specific configuration
 app.use(cors({
-  origin: ['http://localhost:8080', 'http://localhost:8081'],
+  origin: ['http://localhost:3000', 'http://localhost:8080', 'http://localhost:8081'],
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
   allowedHeaders: ['Content-Type', 'Authorization'],
   credentials: true
