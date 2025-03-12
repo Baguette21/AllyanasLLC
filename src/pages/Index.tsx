@@ -11,8 +11,9 @@ import { CartProvider } from "@/context/CartContext";
 import { LoginSection } from "@/components/staffSection/LoginSection";
 import { HomepageSection } from "@/components/staffSection/HomepageSection";
 import { ManageMenuSection } from "@/components/staffSection/ManageMenuSection";
+import { SalesDataSection } from "@/components/staffSection/SalesDataSection";
 
-type Section = "startup" | "order-type" | "menu" | "contact" | "checkout" | "login" | "homepage" | "staff-menu";
+type Section = "startup" | "order-type" | "menu" | "contact" | "checkout" | "login" | "homepage" | "staff-menu" | "staff-data";
 
 interface OrderInfo {
   selectedType?: "dine-in" | "pick-up";
@@ -78,13 +79,23 @@ const Index = () => {
         return (
           <HomepageSection
             onCheckOrder={() => setCurrentSection("login")}
-            onSalesData={() => setCurrentSection("login")}
+            onSalesData={() => setCurrentSection("staff-data")}
             onManageMenu={() => setCurrentSection("staff-menu")}
           />
         );
       case "staff-menu":
         return (
           <ManageMenuSection onBack={() => setCurrentSection("homepage")} />
+        );
+
+      case "staff-data":
+        return (
+          <SalesDataSection 
+            totalSales={10000}
+            totalOrders={250}
+            productsSold={500}
+            newCustomers={50}
+          />
         );
 
       default:
