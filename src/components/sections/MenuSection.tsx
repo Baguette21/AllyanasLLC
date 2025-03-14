@@ -12,6 +12,17 @@ interface MenuItem {
   image: string;
   isAvailable: boolean;
   itemOrder: number;
+  isBestseller?: boolean;
+}
+
+interface CartItem {
+  item_name: string;
+  category: string;
+  description: string;
+  price: number;
+  image: string;
+  isAvailable: boolean;
+  quantity?: number;
 }
 
 interface MenuData {
@@ -36,28 +47,43 @@ export const MenuSection = ({ orderInfo, onBack, onCheckout }: MenuSectionProps)
   const [menuItems, setMenuItems] = useState<MenuItem[]>([]);
   const [categories, setCategories] = useState<string[]>([]);
   const scrollContainerRef = useRef<HTMLDivElement>(null);
-  const { addToCart } = useCart();
+  const { addToCart, clearCart } = useCart();
+
+  // Load session data if exists
+  useEffect(() => {
+    const savedSession = sessionStorage.getItem('currentOrder');
+    if (savedSession) {
+      const { items, category } = JSON.parse(savedSession);
+      items.forEach((item: any) => addToCart(item));
+      if (category) setSelectedCategory(category);
+    }
+  }, []);
 
   useEffect(() => {
-    // Fetch menu data when component mounts
     const fetchMenuData = async () => {
       try {
-        console.log('Fetching menu data...');
-        const response = await fetch('http://localhost:3001/api/menu/get-menu');
-        console.log('Response status:', response.status);
+        const response = await fetch('http://localhost:3001/api/menu');
         const data = await response.json() as MenuData;
-        console.log('Menu data:', data);
         
-        // Get unique categories from the categories array
+        // Sort categories by their order
         const categories = data.categories
           .sort((a, b) => a.order - b.order)
           .map(c => c.name.toUpperCase());
         
-        console.log('Categories:', categories);
+        // Sort items by category order and then by item order
+        const sortedItems = data.items.sort((a, b) => {
+          const categoryA = data.categories.find(c => c.name === a.category);
+          const categoryB = data.categories.find(c => c.name === b.category);
+          if (categoryA?.order !== categoryB?.order) {
+            return (categoryA?.order || 0) - (categoryB?.order || 0);
+          }
+          return a.itemOrder - b.itemOrder;
+        });
+        
         setCategories(categories);
-        setMenuItems(data.items);
-        if (categories.length > 0) {
-          setSelectedCategory(categories[0]); // Select first category by default
+        setMenuItems(sortedItems);
+        if (categories.length > 0 && !selectedCategory) {
+          setSelectedCategory(categories[0]);
         }
       } catch (error) {
         console.error('Error fetching menu:', error);
@@ -67,23 +93,57 @@ export const MenuSection = ({ orderInfo, onBack, onCheckout }: MenuSectionProps)
     fetchMenuData();
   }, []);
 
-  // Filter menu items by selected category
+  // Save to session storage whenever cart changes
+  useEffect(() => {
+    const handleBeforeUnload = () => {
+      sessionStorage.setItem('currentOrder', JSON.stringify({
+        items: Array.from(document.querySelectorAll('[data-cart-item]')).map(el => ({
+          item_name: el.getAttribute('data-name'),
+          price: Number(el.getAttribute('data-price')),
+          quantity: Number(el.getAttribute('data-quantity')),
+          category: el.getAttribute('data-category'),
+          description: el.getAttribute('data-description'),
+          image: el.getAttribute('data-image'),
+          isAvailable: el.getAttribute('data-available') === 'true'
+        })),
+        category: selectedCategory
+      }));
+    };
+
+    window.addEventListener('beforeunload', handleBeforeUnload);
+    return () => window.removeEventListener('beforeunload', handleBeforeUnload);
+  }, [selectedCategory]);
+
+  // Scroll handlers for category navigation
+  const scrollCategories = (direction: 'left' | 'right') => {
+    if (scrollContainerRef.current) {
+      const scrollAmount = 200;
+      const newScrollLeft = direction === 'left' 
+        ? scrollContainerRef.current.scrollLeft - scrollAmount
+        : scrollContainerRef.current.scrollLeft + scrollAmount;
+      
+      scrollContainerRef.current.scrollTo({
+        left: newScrollLeft,
+        behavior: 'smooth'
+      });
+    }
+  };
+
   const filteredItems = menuItems.filter(item => 
     item.category.toUpperCase() === selectedCategory
-  ).sort((a, b) => a.itemOrder - b.itemOrder);
-
-  console.log('Filtered items:', filteredItems);
+  );
 
   const handleAddToCart = (item: MenuItem) => {
     if (!item.isAvailable) return;
-    addToCart({
+    const cartItem: CartItem = {
       item_name: item.name,
       category: item.category,
       description: item.description,
       price: item.price,
       image: item.image,
       isAvailable: item.isAvailable
-    });
+    };
+    addToCart(cartItem);
   };
 
   return (
@@ -111,9 +171,16 @@ export const MenuSection = ({ orderInfo, onBack, onCheckout }: MenuSectionProps)
 
         {/* Category Carousel */}
         <div className="relative mb-8">
+          <button 
+            onClick={() => scrollCategories('left')}
+            className="absolute left-0 top-1/2 -translate-y-1/2 bg-[#473E1D] text-white p-2 rounded-full z-10 hover:bg-[#5c4f26]"
+            style={{ transform: 'translate(-50%, -50%)' }}
+          >
+            ←
+          </button>
           <div
             ref={scrollContainerRef}
-            className="flex overflow-x-auto gap-4 no-scrollbar pb-4 -mx-4 px-4 md:mx-0"
+            className="flex overflow-x-auto gap-2 pb-4 px-2 scrollbar-hide"
             style={{
               scrollBehavior: 'smooth',
               WebkitOverflowScrolling: 'touch',
@@ -121,24 +188,15 @@ export const MenuSection = ({ orderInfo, onBack, onCheckout }: MenuSectionProps)
               msOverflowStyle: 'none',
             }}
           >
-            <style jsx global>{`
-              .no-scrollbar::-webkit-scrollbar {
-                display: none;
-              }
-              .no-scrollbar {
-                -ms-overflow-style: none;
-                scrollbar-width: none;
-              }
-            `}</style>
             {categories.map((category) => (
               <button
                 key={category}
                 onClick={() => setSelectedCategory(category)}
                 className={`
-                  flex-none px-6 py-2 rounded-full whitespace-nowrap transition-all
+                  flex-none px-4 py-2 rounded-md whitespace-nowrap transition-all text-sm font-medium min-w-[100px] text-center
                   ${selectedCategory === category
-                    ? 'bg-[#473E1D] text-white'
-                    : 'bg-white text-[#473E1D] hover:bg-[#473E1D] hover:text-white'
+                    ? 'bg-[#F5A623] text-white'
+                    : 'bg-[#F5A623] text-white opacity-90 hover:opacity-100'
                   }
                 `}
               >
@@ -146,6 +204,13 @@ export const MenuSection = ({ orderInfo, onBack, onCheckout }: MenuSectionProps)
               </button>
             ))}
           </div>
+          <button 
+            onClick={() => scrollCategories('right')}
+            className="absolute right-0 top-1/2 -translate-y-1/2 bg-[#473E1D] text-white p-2 rounded-full z-10 hover:bg-[#5c4f26]"
+            style={{ transform: 'translate(50%, -50%)' }}
+          >
+            →
+          </button>
         </div>
 
         {/* Menu Items Grid */}
@@ -157,7 +222,7 @@ export const MenuSection = ({ orderInfo, onBack, onCheckout }: MenuSectionProps)
                 !item.isAvailable ? 'opacity-75' : ''
               }`}
             >
-              <div className="aspect-w-16 aspect-h-9 relative">
+              <div className="aspect-w-16 aspect-h-9 relative overflow-hidden">
                 <img
                   src={item.image === 'blank.png' ? '/placeholder-food.jpg' : item.image}
                   alt={item.name}
@@ -167,6 +232,27 @@ export const MenuSection = ({ orderInfo, onBack, onCheckout }: MenuSectionProps)
                     target.src = '/placeholder-food.jpg';
                   }}
                 />
+                {item.isBestseller && (
+                  <div 
+                    className="absolute z-10"
+                    style={{
+                      top: '-23px',
+                      left: '-12px',
+                      width: '100px',
+                      height: '100px',
+                      overflow: 'visible'
+                    }}
+                  >
+                    <img 
+                      src="/bestseller.png" 
+                      alt="Bestseller" 
+                      style={{
+                        width: '100%',
+                        height: 'auto'
+                      }}
+                    />
+                  </div>
+                )}
               </div>
               <div className="p-4">
                 <div className="flex justify-between items-start mb-2">

@@ -13,6 +13,7 @@ import { HomepageSection } from "@/components/staffSection/HomepageSection";
 import { ManageMenuSection } from "@/components/staffSection/ManageMenuSection";
 import { SalesDataSection } from "@/components/staffSection/SalesDataSection";
 import { CheckOrders } from "@/components/staffSection/CheckOrders";
+import { CompletedOrders } from "@/components/staffSection/CompletedOrders";
 
 type Section =
   | "startup"
@@ -24,7 +25,8 @@ type Section =
   | "homepage"
   | "staff-menu"
   | "staff-data"
-  | "check-orders";
+  | "check-orders"
+  | "completed-orders";
 
 interface OrderInfo {
   selectedType?: "dine-in" | "pick-up";
@@ -108,7 +110,45 @@ const Index = () => {
           />
         );
       case "check-orders":
-        return <CheckOrders onBack={() => setCurrentSection("homepage")} />;
+        return (
+          <div>
+            <div className="flex justify-center gap-4 py-4 bg-[#473e1d]">
+              <button
+                onClick={() => setCurrentSection("check-orders")}
+                className="bg-white text-[#473e1d] px-6 py-2 rounded-md hover:bg-gray-100 transition-colors"
+              >
+                Incoming Orders
+              </button>
+              <button
+                onClick={() => setCurrentSection("completed-orders")}
+                className="bg-transparent text-white border border-white px-6 py-2 rounded-md hover:bg-white/10 transition-colors"
+              >
+                Order History
+              </button>
+            </div>
+            <CheckOrders onBack={() => setCurrentSection("homepage")} />
+          </div>
+        );
+      case "completed-orders":
+        return (
+          <div>
+            <div className="flex justify-center gap-4 py-4 bg-[#473e1d]">
+              <button
+                onClick={() => setCurrentSection("check-orders")}
+                className="bg-transparent text-white border border-white px-6 py-2 rounded-md hover:bg-white/10 transition-colors"
+              >
+                Incoming Orders
+              </button>
+              <button
+                onClick={() => setCurrentSection("completed-orders")}
+                className="bg-white text-[#473e1d] px-6 py-2 rounded-md hover:bg-gray-100 transition-colors"
+              >
+                Order History
+              </button>
+            </div>
+            <CompletedOrders onBack={() => setCurrentSection("homepage")} />
+          </div>
+        );
       default:
         return (
           <StartupSection
@@ -122,7 +162,10 @@ const Index = () => {
   const footerBg =
     currentSection === "login" ||
     currentSection === "homepage" ||
-    currentSection === "check-orders"
+    currentSection === "check-orders" ||
+    currentSection === "completed-orders" ||
+    currentSection === "staff-menu" ||
+    currentSection === "staff-data"
       ? "#94332d"
       : "#F5F2EE";
 

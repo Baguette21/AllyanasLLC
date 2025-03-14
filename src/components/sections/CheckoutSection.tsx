@@ -1,8 +1,6 @@
 import React, { useState } from 'react';
 import { useCart } from '../../context/CartContext';
 
-type PaymentMethod = 'CASH' | 'GCASH' | 'MAYA' | 'CARD';
-
 interface CheckoutSectionProps {
   onBack: () => void;
   orderInfo: {
@@ -14,75 +12,101 @@ interface CheckoutSectionProps {
   };
 }
 
-interface CardDetails {
-  cardNumber: string;
-  expiryDate: string;
-  cvv: string;
-  cardholderName: string;
-}
-
 export const CheckoutSection: React.FC<CheckoutSectionProps> = ({ onBack, orderInfo }) => {
   const { items, total, clearCart } = useCart();
-  const [selectedPayment, setSelectedPayment] = useState<PaymentMethod | null>(null);
-  const [cardDetails, setCardDetails] = useState<CardDetails>({
-    cardNumber: '',
-    expiryDate: '',
-    cvv: '',
-    cardholderName: ''
-  });
+  const [isProcessing, setIsProcessing] = useState(false);
 
-  const handlePaymentSelect = (method: PaymentMethod) => {
-    setSelectedPayment(method);
-  };
-
-  const handleCardInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = e.target;
-    setCardDetails(prev => ({
-      ...prev,
-      [name]: value
-    }));
-  };
-
-  const formatCardNumber = (value: string) => {
-    const numbers = value.replace(/\D/g, '');
-    const groups = numbers.match(/.{1,4}/g) || [];
-    return groups.join(' ').substr(0, 19); // Limit to 16 digits + 3 spaces
-  };
-
-  const formatExpiryDate = (value: string) => {
-    const numbers = value.replace(/\D/g, '');
-    if (numbers.length >= 2) {
-      return numbers.substr(0, 2) + '/' + numbers.substr(2, 2);
-    }
-    return numbers;
-  };
-
-  const isCardValid = () => {
-    return (
-      cardDetails.cardNumber.replace(/\s/g, '').length === 16 &&
-      cardDetails.expiryDate.length === 5 &&
-      cardDetails.cvv.length === 3 &&
-      cardDetails.cardholderName.length > 0
-    );
-  };
-
-  const handleConfirmPayment = () => {
-    if (!selectedPayment) return;
-
-    if (selectedPayment === 'CARD' && !isCardValid()) {
-      alert('Please fill in all card details correctly');
-      return;
+  const validateOrder = () => {
+    if (!orderInfo.selectedType) {
+      alert('Please select an order type');
+      return false;
     }
 
-    if (selectedPayment === 'CASH') {
-      const orderNumber = Math.floor(Math.random() * 1000) + 1;
-      alert(`Your order number is #${orderNumber}\n\nPlease proceed to the cashier to pay ₱${total.toFixed(2)}.\nYour order will be prepared once payment is confirmed.`);
-    } else {
-      // For other payment methods (GCASH, MAYA, CARD)
-      alert(`Processing ${selectedPayment} payment for ₱${total.toFixed(2)}`);
+    if (orderInfo.selectedType === 'dine-in') {
+      if (!orderInfo.tableNumber?.trim()) {
+        alert('Please enter a table number');
+        return false;
+      }
+    } else if (orderInfo.selectedType === 'pick-up') {
+      if (!orderInfo.fullName?.trim()) {
+        alert('Please enter your name');
+        return false;
+      }
+      if (!orderInfo.phoneNumber?.trim()) {
+        alert('Please enter your contact number');
+        return false;
+      }
+      // Basic phone number validation
+      const phoneRegex = /^\d{10,}$/;
+      if (!phoneRegex.test(orderInfo.phoneNumber.replace(/[^\d]/g, ''))) {
+        alert('Please enter a valid contact number (at least 10 digits)');
+        return false;
+      }
     }
-    
-    clearCart();
+
+    if (items.length === 0) {
+      alert('Your cart is empty');
+      return false;
+    }
+
+    return true;
+  };
+
+  const handleConfirmOrder = async () => {
+    if (isProcessing) return;
+    if (!validateOrder()) return;
+
+    setIsProcessing(true);
+
+    try {
+      const orderData = {
+        orderType: orderInfo.selectedType,
+        customerName: orderInfo.fullName || 'Table Order',
+        table: orderInfo.selectedType === 'dine-in' ? orderInfo.tableNumber : null,
+        contactNumber: orderInfo.selectedType === 'pick-up' ? orderInfo.phoneNumber : null,
+        timeOfOrder: new Date().toISOString(),
+        price: total,
+        items: items.map(item => ({
+          name: item.item_name,
+          quantity: item.quantity
+        })),
+        additionalInfo: orderInfo.additionalInfo
+      };
+
+      const response = await fetch('http://localhost:3001/api/orders', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(orderData),
+      });
+
+      if (!response.ok) {
+        throw new Error('Failed to place order');
+      }
+
+      const orderResponse = await response.json();
+      const orderId = orderResponse.id; // Get the sequential order ID
+
+      // Clear session storage and cart
+      sessionStorage.removeItem('currentOrder');
+      clearCart();
+
+      // Show success message with order details
+      alert(`Order #${orderId} placed successfully!\n\nOrder Details:\n${
+        orderInfo.selectedType === 'dine-in'
+          ? `Table: ${orderInfo.tableNumber}`
+          : `Name: ${orderInfo.fullName}\nContact: ${orderInfo.phoneNumber}`
+      }\n\nTotal: ₱${total.toFixed(2)}`);
+
+      // Redirect back to menu
+      onBack();
+    } catch (error) {
+      console.error('Error placing order:', error);
+      alert('Failed to place order. Please try again.');
+    } finally {
+      setIsProcessing(false);
+    }
   };
 
   return (
@@ -121,8 +145,8 @@ export const CheckoutSection: React.FC<CheckoutSectionProps> = ({ onBack, orderI
 
             {/* Items */}
             <div className="space-y-2">
-              {items.map((item) => (
-                <div key={item.item_name} className="flex justify-between">
+              {items.map((item, index) => (
+                <div key={`${item.item_name}-${index}`} className="flex justify-between">
                   <span>
                     {item.item_name} x {item.quantity}
                   </span>
@@ -141,148 +165,20 @@ export const CheckoutSection: React.FC<CheckoutSectionProps> = ({ onBack, orderI
           </div>
         </div>
 
-        {/* Payment Method Selection */}
-        <div className="bg-white rounded-lg shadow-md p-6 mb-8">
-          <h3 className="text-xl font-semibold mb-4">Select Payment Method</h3>
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-            {(['CASH', 'GCASH', 'MAYA', 'CARD'] as PaymentMethod[]).map((method) => (
-              <button
-                key={method}
-                onClick={() => handlePaymentSelect(method)}
-                className={`
-                  p-4 rounded-lg border-2 transition-all
-                  ${
-                    selectedPayment === method
-                      ? 'border-[rgba(148,51,45,1)] bg-[rgba(148,51,45,0.1)]'
-                      : 'border-gray-200 hover:border-[rgba(148,51,45,0.5)]'
-                  }
-                `}
-              >
-                <div className="text-center">
-                  <div className="text-2xl mb-2">
-                    {method === 'CASH' ? '💵' : 
-                     method === 'GCASH' ? '📱' : 
-                     method === 'MAYA' ? '💳' :
-                     '💳'}
-                  </div>
-                  <div className="font-medium">
-                    {method === 'CARD' ? 'VISA/MASTERCARD' : method}
-                  </div>
-                </div>
-              </button>
-            ))}
-          </div>
-
-          {/* Payment Instructions */}
-          {selectedPayment === 'CASH' && (
-            <div className="bg-yellow-50 border-l-4 border-yellow-400 p-4 mb-8">
-              <div className="flex">
-                <div className="flex-shrink-0">
-                  ⚠️
-                </div>
-                <div className="ml-3">
-                  <h3 className="text-sm font-medium text-yellow-800">
-                    Cash Payment Instructions
-                  </h3>
-                  <div className="mt-2 text-sm text-yellow-700">
-                    <p>1. Note your order number (will be provided after confirmation)</p>
-                    <p>2. Proceed to the cashier with your order number</p>
-                    <p>3. Pay the total amount of ₱{total.toFixed(2)}</p>
-                    <p>4. Your order will be handed over once payment is confirmed</p>
-                  </div>
-                </div>
-              </div>
-            </div>
-          )}
-
-          {/* Card Details Form */}
-          {selectedPayment === 'CARD' && (
-            <div className="mt-6 space-y-4">
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">
-                  Card Number
-                </label>
-                <input
-                  type="text"
-                  name="cardNumber"
-                  value={cardDetails.cardNumber}
-                  onChange={(e) => {
-                    const formatted = formatCardNumber(e.target.value);
-                    setCardDetails(prev => ({ ...prev, cardNumber: formatted }));
-                  }}
-                  placeholder="1234 5678 9012 3456"
-                  className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-[rgba(148,51,45,0.5)]"
-                  maxLength={19}
-                />
-              </div>
-              <div className="grid grid-cols-2 gap-4">
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">
-                    Expiry Date
-                  </label>
-                  <input
-                    type="text"
-                    name="expiryDate"
-                    value={cardDetails.expiryDate}
-                    onChange={(e) => {
-                      const formatted = formatExpiryDate(e.target.value);
-                      setCardDetails(prev => ({ ...prev, expiryDate: formatted }));
-                    }}
-                    placeholder="MM/YY"
-                    className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-[rgba(148,51,45,0.5)]"
-                    maxLength={5}
-                  />
-                </div>
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">
-                    CVV
-                  </label>
-                  <input
-                    type="text"
-                    name="cvv"
-                    value={cardDetails.cvv}
-                    onChange={(e) => {
-                      const numbers = e.target.value.replace(/\D/g, '');
-                      setCardDetails(prev => ({ ...prev, cvv: numbers }));
-                    }}
-                    placeholder="123"
-                    className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-[rgba(148,51,45,0.5)]"
-                    maxLength={3}
-                  />
-                </div>
-              </div>
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">
-                  Cardholder Name
-                </label>
-                <input
-                  type="text"
-                  name="cardholderName"
-                  value={cardDetails.cardholderName}
-                  onChange={handleCardInputChange}
-                  placeholder="JOHN DOE"
-                  className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-[rgba(148,51,45,0.5)]"
-                />
-              </div>
-            </div>
-          )}
+        {/* Confirm Order Button */}
+        <div className="flex justify-end">
+          <button
+            onClick={handleConfirmOrder}
+            disabled={isProcessing}
+            className={`
+              bg-[#473E1D] text-white px-8 py-3 rounded-lg text-lg
+              ${isProcessing ? 'opacity-50 cursor-not-allowed' : 'hover:bg-[#5c4f26]'}
+              transition-colors
+            `}
+          >
+            {isProcessing ? 'Processing...' : 'Confirm Order'}
+          </button>
         </div>
-
-        {/* Confirm Payment Button */}
-        <button
-          onClick={handleConfirmPayment}
-          disabled={!selectedPayment || (selectedPayment === 'CARD' && !isCardValid())}
-          className={`
-            w-full py-4 rounded-lg text-white text-lg font-medium transition-all
-            ${
-              selectedPayment && (selectedPayment !== 'CARD' || isCardValid())
-                ? 'bg-[rgba(148,51,45,1)] hover:bg-[rgba(148,51,45,0.8)]'
-                : 'bg-gray-400 cursor-not-allowed'
-            }
-          `}
-        >
-          Confirm Payment
-        </button>
       </div>
     </section>
   );

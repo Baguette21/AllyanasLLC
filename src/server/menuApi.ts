@@ -1,32 +1,25 @@
-import express, { Request, Response, Router, RequestHandler } from "express";
-import fs from "fs/promises";
+import express, { Request, Response, NextFunction, RequestHandler } from "express";
+import fs from "fs";
 import path from "path";
-import { fileURLToPath } from "url";
 import multer from "multer";
+import { fileURLToPath } from "url";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
+
 const router = express.Router();
-
-// Serve static files from the uploads directory
-router.use(
-  "/images",
-  express.static(path.join(process.cwd(), "public", "uploads"))
-);
-
-// Adjust the path to be relative to the project root
-const DATA_FILE = path.join(__dirname, "..", "data", "menu.json");
+const DATA_FILE = path.join(process.cwd(), "src", "data", "menu.json");
 
 interface MenuItem {
   id: string;
   name: string;
   price: number;
   category: string;
-  categoryOrder: string;
-  description: string;
-  image: string;
-  isAvailable: boolean;
+  description?: string;
+  image?: string;
   itemOrder: number;
+  categoryOrder: number;
+  isBestseller: boolean;
 }
 
 interface Category {
@@ -41,303 +34,187 @@ interface MenuData {
   lastUpdated: string;
 }
 
-// Type definitions for route parameters
-interface ItemParams {
+interface MenuParams {
   id: string;
-}
-
-interface CategoryParams {
-  id: string;
-}
-
-interface CategoryUpdateBody {
-  category: Category;
-  oldCategoryName: string;
-}
-
-type TypedRequestHandler<P, ResBody, ReqBody> = (
-  req: Request<P, ResBody, ReqBody>,
-  res: Response<ResBody>
-) => Promise<void> | void;
-
-// Ensure data directory exists
-async function ensureDataDirectory() {
-  const dir = path.dirname(DATA_FILE);
-  try {
-    await fs.access(dir);
-  } catch {
-    await fs.mkdir(dir, { recursive: true });
-  }
-}
-
-// Initialize empty data file if it doesn't exist
-async function initializeDataFile() {
-  try {
-    await fs.access(DATA_FILE);
-  } catch {
-    const initialData: MenuData = {
-      items: [],
-      categories: [],
-      lastUpdated: new Date().toISOString(),
-    };
-    await fs.writeFile(DATA_FILE, JSON.stringify(initialData, null, 2));
-  }
 }
 
 // Load menu data
-async function loadMenuData(): Promise<MenuData> {
+const loadMenuData = (): MenuData => {
   try {
-    await ensureDataDirectory();
-    await initializeDataFile();
-
-    const rawData = await fs.readFile(DATA_FILE, "utf-8");
-    let data: MenuData;
-
-    try {
-      data = JSON.parse(rawData);
-    } catch (parseError) {
-      console.error("Error parsing menu data:", parseError);
-      // Initialize with empty data if parsing fails
-      data = {
+    if (!fs.existsSync(DATA_FILE)) {
+      const initialData: MenuData = {
         items: [],
         categories: [],
         lastUpdated: new Date().toISOString(),
       };
+      fs.writeFileSync(DATA_FILE, JSON.stringify(initialData, null, 2));
+      return initialData;
     }
 
-    // Validate and clean the data
+    const rawData = fs.readFileSync(DATA_FILE, "utf-8");
+    const data = JSON.parse(rawData);
     return {
-      items: (data.items || []).map((item) => ({
-        id: String(item.id || ""),
-        name: String(item.name || ""),
-        price: Number(item.price || 0),
-        category: String(item.category || ""),
-        categoryOrder: String(item.categoryOrder || ""),
-        description: String(item.description || ""),
-        image: String(item.image || "blank.png"),
-        isAvailable: Boolean(item.isAvailable ?? true),
-        itemOrder: Number(item.itemOrder || 0),
-      })),
-      categories: (data.categories || []).map((category) => ({
-        id: String(category.id || ""),
-        name: String(category.name || ""),
-        order: Number(category.order || 0),
-      })),
+      items: data.items || [],
+      categories: data.categories || [],
       lastUpdated: data.lastUpdated || new Date().toISOString(),
     };
   } catch (error) {
     console.error("Error loading menu data:", error);
     throw error;
   }
-}
+};
 
 // Save menu data
-async function saveMenuData(data: MenuData): Promise<void> {
+const saveMenuData = (data: MenuData): void => {
   try {
-    await ensureDataDirectory();
-    // Validate the data structure before saving
-    if (!data.items || !Array.isArray(data.items)) {
-      throw new Error("Invalid items data");
-    }
-    if (!data.categories || !Array.isArray(data.categories)) {
-      throw new Error("Invalid categories data");
-    }
-
-    // Ensure all required fields are present
-    data.items = data.items.map((item) => ({
-      id: item.id,
-      name: item.name,
-      price: Number(item.price),
-      category: item.category,
-      categoryOrder: item.categoryOrder,
-      description: item.description || "",
-      image: item.image || "blank.png",
-      isAvailable: item.isAvailable ?? true,
-      itemOrder: Number(item.itemOrder),
-    }));
-
-    data.categories = data.categories.map((category) => ({
-      id: category.id,
-      name: category.name,
-      order: Number(category.order),
-    }));
-
-    // Update lastUpdated timestamp
-    data.lastUpdated = new Date().toISOString();
-
-    // Save with proper formatting
-    await fs.writeFile(DATA_FILE, JSON.stringify(data, null, 2), "utf-8");
+    fs.writeFileSync(DATA_FILE, JSON.stringify(data, null, 2));
   } catch (error) {
     console.error("Error saving menu data:", error);
     throw error;
   }
-}
+};
 
 // Get menu data
-router.get("/get-menu", async (req: Request, res: Response) => {
+const getMenu: RequestHandler = (_req, res) => {
   try {
-    console.log("Loading menu data...");
-    const data = await loadMenuData();
+    const data = loadMenuData();
     res.json(data);
   } catch (error) {
     console.error("Error loading menu data:", error);
     res.status(500).json({ error: "Failed to load menu data" });
   }
-});
-
-// Get menu data
-router.get("/", async (req: Request, res: Response) => {
-  try {
-    console.log("Loading menu data...");
-    const data = await loadMenuData();
-    console.log("Menu data loaded:", data);
-    res.json(data);
-  } catch (error) {
-    console.error("Error loading menu data:", error);
-    res.status(500).json({ error: "Failed to load menu data" });
-  }
-});
+};
 
 // Update menu data
-router.post("/", async (req: Request, res: Response): Promise<void> => {
+const updateMenu: RequestHandler = async (req, res) => {
   try {
     const { items, categories } = req.body;
-    const menuData = {
-      items,
-      categories,
-      lastUpdated: new Date().toISOString(),
-    };
+    const menuData = await loadMenuData();
 
-    // Validate the menu data structure
-    if (!Array.isArray(items) || !Array.isArray(categories)) {
-      res.status(400).json({ error: "Invalid menu data structure" });
-      return;
+    // Update items with new order
+    if (items) {
+      const updatedItems = items.map((item) => ({
+        ...item,
+        itemOrder: item.itemOrder || 0,
+      }));
+      menuData.items = updatedItems;
     }
 
-    // Ensure each item has required fields
-    for (const item of items) {
-      if (
-        !item.id ||
-        !item.name ||
-        typeof item.price !== "number" ||
-        !item.category
-      ) {
-        res.status(400).json({ error: "Invalid item data" });
-        return;
-      }
+    // Update categories with new order
+    if (categories) {
+      const updatedCategories = categories.map((category) => ({
+        ...category,
+        order: category.order || 0,
+      }));
+      menuData.categories = updatedCategories;
     }
 
-    // Ensure each category has required fields
-    for (const category of categories) {
-      if (
-        !category.name ||
-        !category.id ||
-        typeof category.order !== "number"
-      ) {
-        res.status(400).json({ error: "Invalid category data" });
-        return;
-      }
-    }
-
-    // Write the menu data to file
+    menuData.lastUpdated = new Date().toISOString();
     await saveMenuData(menuData);
-
-    res.json({ message: "Menu updated successfully" });
+    res.json(menuData);
   } catch (error) {
     console.error("Error updating menu:", error);
     res.status(500).json({ error: "Failed to update menu" });
   }
-});
+};
 
 // Add menu item
-router.post("/items", async (req: Request, res: Response) => {
+const addMenuItem: RequestHandler = (req, res) => {
   try {
-    console.log("Adding menu item:", req.body);
-    const data = await loadMenuData();
+    const data = loadMenuData();
+    const category = data.categories.find((c) => c.name === req.body.category);
     const newItem: MenuItem = {
       ...req.body,
       id: Date.now().toString(),
+      categoryOrder: category?.order || 0,
       itemOrder: data.items.filter(
         (item) => item.category === req.body.category
       ).length,
+      isBestseller: false // Default value for all new items
     };
     data.items.push(newItem);
-    await saveMenuData(data);
-    console.log("Menu item added successfully:", newItem);
+    saveMenuData(data);
     res.json(newItem);
   } catch (error) {
     console.error("Error adding menu item:", error);
     res.status(500).json({ error: "Failed to add menu item" });
   }
-});
+};
 
 // Update menu item
-router.put("/items/:id", async (req: Request<ItemParams>, res: Response) => {
+const updateMenuItem: RequestHandler<MenuParams> = async (req, res) => {
   try {
-    console.log("Updating menu item:", req.params.id, req.body);
-    const data = await loadMenuData();
-    const index = data.items.findIndex((item) => item.id === req.params.id);
+    const { id } = req.params;
+    const updatedItem = req.body;
+    const menuData = await loadMenuData();
+
+    const index = menuData.items.findIndex((item) => item.id === id);
     if (index === -1) {
       res.status(404).json({ error: "Item not found" });
       return;
     }
-    const updatedItem: MenuItem = { ...req.body, id: req.params.id };
-    data.items[index] = updatedItem;
-    await saveMenuData(data);
-    console.log("Menu item updated successfully:", updatedItem);
-    res.json(updatedItem);
+
+    // Preserve the item order if not specified
+    menuData.items[index] = {
+      ...menuData.items[index],
+      ...updatedItem,
+      itemOrder: updatedItem.itemOrder ?? menuData.items[index].itemOrder,
+    };
+
+    await saveMenuData(menuData);
+    res.json(menuData.items[index]);
+    return;
   } catch (error) {
     console.error("Error updating menu item:", error);
     res.status(500).json({ error: "Failed to update menu item" });
+    return;
   }
-});
+};
 
 // Delete menu item
-router.delete("/items/:id", async (req: Request<ItemParams>, res: Response) => {
+const deleteMenuItem: RequestHandler<MenuParams> = (req, res) => {
   try {
-    console.log("Deleting menu item:", req.params.id);
-    const data = await loadMenuData();
+    const data = loadMenuData();
     data.items = data.items.filter((item) => item.id !== req.params.id);
-    await saveMenuData(data);
-    console.log("Menu item deleted successfully");
+    saveMenuData(data);
     res.json({ success: true });
   } catch (error) {
     console.error("Error deleting menu item:", error);
     res.status(500).json({ error: "Failed to delete menu item" });
   }
-});
+};
 
 // Add category
-router.post("/categories", async (req: Request, res: Response) => {
+const addCategory: RequestHandler = (req, res) => {
   try {
-    console.log("Adding category:", req.body);
-    const data = await loadMenuData();
+    const data = loadMenuData();
     const newCategory: Category = {
       ...req.body,
       id: Date.now().toString(),
       order: data.categories.length,
     };
     data.categories.push(newCategory);
-    await saveMenuData(data);
-    console.log("Category added successfully:", newCategory);
+
+    // Update all items with this category to have the correct order
+    data.items = data.items.map((item) => {
+      if (item.category === newCategory.name) {
+        return { ...item, categoryOrder: newCategory.order };
+      }
+      return item;
+    });
+
+    saveMenuData(data);
     res.json(newCategory);
   } catch (error) {
     console.error("Error adding category:", error);
     res.status(500).json({ error: "Failed to add category" });
   }
-});
+};
 
 // Update category
-router.put("/categories/:id", (async (
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  req: Request<CategoryParams, any, CategoryUpdateBody>,
-  res: Response
-) => {
+const updateCategory: RequestHandler<MenuParams> = (req, res) => {
   try {
-    console.log("Updating category:", req.params.id, req.body);
-    const data = await loadMenuData();
-
-    // Find the category to update
+    const data = loadMenuData();
     const categoryIndex = data.categories.findIndex(
       (cat) => cat.id === req.params.id
     );
@@ -346,107 +223,104 @@ router.put("/categories/:id", (async (
       return;
     }
 
-    // Validate request body
-    if (!req.body || !req.body.category || !req.body.oldCategoryName) {
-      res.status(400).json({
-        error:
-          "Invalid request body. Must include category and oldCategoryName.",
-      });
-      return;
-    }
+    const oldCategory = data.categories[categoryIndex];
+    const newCategory = { ...req.body.category, id: req.params.id };
+    data.categories[categoryIndex] = newCategory;
 
-    const { category: updatedCategory, oldCategoryName } = req.body;
-
-    // Update the category
-    data.categories[categoryIndex] = {
-      ...data.categories[categoryIndex],
-      name: updatedCategory.name,
-      order: updatedCategory.order ?? data.categories[categoryIndex].order,
-    };
-
-    // Update all items that reference this category
+    // Update all affected items
     data.items = data.items.map((item) => {
-      if (item.category === oldCategoryName) {
-        console.log(
-          `Updating item ${item.name} from category ${oldCategoryName} to ${updatedCategory.name}`
-        );
+      if (item.category === req.body.oldCategoryName) {
         return {
           ...item,
-          category: updatedCategory.name,
-          categoryOrder: updatedCategory.name, // Update categoryOrder as well to maintain consistency
+          category: newCategory.name,
+          categoryOrder: newCategory.order,
         };
       }
       return item;
     });
 
-    console.log("Updated data:", data);
-    await saveMenuData(data);
-    res.json(data.categories[categoryIndex]);
+    saveMenuData(data);
+    res.json(newCategory);
   } catch (error) {
     console.error("Error updating category:", error);
     res.status(500).json({ error: "Failed to update category" });
   }
-}) as RequestHandler<CategoryParams, any, CategoryUpdateBody>);
+};
 
 // Delete category
-router.delete(
-  "/categories/:id",
-  async (req: Request<CategoryParams>, res: Response) => {
-    try {
-      console.log("Deleting category:", req.params.id);
-      const data = await loadMenuData();
-      data.categories = data.categories.filter(
-        (cat) => cat.id !== req.params.id
-      );
-      await saveMenuData(data);
-      console.log("Category deleted successfully");
-      res.json({ success: true });
-    } catch (error) {
-      console.error("Error deleting category:", error);
-      res.status(500).json({ error: "Failed to delete category" });
-    }
-  }
-);
-
-// Create upload directory path - ensure it's relative to project root
-const uploadDir = path.join(process.cwd(), "public", "uploads");
-
-// Ensure upload directory exists
-async function ensureUploadDirectory() {
+const deleteCategory: RequestHandler<MenuParams> = (req, res) => {
   try {
-    await fs.access(uploadDir);
-  } catch {
-    await fs.mkdir(uploadDir, { recursive: true });
+    const data = loadMenuData();
+    data.categories = data.categories.filter((cat) => cat.id !== req.params.id);
+    saveMenuData(data);
+    res.json({ success: true });
+  } catch (error) {
+    console.error("Error deleting category:", error);
+    res.status(500).json({ error: "Failed to delete category" });
   }
-}
+};
 
-// Initialize directories
-ensureUploadDirectory().catch((error) => {
-  console.error("Error creating upload directory:", error);
-});
+// Update entire menu data
+const updateMenuData: RequestHandler = (req, res) => {
+  try {
+    const menuData = req.body;
+    
+    if (!menuData || !menuData.items || !Array.isArray(menuData.items)) {
+      res.status(400).json({ 
+        success: false, 
+        message: 'Invalid menu data format' 
+      });
+      return;
+    }
+    
+    // Update lastUpdated timestamp
+    menuData.lastUpdated = new Date().toISOString();
+    
+    // Save the updated menu data
+    try {
+      fs.writeFileSync(DATA_FILE, JSON.stringify(menuData, null, 2), 'utf8');
+      console.log("Menu data updated successfully");
+      res.json({ 
+        success: true, 
+        message: 'Menu data updated successfully' 
+      });
+    } catch (error) {
+      console.error("Error writing to menu file:", error);
+      res.status(500).json({ 
+        success: false, 
+        message: 'Failed to update menu data' 
+      });
+    }
+  } catch (error) {
+    console.error("Error updating menu data:", error);
+    res.status(500).json({ 
+      success: false, 
+      message: 'Failed to update menu data' 
+    });
+  }
+};
 
 // Configure multer for file uploads
+const uploadDir = path.join(process.cwd(), "public", "uploads");
+if (!fs.existsSync(uploadDir)) {
+  fs.mkdirSync(uploadDir, { recursive: true });
+}
+
 const storage = multer.diskStorage({
-  destination: (req, file, cb) => {
+  destination: (_req, _file, cb) => {
     cb(null, uploadDir);
   },
-  filename: (req, file, cb) => {
-    // Get file extension
-    const ext = path.extname(file.originalname).toLowerCase();
-    // Create unique filename
-    const uniqueSuffix = `${Date.now()}-${Math.round(Math.random() * 1e9)}`;
-    cb(null, `${uniqueSuffix}${ext}`);
+  filename: (_req, file, cb) => {
+    const uniqueSuffix = Date.now() + "-" + Math.round(Math.random() * 1e9);
+    cb(null, uniqueSuffix + path.extname(file.originalname));
   },
 });
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-const fileFilter = (req: any, file: any, cb: any) => {
-  // Accept only images
-  const allowedTypes = ["image/jpeg", "image/png", "image/gif", "image/webp"];
-  if (allowedTypes.includes(file.mimetype)) {
+const fileFilter = (_req: Request, file: Express.Multer.File, cb: multer.FileFilterCallback) => {
+  if (file.mimetype.startsWith("image/")) {
     cb(null, true);
   } else {
-    cb(new Error("Only image files (JPEG, PNG, GIF, WEBP) are allowed"));
+    cb(new Error("Only image files are allowed"));
   }
 };
 
@@ -458,53 +332,36 @@ const upload = multer({
   fileFilter: fileFilter,
 }).single("image");
 
-interface MulterRequest extends Request {
-  file?: Express.Multer.File;
-}
-
 // Upload image endpoint
-router.post("/upload-image", (req: MulterRequest, res: Response) => {
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  upload(req, res, (err: any) => {
+const uploadImage: RequestHandler = (req, res) => {
+  upload(req, res, (err) => {
     if (err instanceof multer.MulterError) {
-      console.error("Multer error:", err);
-      res.status(400).json({ error: err.message });
-      return;
+      return res.status(400).json({ error: "File upload error" });
     } else if (err) {
-      console.error("Upload error:", err);
-      res.status(500).json({ error: err.message });
-      return;
+      return res.status(400).json({ error: err.message });
     }
-
-    console.log("Upload request received");
 
     if (!req.file) {
-      console.log("No file in request");
-      res.status(400).json({ error: "No image file provided" });
-      return;
+      return res.status(400).json({ error: "No file uploaded" });
     }
 
-    console.log("File details:", {
-      originalName: req.file.originalname,
-      filename: req.file.filename,
-      mimetype: req.file.mimetype,
-      size: req.file.size,
-    });
-
-    // Return path relative to public directory for client access
-    const publicPath = `/uploads/${req.file.filename}`;
-
-    console.log("Image uploaded successfully:", {
-      originalName: req.file.originalname,
-      filename: req.file.filename,
-      publicPath,
-    });
-
     res.json({
-      imagePath: publicPath,
-      message: "Image uploaded successfully",
+      filename: req.file.filename,
+      path: `/uploads/${req.file.filename}`,
     });
   });
-});
+};
+
+// Route handlers
+router.get("/", getMenu);
+router.post("/", updateMenu);
+router.post("/update", updateMenuData);
+router.post("/items", addMenuItem);
+router.put("/items/:id", updateMenuItem);
+router.delete("/items/:id", deleteMenuItem);
+router.post("/categories", addCategory);
+router.put("/categories/:id", updateCategory);
+router.delete("/categories/:id", deleteCategory);
+router.post("/upload-image", uploadImage);
 
 export default router;

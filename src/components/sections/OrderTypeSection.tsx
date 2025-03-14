@@ -22,6 +22,7 @@ export const OrderTypeSection: React.FC<OrderTypeSectionProps> = ({ onConfirm, s
   const [orderInfo, setLocalOrderInfo] = useState<OrderInfo>({
     additionalInfo: "",
   });
+  const [errors, setErrors] = useState<Record<string, string>>({});
 
   const handleOrderTypeClick = (type: OrderType) => {
     setSelectedType(type);
@@ -29,29 +30,99 @@ export const OrderTypeSection: React.FC<OrderTypeSectionProps> = ({ onConfirm, s
       ...prev,
       selectedType: type
     }));
+    setErrors({});
+  };
+
+  const validatePhoneNumber = (phone: string) => {
+    const phoneRegex = /^\+?([0-9]{2})?[-. ]?\(?([0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$/;
+    return phoneRegex.test(phone);
+  };
+
+  const validateTableNumber = (table: string) => {
+    const tableNum = parseInt(table);
+    return !isNaN(tableNum) && tableNum >= 1 && tableNum <= 16;
   };
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
+    
+    // For table numbers, only allow numbers
+    if (name === "tableNumber") {
+      if (value && !/^\d*$/.test(value)) {
+        return;
+      }
+    }
+    
     setLocalOrderInfo(prev => ({
       ...prev,
       [name]: value
     }));
+
+    // Clear error when user starts typing
+    if (errors[name]) {
+      setErrors(prev => ({
+        ...prev,
+        [name]: ""
+      }));
+    }
+
+    // Validate on change
+    if (name === "phoneNumber" && value && !validatePhoneNumber(value)) {
+      setErrors(prev => ({
+        ...prev,
+        phoneNumber: "Please enter a valid phone number"
+      }));
+    }
+
+    if (name === "tableNumber" && value && !validateTableNumber(value)) {
+      setErrors(prev => ({
+        ...prev,
+        tableNumber: "Please enter a valid table number (1-16)"
+      }));
+    }
+  };
+
+  const validateForm = () => {
+    const newErrors: Record<string, string> = {};
+
+    if (selectedType === "dine-in") {
+      if (!orderInfo.tableNumber) {
+        newErrors.tableNumber = "Table number is required";
+      } else if (!validateTableNumber(orderInfo.tableNumber)) {
+        newErrors.tableNumber = "Please enter a valid table number (1-16)";
+      }
+    }
+
+    if (selectedType === "pick-up") {
+      if (!orderInfo.fullName?.trim()) {
+        newErrors.fullName = "Full name is required";
+      }
+      if (!orderInfo.phoneNumber) {
+        newErrors.phoneNumber = "Phone number is required";
+      } else if (!validatePhoneNumber(orderInfo.phoneNumber)) {
+        newErrors.phoneNumber = "Please enter a valid phone number";
+      }
+    }
+
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
   };
 
   const isFormValid = () => {
     if (selectedType === "dine-in") {
-      return !!orderInfo.tableNumber;
+      return !!orderInfo.tableNumber && validateTableNumber(orderInfo.tableNumber);
     }
     if (selectedType === "pick-up") {
-      return !!orderInfo.fullName && !!orderInfo.phoneNumber;
+      return !!orderInfo.fullName?.trim() && 
+             !!orderInfo.phoneNumber && 
+             validatePhoneNumber(orderInfo.phoneNumber);
     }
     return false;
   };
 
   const handleConfirm = () => {
-    if (isFormValid()) {
-      setOrderInfo(orderInfo); // Pass the order info to parent component
+    if (validateForm()) {
+      setOrderInfo(orderInfo);
       onConfirm();
     }
   };
@@ -85,34 +156,49 @@ export const OrderTypeSection: React.FC<OrderTypeSectionProps> = ({ onConfirm, s
             </h3>
             
             {selectedType === "dine-in" && (
-              <input
-                type="text"
-                name="tableNumber"
-                value={orderInfo.tableNumber || ""}
-                onChange={handleInputChange}
-                placeholder="Enter your table number"
-                className="px-[11px] py-[18px] border-[rgba(71,62,29,1)] border-solid border-2 rounded-md mb-4"
-              />
+              <div className="mb-4">
+                <input
+                  type="text"
+                  name="tableNumber"
+                  value={orderInfo.tableNumber || ""}
+                  onChange={handleInputChange}
+                  placeholder="Enter your table number (1-16)"
+                  className={`px-[11px] py-[18px] border-[rgba(71,62,29,1)] border-solid border-2 rounded-md w-full ${errors.tableNumber ? 'border-red-500' : ''}`}
+                />
+                {errors.tableNumber && (
+                  <p className="text-red-500 text-sm mt-1">{errors.tableNumber}</p>
+                )}
+              </div>
             )}
 
             {selectedType === "pick-up" && (
               <>
-                <input
-                  type="text"
-                  name="fullName"
-                  value={orderInfo.fullName || ""}
-                  onChange={handleInputChange}
-                  placeholder="Enter your full name"
-                  className="px-[11px] py-[18px] border-[rgba(71,62,29,1)] border-solid border-2 rounded-md mb-4"
-                />
-                <input
-                  type="tel"
-                  name="phoneNumber"
-                  value={orderInfo.phoneNumber || ""}
-                  onChange={handleInputChange}
-                  placeholder="Enter your phone number"
-                  className="px-[11px] py-[18px] border-[rgba(71,62,29,1)] border-solid border-2 rounded-md mb-4"
-                />
+                <div className="mb-4">
+                  <input
+                    type="text"
+                    name="fullName"
+                    value={orderInfo.fullName || ""}
+                    onChange={handleInputChange}
+                    placeholder="Enter your full name"
+                    className={`px-[11px] py-[18px] border-[rgba(71,62,29,1)] border-solid border-2 rounded-md w-full ${errors.fullName ? 'border-red-500' : ''}`}
+                  />
+                  {errors.fullName && (
+                    <p className="text-red-500 text-sm mt-1">{errors.fullName}</p>
+                  )}
+                </div>
+                <div className="mb-4">
+                  <input
+                    type="tel"
+                    name="phoneNumber"
+                    value={orderInfo.phoneNumber || ""}
+                    onChange={handleInputChange}
+                    placeholder="Enter your phone number"
+                    className={`px-[11px] py-[18px] border-[rgba(71,62,29,1)] border-solid border-2 rounded-md w-full ${errors.phoneNumber ? 'border-red-500' : ''}`}
+                  />
+                  {errors.phoneNumber && (
+                    <p className="text-red-500 text-sm mt-1">{errors.phoneNumber}</p>
+                  )}
+                </div>
               </>
             )}
 
@@ -122,7 +208,7 @@ export const OrderTypeSection: React.FC<OrderTypeSectionProps> = ({ onConfirm, s
               value={orderInfo.additionalInfo}
               onChange={handleInputChange}
               placeholder="Any special requests or notes?"
-              className="flex shrink-0 h-[151px] border-[rgba(71,62,29,1)] border-solid border-2 rounded-md p-3 mb-4"
+              className="flex shrink-0 h-[151px] border-[rgba(71,62,29,1)] border-solid border-2 rounded-md p-3 mb-4 w-full"
             />
             
             <button 

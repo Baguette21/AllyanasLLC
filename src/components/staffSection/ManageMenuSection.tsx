@@ -1,5 +1,5 @@
-import React, { useState, useEffect, useRef } from 'react';
 import { DragDropContext, Droppable, Draggable, DropResult } from 'react-beautiful-dnd';
+import { useState, useEffect, useRef } from 'react';
 import {
   MenuItem,
   Category,
@@ -208,52 +208,32 @@ export const ManageMenuSection = ({ onBack }: ManageMenuSectionProps) => {
   const handleDragEnd = async (result: DropResult) => {
     if (!result.destination) return;
 
-    const { source, destination, type } = result;
-    if (source.index === destination.index) return;
+    const sourceIndex = result.source.index;
+    const destinationIndex = result.destination.index;
 
-    if (type === 'category') {
-      // Handle category reordering
-      const updatedCategories = Array.from(draftCategories);
-      const [movedCategory] = updatedCategories.splice(source.index, 1);
-      updatedCategories.splice(destination.index, 0, movedCategory);
+    // Create a new array with the updated order
+    const updatedCategories = Array.from(draftCategories);
+    const [movedCategory] = updatedCategories.splice(sourceIndex, 1);
+    updatedCategories.splice(destinationIndex, 0, movedCategory);
 
-      // Update order values
-      updatedCategories.forEach((cat, index) => {
-        cat.order = index;
+    // Update the order property for each category
+    const reorderedCategories = updatedCategories.map((cat, index) => ({
+      ...cat,
+      order: index
+    }));
+
+    try {
+      // Save to backend
+      await saveMenuData({
+        items: draftItems,
+        categories: reorderedCategories,
+        lastUpdated: new Date().toISOString()
       });
 
-      setDraftCategories(updatedCategories);
-      if (movedCategory.name === selectedCategory) {
-        setSelectedCategory(movedCategory.name);
-      }
-      await reorderCategories(updatedCategories);
-    } else {
-      // Handle menu item reordering within a category
-      const categoryName = editingItemId ? draftItems.find(item => item.id === editingItemId)?.category : selectedCategory;
-      const categoryItems = draftItems
-        .filter(item => item.category === categoryName)
-        .sort((a, b) => a.itemOrder - b.itemOrder);
-
-      const [movedItem] = categoryItems.splice(source.index, 1);
-      categoryItems.splice(destination.index, 0, movedItem);
-
-      // Update order values
-      categoryItems.forEach((item, index) => {
-        item.itemOrder = index;
-      });
-
-      // Create new array with updated items
-      const updatedMenuItems = draftItems.map(item => {
-        if (item.category === categoryName) {
-          const updatedItem = categoryItems.find(ci => ci.id === item.id);
-          return updatedItem || item;
-        }
-        return item;
-      });
-
-      // Update state and save to storage
-      setDraftItems(updatedMenuItems);
-      await reorderMenuItems(updatedMenuItems);
+      // Update local state
+      setDraftCategories(reorderedCategories);
+    } catch (error) {
+      console.error('Error saving category order:', error);
     }
   };
 
@@ -505,6 +485,51 @@ export const ManageMenuSection = ({ onBack }: ManageMenuSectionProps) => {
     );
   };
 
+  const handleMenuItemDragEnd = async (result: DropResult) => {
+    if (!result.destination) return;
+
+    const sourceIndex = result.source.index;
+    const destinationIndex = result.destination.index;
+
+    // Get items for the current category
+    const categoryItems = draftItems
+      .filter(item => item.category === selectedCategory)
+      .sort((a, b) => a.itemOrder - b.itemOrder);
+
+    // Reorder the items
+    const [movedItem] = categoryItems.splice(sourceIndex, 1);
+    categoryItems.splice(destinationIndex, 0, movedItem);
+
+    // Update order numbers
+    const updatedCategoryItems = categoryItems.map((item, index) => ({
+      ...item,
+      itemOrder: index
+    }));
+
+    // Update all items
+    const updatedItems = draftItems.map(item => {
+      if (item.category === selectedCategory) {
+        const updatedItem = updatedCategoryItems.find(ci => ci.id === item.id);
+        return updatedItem || item;
+      }
+      return item;
+    });
+
+    try {
+      // Save to backend
+      await saveMenuData({
+        items: updatedItems,
+        categories: draftCategories,
+        lastUpdated: new Date().toISOString()
+      });
+
+      // Update local state
+      setDraftItems(updatedItems);
+    } catch (error) {
+      console.error('Error saving item order:', error);
+    }
+  };
+
   if (isLoading) {
     return <div>Loading...</div>;
   }
@@ -642,52 +667,83 @@ export const ManageMenuSection = ({ onBack }: ManageMenuSectionProps) => {
           </div>
 
           {/* Categories */}
-          {isReorderingCategories ? (
-            <Droppable droppableId="categories">
-              {(provided) => (
-                <div
-                  {...provided.droppableProps}
-                  ref={provided.innerRef}
-                  className="space-y-4"
-                >
-                  {draftCategories.map((category, index) => (
-                    <Draggable
-                      key={category.id}
-                      draggableId={category.id}
-                      index={index}
-                    >
-                      {(provided) => (
-                        <div
-                          ref={provided.innerRef}
-                          {...provided.draggableProps}
-                          {...provided.dragHandleProps}
-                          className="bg-white rounded-lg p-4 shadow flex items-center justify-between"
-                        >
-                          <div className="flex items-center gap-4">
-                            <span className="text-gray-400">☰</span>
-                            <span className="font-medium text-[#473E1D]">
-                              {category.name}
-                            </span>
+          <div className="mb-8">
+            <div className="flex justify-between items-center mb-4">
+              <h2 className="text-xl font-semibold">Categories</h2>
+              <button
+                onClick={() => setIsReorderingCategories(!isReorderingCategories)}
+                className="bg-[#473E1D] text-white px-4 py-2 rounded hover:bg-[#5c4f26]"
+              >
+                {isReorderingCategories ? 'Save Order' : 'Arrange Categories'}
+              </button>
+            </div>
+
+            {isReorderingCategories && (
+              <Droppable droppableId="categories">
+                {(provided) => (
+                  <div
+                    {...provided.droppableProps}
+                    ref={provided.innerRef}
+                    className="space-y-2"
+                  >
+                    {draftCategories.map((category, index) => (
+                      <Draggable
+                        key={category.id}
+                        draggableId={category.id}
+                        index={index}
+                      >
+                        {(provided) => (
+                          <div
+                            ref={provided.innerRef}
+                            {...provided.draggableProps}
+                            {...provided.dragHandleProps}
+                            className="bg-white p-4 rounded shadow-md flex items-center justify-between cursor-move"
+                          >
+                            <span>{category.name}</span>
+                            <span className="text-gray-500">↕</span>
                           </div>
-                        </div>
-                      )}
-                    </Draggable>
-                  ))}
-                  {provided.placeholder}
-                </div>
-              )}
-            </Droppable>
-          ) : (
-            <div className="flex overflow-x-auto gap-2 no-scrollbar pb-4">
+                        )}
+                      </Draggable>
+                    ))}
+                    {provided.placeholder}
+                  </div>
+                )}
+              </Droppable>
+            )}
+          </div>
+
+          {/* Category Selection */}
+          <div className="relative mb-8">
+            <button 
+              onClick={() => {
+                if (scrollContainerRef.current) {
+                  scrollContainerRef.current.scrollLeft -= 200;
+                }
+              }}
+              className="absolute left-0 top-1/2 -translate-y-1/2 bg-[#473E1D] text-white p-2 rounded-full z-10 hover:bg-[#5c4f26]"
+              style={{ transform: 'translate(-50%, -50%)' }}
+            >
+              ←
+            </button>
+            <div
+              ref={scrollContainerRef}
+              className="flex overflow-x-auto gap-2 pb-4 px-2 scrollbar-hide"
+              style={{
+                scrollBehavior: 'smooth',
+                WebkitOverflowScrolling: 'touch',
+                scrollbarWidth: 'none',
+                msOverflowStyle: 'none',
+              }}
+            >
               {draftCategories.map((category) => (
                 <button
                   key={category.id}
                   onClick={() => setSelectedCategory(category.name)}
                   className={`
-                    px-4 py-2 rounded-lg whitespace-nowrap
+                    flex-none px-4 py-2 rounded-md whitespace-nowrap transition-all text-sm font-medium min-w-[100px] text-center
                     ${selectedCategory === category.name
-                      ? 'bg-[#473E1D] text-white'
-                      : 'bg-white text-[#473E1D] hover:bg-[#473E1D] hover:text-white'
+                      ? 'bg-[#F5A623] text-white'
+                      : 'bg-[#F5A623] text-white opacity-90 hover:opacity-100'
                     }
                   `}
                 >
@@ -695,127 +751,129 @@ export const ManageMenuSection = ({ onBack }: ManageMenuSectionProps) => {
                 </button>
               ))}
             </div>
-          )}
+            <button 
+              onClick={() => {
+                if (scrollContainerRef.current) {
+                  scrollContainerRef.current.scrollLeft += 200;
+                }
+              }}
+              className="absolute right-0 top-1/2 -translate-y-1/2 bg-[#473E1D] text-white p-2 rounded-full z-10 hover:bg-[#5c4f26]"
+              style={{ transform: 'translate(50%, -50%)' }}
+            >
+              →
+            </button>
+          </div>
 
-          {/* Menu Items */}
-          {(isReorderingCategories || isEditMode) ? (
-            <Droppable droppableId="menu-items" type="menuItem">
-              {(provided) => (
-                <div 
-                  ref={provided.innerRef}
-                  {...provided.droppableProps}
-                  className="space-y-3"
+          {/* Menu Items Grid */}
+          <div className="mt-8">
+            <div className="flex justify-between items-center mb-4">
+              <h2 className="text-xl font-semibold">Menu Items</h2>
+              <div className="flex gap-2">
+                <button
+                  onClick={() => setIsEditMode(!isEditMode)}
+                  className="bg-[#473E1D] text-white px-4 py-2 rounded hover:bg-[#5c4f26]"
                 >
-                  {draftItems
-                    .filter(item => item.category === selectedCategory)
-                    .sort((a, b) => a.itemOrder - b.itemOrder)
-                    .map((item, index) => (
-                      <Draggable 
-                        key={item.id} 
-                        draggableId={item.id} 
-                        index={index}
-                      >
-                        {(provided, snapshot) => (
-                          <div
-                            ref={provided.innerRef}
-                            {...provided.draggableProps}
-                            {...provided.dragHandleProps}
-                            style={{
-                              ...provided.draggableProps.style,
-                              opacity: snapshot.isDragging ? 0.5 : 1
-                            }}
-                            className={`bg-white rounded-lg p-4 flex items-center justify-between ${
-                              snapshot.isDragging ? 'shadow-lg' : ''
-                            }`}
-                          >
-                            <div className="flex items-center gap-4">
-                              <div className="w-16 h-16 bg-gray-200 rounded-lg overflow-hidden">
-                                {item.image && (
-                                  <img
-                                    src={getImageUrl(item.image)}
-                                    alt={item.name}
-                                    className="w-full h-full object-cover"
-                                  />
-                                )}
-                              </div>
-                              <div>
-                                <h3 className="font-semibold text-[#473E1D]">{item.name}</h3>
-                                <p className="text-sm text-gray-600">₱ {item.price.toFixed(2)}</p>
-                              </div>
-                            </div>
-                            <div className="flex items-center gap-2">
-                              <button
-                                onClick={() => handleToggleAvailability(item.id)}
-                                className={`px-3 py-1 rounded-lg text-sm ${
-                                  item.isAvailable
-                                    ? 'bg-green-100 text-green-800'
-                                    : 'bg-red-100 text-red-800'
-                                }`}
-                              >
-                                {item.isAvailable ? 'Available' : 'Unavailable'}
-                              </button>
-                              <button
-                                onClick={() => handleEditItem(item.id)}
-                                className="text-[#473E1D] hover:text-[#F4B63F]"
-                              >
-                                Edit
-                              </button>
-                            </div>
-                          </div>
-                        )}
-                      </Draggable>
-                    ))}
-                  {provided.placeholder}
-                </div>
-              )}
-            </Droppable>
-          ) : (
-            <div className="space-y-3">
-              {draftItems
-                .filter(item => item.category === selectedCategory)
-                .sort((a, b) => a.itemOrder - b.itemOrder)
-                .map((item, index) => (
-                  <div
-                    key={item.id}
-                    className="bg-white rounded-lg p-4 flex items-center justify-between"
-                  >
-                    <div className="flex items-center gap-4">
-                      <div className="w-16 h-16 bg-gray-200 rounded-lg overflow-hidden">
-                        {item.image && (
-                          <img
-                            src={getImageUrl(item.image)}
-                            alt={item.name}
-                            className="w-full h-full object-cover"
-                          />
-                        )}
-                      </div>
-                      <div>
-                        <h3 className="font-semibold text-[#473E1D]">{item.name}</h3>
-                        <p className="text-sm text-gray-600">₱ {item.price.toFixed(2)}</p>
-                      </div>
-                    </div>
-                    <div className="flex items-center gap-2">
-                      <button
-                        onClick={() => handleToggleAvailability(item.id)}
-                        className={`px-3 py-1 rounded-lg text-sm ${
-                          item.isAvailable
-                            ? 'bg-green-100 text-green-800'
-                            : 'bg-red-100 text-red-800'
-                        }`}
-                      >
-                        {item.isAvailable ? 'Available' : 'Unavailable'}
-                      </button>
-                      <button
-                        onClick={() => handleEditItem(item.id)}
-                        className="text-[#473E1D] hover:text-[#F4B63F]"
-                      >
-                        Edit
-                      </button>
-                    </div>
-                  </div>
-                ))}
+                  {isEditMode ? 'Save Order' : 'Arrange Items'}
+                </button>
+                <button
+                  onClick={() => setIsAddingNew(true)}
+                  className="bg-[#473E1D] text-white px-4 py-2 rounded hover:bg-[#5c4f26]"
+                >
+                  Add Item
+                </button>
+              </div>
             </div>
-          )}
+
+            {isEditMode ? (
+              <DragDropContext onDragEnd={handleMenuItemDragEnd}>
+                <Droppable droppableId="menu-items">
+                  {(provided) => (
+                    <div
+                      {...provided.droppableProps}
+                      ref={provided.innerRef}
+                      className="space-y-2"
+                    >
+                      {draftItems
+                        .filter(item => item.category === selectedCategory)
+                        .sort((a, b) => a.itemOrder - b.itemOrder)
+                        .map((item, index) => (
+                          <Draggable
+                            key={item.id}
+                            draggableId={item.id}
+                            index={index}
+                          >
+                            {(provided) => (
+                              <div
+                                ref={provided.innerRef}
+                                {...provided.draggableProps}
+                                {...provided.dragHandleProps}
+                                className="bg-white p-4 rounded shadow-md flex items-center justify-between cursor-move"
+                              >
+                                <div className="flex items-center gap-4">
+                                  <img 
+                                    src={getImageUrl(item.image)} 
+                                    alt={item.name}
+                                    className="w-12 h-12 object-cover rounded"
+                                  />
+                                  <div>
+                                    <h3 className="font-medium">{item.name}</h3>
+                                    <p className="text-sm text-gray-500">₱{item.price}</p>
+                                  </div>
+                                </div>
+                                <span className="text-gray-500">↕</span>
+                              </div>
+                            )}
+                          </Draggable>
+                        ))}
+                      {provided.placeholder}
+                    </div>
+                  )}
+                </Droppable>
+              </DragDropContext>
+            ) : (
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                {draftItems
+                  .filter(item => item.category === selectedCategory)
+                  .sort((a, b) => a.itemOrder - b.itemOrder)
+                  .map(item => (
+                    <div
+                      key={item.id}
+                      className="bg-white p-4 rounded shadow-md"
+                    >
+                      <div className="flex items-center gap-4">
+                        <img 
+                          src={getImageUrl(item.image)} 
+                          alt={item.name}
+                          className="w-16 h-16 object-cover rounded"
+                        />
+                        <div>
+                          <h3 className="font-medium">{item.name}</h3>
+                          <p className="text-sm text-gray-500">₱{item.price}</p>
+                          <div className="flex gap-2 mt-2">
+                            <button
+                              onClick={() => handleEditItem(item.id)}
+                              className="text-sm text-[#473E1D] hover:text-[#5c4f26]"
+                            >
+                              Edit
+                            </button>
+                            <button
+                              onClick={() => handleToggleAvailability(item.id)}
+                              className={`text-sm ${
+                                item.isAvailable
+                                  ? 'text-green-600'
+                                  : 'text-red-600'
+                              }`}
+                            >
+                              {item.isAvailable ? 'Available' : 'Unavailable'}
+                            </button>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  ))}
+              </div>
+            )}
+          </div>
 
           {/* Add Category Modal */}
           {isAddingCategory && (

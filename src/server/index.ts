@@ -1,7 +1,14 @@
 import express from "express";
 import cors from "cors";
 import path from "path";
-import menuApi from "./menuApi";
+import { fileURLToPath } from "url";
+import menuApi from "./menuApi.js";
+import ordersApi from "./ordersApi.js";
+import bestsellerApi from "./bestsellerApi.js";
+import { initializeFileWatcher } from "../data/bestsellerData";
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 const app = express();
 const port = 3001;
@@ -38,16 +45,22 @@ app.use(
   express.static(path.join(process.cwd(), "public", "uploads"))
 );
 
-// Use menu API routes
+// Use API routes
 app.use("/api/menu", menuApi);
+app.use("/api/orders", ordersApi);
+app.use("/api/bestseller", bestsellerApi);
+
+// Initialize the bestseller data file watcher
+initializeFileWatcher();
+console.log("Bestseller data file watcher initialized");
 
 // Error handling middleware
 app.use(
   (
-    err: any,
-    req: express.Request,
-    res: express.Response,
-    next: express.NextFunction
+    err,
+    req,
+    res,
+    next
   ) => {
     console.error("Error:", err);
     res.status(500).json({ error: err.message || "Internal server error" });
