@@ -6,6 +6,7 @@ import menuApi from "./menuApi.js";
 import ordersApi from "./ordersApi.js";
 import bestsellerApi from "./bestsellerApi.js";
 import { initializeFileWatcher } from "../data/bestsellerData";
+import os from 'os';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -20,6 +21,10 @@ app.use(
       "http://localhost:3000",
       "http://localhost:8080",
       "http://localhost:8081",
+      // Allow connections from any origin when in development
+      /^https?:\/\/192\.168\.\d{1,3}\.\d{1,3}(:\d+)?$/,
+      /^https?:\/\/10\.\d{1,3}\.\d{1,3}\.\d{1,3}(:\d+)?$/,
+      /^https?:\/\/172\.(1[6-9]|2\d|3[0-1])\.\d{1,3}\.\d{1,3}(:\d+)?$/,
     ],
     methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
     allowedHeaders: ["Content-Type", "Authorization"],
@@ -50,6 +55,11 @@ app.use("/api/menu", menuApi);
 app.use("/api/orders", ordersApi);
 app.use("/api/bestseller", bestsellerApi);
 
+// Add a route handler for the root path
+app.get("/", (req, res) => {
+  res.send("Smart Restaurant Digital Ordering and QR Code System API Server is running!");
+});
+
 // Initialize the bestseller data file watcher
 initializeFileWatcher();
 console.log("Bestseller data file watcher initialized");
@@ -67,6 +77,28 @@ app.use(
   }
 );
 
-app.listen(port, () => {
+app.listen(port, '0.0.0.0', () => {
   console.log(`Server is running on port ${port}`);
+  console.log(`Local: http://localhost:${port}`);
+  
+  // Get network interfaces to display IP addresses
+  try {
+    const nets = os.networkInterfaces();
+    const results = Object.create(null);
+    
+    for (const name of Object.keys(nets)) {
+      for (const net of nets[name]) {
+        // Skip over non-IPv4 and internal (i.e. 127.0.0.1) addresses
+        if (net.family === 'IPv4' && !net.internal) {
+          if (!results[name]) {
+            results[name] = [];
+          }
+          results[name].push(net.address);
+          console.log(`Network: http://${net.address}:${port}`);
+        }
+      }
+    }
+  } catch (error) {
+    console.log('Could not determine network interfaces:', error);
+  }
 });

@@ -6,6 +6,7 @@
   "scripts": {
     "dev": "vite",
     "server": "tsx src/server/index.ts",
+    "start": "concurrently \"npm run server\" \"npm run dev\"",
     "build": "vite build",
     "build:dev": "vite build --mode development",
     "lint": "eslint .",
@@ -84,6 +85,7 @@
     "@types/react-dom": "^18.3.5",
     "@vitejs/plugin-react-swc": "^3.5.0",
     "autoprefixer": "^10.4.20",
+    "concurrently": "^8.2.2",
     "eslint": "^9.9.0",
     "eslint-plugin-react-hooks": "^5.1.0-rc.0",
     "eslint-plugin-react-refresh": "^0.4.9",
