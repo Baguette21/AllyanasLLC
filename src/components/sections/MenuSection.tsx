@@ -245,7 +245,7 @@ export const MenuSection = ({ orderInfo, onBack, onCheckout }: MenuSectionProps)
                     }}
                   >
                     <img 
-                      src="/bestseller.png" 
+                      src={`${API_BASE_URL}/bestseller.png`}
                       alt="Bestseller" 
                       style={{
                         width: '100%',

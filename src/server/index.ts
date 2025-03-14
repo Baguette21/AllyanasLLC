@@ -50,6 +50,9 @@ app.use(
   express.static(path.join(process.cwd(), "public", "uploads"))
 );
 
+// Serve static files from the public directory
+app.use(express.static(path.join(process.cwd(), "public")));
+
 // Use API routes
 app.use("/api/menu", menuApi);
 app.use("/api/orders", ordersApi);
