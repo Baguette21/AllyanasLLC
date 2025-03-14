@@ -14,6 +14,7 @@ import {
   reorderCategories,
   reorderMenuItems
 } from '../../data/menuData';
+import { API_BASE_URL } from '@/config/api';
 
 interface EditableMenuItem extends MenuItem {
   isEditing: boolean;
@@ -72,7 +73,7 @@ export const ManageMenuSection = ({ onBack }: ManageMenuSectionProps) => {
       formData.append('image', file);
 
       console.log('Uploading image...');
-      const response = await fetch('/api/menu/upload-image', {
+      const response = await fetch(`${API_BASE_URL}/api/menu/upload-image`, {
         method: 'POST',
         body: formData,
       });
@@ -109,7 +110,7 @@ export const ManageMenuSection = ({ onBack }: ManageMenuSectionProps) => {
       formData.append('image', file);
 
       console.log('Uploading image...');
-      const response = await fetch('http://localhost:3001/api/menu/upload-image', {
+      const response = await fetch(`${API_BASE_URL}/api/menu/upload-image`, {
         method: 'POST',
         body: formData,
       });

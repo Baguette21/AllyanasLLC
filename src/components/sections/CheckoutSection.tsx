@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useCart } from '../../context/CartContext';
+import { API_BASE_URL } from '@/config/api';
 
 interface CheckoutSectionProps {
   onBack: () => void;
@@ -73,7 +74,7 @@ export const CheckoutSection: React.FC<CheckoutSectionProps> = ({ onBack, orderI
         additionalInfo: orderInfo.additionalInfo
       };
 
-      const response = await fetch('http://localhost:3001/api/orders', {
+      const response = await fetch(`${API_BASE_URL}/api/orders`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

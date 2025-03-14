@@ -9,8 +9,7 @@
       "description": "Classic Filipino-style fried chicken with crispy skin and juicy meat",
       "image": "/uploads/1740127443934-528867604.png",
       "isAvailable": true,
-      "itemOrder": 0,
-      "isBestseller": false
+      "itemOrder": 0
     },
     {
       "id": "174012107855016",
@@ -21,8 +20,7 @@
       "description": "Tender chicken pieces tossed in rich butter garlic sauce",
       "image": "/uploads/1741792622661-468102543.png",
       "isAvailable": true,
-      "itemOrder": 1,
-      "isBestseller": false
+      "itemOrder": 1
     },
     {
       "id": "174012107855017",
@@ -33,8 +31,7 @@
       "description": "Crispy fried chicken with a spicy coating",
       "image": "/uploads/1741792635406-926036337.png",
       "isAvailable": true,
-      "itemOrder": 2,
-      "isBestseller": false
+      "itemOrder": 2
     },
     {
       "id": "174012107855018",
@@ -45,8 +42,7 @@
       "description": "Crispy chicken pieces in tangy sweet and sour sauce with bell peppers",
       "image": "/uploads/1741792743819-716059110.png",
       "isAvailable": true,
-      "itemOrder": 3,
-      "isBestseller": false
+      "itemOrder": 3
     },
     {
       "id": "174012107855019",
@@ -57,8 +53,7 @@
       "description": "Stir-fried chicken in spicy chili sauce with vegetables",
       "image": "/uploads/1741792751113-678194042.png",
       "isAvailable": true,
-      "itemOrder": 4,
-      "isBestseller": false
+      "itemOrder": 4
     },
     {
       "id": "174012107855020",
@@ -69,8 +64,7 @@
       "description": "Half portion of traditional Filipino-style fried chicken",
       "image": "/uploads/1741792785859-109972242.png",
       "isAvailable": true,
-      "itemOrder": 5,
-      "isBestseller": false
+      "itemOrder": 5
     },
     {
       "id": "174012107855021",
@@ -81,8 +75,7 @@
       "description": "Half portion of Cantonese-style roasted chicken",
       "image": "/uploads/1741792798192-637435564.png",
       "isAvailable": true,
-      "itemOrder": 6,
-      "isBestseller": false
+      "itemOrder": 6
     },
     {
       "id": "174012107855022",
@@ -93,8 +86,7 @@
       "description": "Half portion of chicken marinated and cooked in soy sauce",
       "image": "/uploads/1741792844601-707240467.png",
       "isAvailable": true,
-      "itemOrder": 7,
-      "isBestseller": false
+      "itemOrder": 7
     },
     {
       "id": "174012107855023",
@@ -105,8 +97,7 @@
       "description": "Tender beef slices stir-fried with bitter gourd in garlic sauce",
       "image": "/uploads/1741793768863-60216677.png",
       "isAvailable": true,
-      "itemOrder": 8,
-      "isBestseller": false
+      "itemOrder": 8
     },
     {
       "id": "174012107855024",
@@ -117,8 +108,7 @@
       "description": "Stir-fried beef slices with fresh broccoli in oyster sauce",
       "image": "/uploads/1741793778635-463406897.png",
       "isAvailable": true,
-      "itemOrder": 9,
-      "isBestseller": false
+      "itemOrder": 9
     },
     {
       "id": "174012107855025",
@@ -129,8 +119,7 @@
       "description": "Filipino-style beef curry with potatoes and carrots in coconut milk",
       "image": "/uploads/1741794056067-235376510.png",
       "isAvailable": true,
-      "itemOrder": 10,
-      "isBestseller": false
+      "itemOrder": 10
     },
     {
       "id": "174012107855026",
@@ -141,8 +130,7 @@
       "description": "Tender beef slices with mushrooms in savory sauce",
       "image": "/uploads/1741794066112-292976857.png",
       "isAvailable": true,
-      "itemOrder": 11,
-      "isBestseller": false
+      "itemOrder": 11
     },
     {
       "id": "174012107855027",
@@ -153,8 +141,7 @@
       "description": "Filipino-style bistek with onions in soy-calamansi sauce",
       "image": "/uploads/1741794073070-885177801.png",
       "isAvailable": true,
-      "itemOrder": 12,
-      "isBestseller": false
+      "itemOrder": 12
     },
     {
       "id": "174012107855028",
@@ -165,8 +152,7 @@
       "description": "Stir-fried beef with young corn kernels in savory sauce",
       "image": "/uploads/1741794080334-927940400.png",
       "isAvailable": true,
-      "itemOrder": 13,
-      "isBestseller": false
+      "itemOrder": 13
     },
     {
       "id": "174012107855029",
@@ -177,8 +163,7 @@
       "description": "Spicy stir-fried pork with chili sauce and vegetables",
       "image": "/uploads/1741794385234-857093672.png",
       "isAvailable": true,
-      "itemOrder": 14,
-      "isBestseller": false
+      "itemOrder": 14
     },
     {
       "id": "174012107855030",
@@ -189,8 +174,7 @@
       "description": "Crispy deep-fried pork belly",
       "image": "/uploads/1741794408532-86457625.png",
       "isAvailable": true,
-      "itemOrder": 15,
-      "isBestseller": false
+      "itemOrder": 15
     },
     {
       "id": "174012107855031",
@@ -201,8 +185,7 @@
       "description": "Filipino-style pork steak with onions in soy-calamansi sauce",
       "image": "/uploads/1741794415577-864064463.png",
       "isAvailable": true,
-      "itemOrder": 16,
-      "isBestseller": false
+      "itemOrder": 16
     },
     {
       "id": "174012107855032",
@@ -213,8 +196,7 @@
       "description": "Sour tamarind-based soup with pork and vegetables",
       "image": "/uploads/1741794438646-79049334.png",
       "isAvailable": true,
-      "itemOrder": 17,
-      "isBestseller": false
+      "itemOrder": 17
     },
     {
       "id": "174012107855033",
@@ -225,8 +207,7 @@
       "description": "Tender pork slices with mushrooms in savory sauce",
       "image": "/uploads/1741794446486-463933676.png",
       "isAvailable": true,
-      "itemOrder": 18,
-      "isBestseller": false
+      "itemOrder": 18
     },
     {
       "id": "174012107855034",
@@ -237,8 +218,7 @@
       "description": "Crispy pork in sweet and sour sauce with pineapple and bell peppers",
       "image": "/uploads/1741794466412-18128800.png",
       "isAvailable": true,
-      "itemOrder": 19,
-      "isBestseller": false
+      "itemOrder": 19
     },
     {
       "id": "174012107855035",
@@ -249,8 +229,7 @@
       "description": "Filipino-style spring rolls filled with ground pork",
       "image": "/uploads/1741794472728-623870960.png",
       "isAvailable": true,
-      "itemOrder": 20,
-      "isBestseller": false
+      "itemOrder": 20
     },
     {
       "id": "174012107855036",
@@ -261,8 +240,7 @@
       "description": "Crispy pork spareribs seasoned with salt and pepper",
       "image": "/uploads/1741794480150-978209422.png",
       "isAvailable": true,
-      "itemOrder": 21,
-      "isBestseller": false
+      "itemOrder": 21
     },
     {
       "id": "174012107855037",
@@ -273,8 +251,7 @@
       "description": "Chopped pork face and belly seasoned with calamansi and chili",
       "image": "/uploads/1741794506509-848862855.png",
       "isAvailable": true,
-      "itemOrder": 22,
-      "isBestseller": false
+      "itemOrder": 22
     },
     {
       "id": "174012107855038",
@@ -285,8 +262,7 @@
       "description": "Pork spareribs in fermented black bean sauce",
       "image": "/uploads/1741794512655-502879338.png",
       "isAvailable": true,
-      "itemOrder": 23,
-      "isBestseller": false
+      "itemOrder": 23
     },
     {
       "id": "174012107855039",
@@ -297,8 +273,7 @@
       "description": "Crispy pork belly with fermented black beans and tofu",
       "image": "/uploads/1741794518856-84349787.png",
       "isAvailable": true,
-      "itemOrder": 24,
-      "isBestseller": false
+      "itemOrder": 24
     },
     {
       "id": "174012107855040",
@@ -309,8 +284,7 @@
       "description": "Braised pork pata in sweet soy sauce with mushrooms",
       "image": "/uploads/1741794525112-421188831.png",
       "isAvailable": true,
-      "itemOrder": 25,
-      "isBestseller": false
+      "itemOrder": 25
     },
     {
       "id": "174012107855041",
@@ -321,8 +295,7 @@
       "description": "Breaded and deep-fried shrimp",
       "image": "/uploads/1741794566576-986332835.png",
       "isAvailable": true,
-      "itemOrder": 26,
-      "isBestseller": false
+      "itemOrder": 26
     },
     {
       "id": "174012107855042",
@@ -333,8 +306,7 @@
       "description": "Battered and fried shrimp",
       "image": "/uploads/1741794575495-992509414.png",
       "isAvailable": true,
-      "itemOrder": 27,
-      "isBestseller": false
+      "itemOrder": 27
     },
     {
       "id": "174012107855043",
@@ -345,8 +317,7 @@
       "description": "Sour tamarind-based soup with shrimp and vegetables",
       "image": "/uploads/1741794582654-913925400.png",
       "isAvailable": true,
-      "itemOrder": 28,
-      "isBestseller": false
+      "itemOrder": 28
     },
     {
       "id": "174012107855044",
@@ -357,8 +328,7 @@
       "description": "Stir-fried shrimp in spicy chili sauce",
       "image": "/uploads/1741794719057-277444453.png",
       "isAvailable": true,
-      "itemOrder": 29,
-      "isBestseller": false
+      "itemOrder": 29
     },
     {
       "id": "174012107855045",
@@ -369,8 +339,7 @@
       "description": "Shrimp cooked in garlic and butter",
       "image": "/uploads/1741794709086-177340173.png",
       "isAvailable": true,
-      "itemOrder": 30,
-      "isBestseller": false
+      "itemOrder": 30
     },
     {
       "id": "174012107855046",
@@ -381,8 +350,7 @@
       "description": "Salt and pepper seasoned crispy shrimp",
       "image": "/uploads/1741794725366-551082361.png",
       "isAvailable": true,
-      "itemOrder": 31,
-      "isBestseller": false
+      "itemOrder": 31
     },
     {
       "id": "174012107855047",
@@ -393,8 +361,7 @@
       "description": "Stir-fried shrimp with broccoli in garlic sauce",
       "image": "/uploads/1741794731727-156264410.png",
       "isAvailable": true,
-      "itemOrder": 32,
-      "isBestseller": false
+      "itemOrder": 32
     },
     {
       "id": "174012107855048",
@@ -405,8 +372,7 @@
       "description": "Stir-fried shrimp with assorted vegetables",
       "image": "/uploads/1741795097188-405624007.png",
       "isAvailable": true,
-      "itemOrder": 33,
-      "isBestseller": false
+      "itemOrder": 33
     },
     {
       "id": "174012107855049",
@@ -417,8 +383,7 @@
       "description": "Shrimp and mushrooms in savory sauce",
       "image": "/uploads/1741795104180-207980411.png",
       "isAvailable": true,
-      "itemOrder": 34,
-      "isBestseller": false
+      "itemOrder": 34
     },
     {
       "id": "174012107855050",
@@ -429,8 +394,7 @@
       "description": "Breaded and deep-fried squid rings",
       "image": "/uploads/1741795123351-506320694.png",
       "isAvailable": true,
-      "itemOrder": 35,
-      "isBestseller": false
+      "itemOrder": 35
     },
     {
       "id": "174012107855051",
@@ -441,8 +405,7 @@
       "description": "Crispy squid seasoned with salt and pepper",
       "image": "/uploads/1741795130314-972088373.png",
       "isAvailable": true,
-      "itemOrder": 36,
-      "isBestseller": false
+      "itemOrder": 36
     },
     {
       "id": "174012107855052",
@@ -453,8 +416,7 @@
       "description": "Tender ox tongue served on a sizzling plate",
       "image": "/uploads/1741795145312-416614303.png",
       "isAvailable": true,
-      "itemOrder": 37,
-      "isBestseller": false
+      "itemOrder": 37
     },
     {
       "id": "174012107855053",
@@ -465,8 +427,7 @@
       "description": "Mixed seafood in special sauce on a sizzling plate",
       "image": "/uploads/1741795151067-705758232.png",
       "isAvailable": true,
-      "itemOrder": 38,
-      "isBestseller": false
+      "itemOrder": 38
     },
     {
       "id": "174012107855054",
@@ -477,8 +438,7 @@
       "description": "Grilled squid served on a sizzling plate",
       "image": "/uploads/1741795157301-156091687.png",
       "isAvailable": true,
-      "itemOrder": 39,
-      "isBestseller": false
+      "itemOrder": 39
     },
     {
       "id": "174012107855055",
@@ -489,8 +449,7 @@
       "description": "Chicken in gravy sauce served on a sizzling plate",
       "image": "/uploads/1741795166759-695522324.png",
       "isAvailable": true,
-      "itemOrder": 40,
-      "isBestseller": false
+      "itemOrder": 40
     },
     {
       "id": "174012107855056",
@@ -501,8 +460,7 @@
       "description": "Chopped pork face and belly on a sizzling plate",
       "image": "/uploads/1741795172684-432848928.png",
       "isAvailable": true,
-      "itemOrder": 41,
-      "isBestseller": false
+      "itemOrder": 41
     },
     {
       "id": "174012107855057",
@@ -513,8 +471,7 @@
       "description": "Crispy fried fish fillet",
       "image": "/uploads/1741795189436-395403472.png",
       "isAvailable": true,
-      "itemOrder": 42,
-      "isBestseller": false
+      "itemOrder": 42
     },
     {
       "id": "174012107855058",
@@ -525,8 +482,7 @@
       "description": "Fish fillet in sweet and sour sauce",
       "image": "/uploads/1741795198225-752947664.png",
       "isAvailable": true,
-      "itemOrder": 43,
-      "isBestseller": false
+      "itemOrder": 43
     },
     {
       "id": "174012107855059",
@@ -537,8 +493,7 @@
       "description": "Fish fillet with fermented black beans and tofu",
       "image": "/uploads/1741795203964-492801649.png",
       "isAvailable": true,
-      "itemOrder": 44,
-      "isBestseller": false
+      "itemOrder": 44
     },
     {
       "id": "174012107855060",
@@ -549,8 +504,7 @@
       "description": "Fish fillet in creamy white sauce",
       "image": "/uploads/1741795424507-82251773.png",
       "isAvailable": true,
-      "itemOrder": 45,
-      "isBestseller": false
+      "itemOrder": 45
     },
     {
       "id": "174012107855061",
@@ -561,8 +515,7 @@
       "description": "Mixed vegetables stir-fry",
       "image": "/uploads/1741795465302-781262650.png",
       "isAvailable": true,
-      "itemOrder": 46,
-      "isBestseller": false
+      "itemOrder": 46
     },
     {
       "id": "174012107855062",
@@ -573,8 +526,7 @@
       "description": "Buddhist-style mixed vegetable dish",
       "image": "/uploads/1741795479578-350599112.png",
       "isAvailable": true,
-      "itemOrder": 47,
-      "isBestseller": false
+      "itemOrder": 47
     },
     {
       "id": "174012107855063",
@@ -585,8 +537,7 @@
       "description": "Stir-fried broccoli in garlic sauce",
       "image": "/uploads/1741795484916-223496754.png",
       "isAvailable": true,
-      "itemOrder": 48,
-      "isBestseller": false
+      "itemOrder": 48
     },
     {
       "id": "174012107855064",
@@ -597,8 +548,7 @@
       "description": "Spicy winged beans and coconut milk dish",
       "image": "/uploads/1741795490659-949685166.png",
       "isAvailable": true,
-      "itemOrder": 49,
-      "isBestseller": false
+      "itemOrder": 49
     },
     {
       "id": "174012107855065",
@@ -609,8 +559,7 @@
       "description": "Filipino-style vegetable omelet",
       "image": "/uploads/1741795495984-477525316.png",
       "isAvailable": true,
-      "itemOrder": 50,
-      "isBestseller": false
+      "itemOrder": 50
     },
     {
       "id": "174012107855066",
@@ -620,9 +569,8 @@
       "categoryOrder": 0,
       "description": "Signature whole fried chicken",
       "image": "/uploads/1741795529932-824765009.png",
-      "isAvailable": true,
-      "itemOrder": 0,
-      "isBestseller": true
+      "isAvailable": false,
+      "itemOrder": 0
     },
     {
       "id": "174012107855067",
@@ -633,8 +581,7 @@
       "description": "Whole chicken in special butter sauce",
       "image": "/uploads/1741795535349-128427212.png",
       "isAvailable": true,
-      "itemOrder": 1,
-      "isBestseller": true
+      "itemOrder": 1
     },
     {
       "id": "174012107855068",
@@ -645,8 +592,7 @@
       "description": "Whole Cantonese-style roasted chicken",
       "image": "/uploads/1741795540448-686862273.png",
       "isAvailable": true,
-      "itemOrder": 2,
-      "isBestseller": false
+      "itemOrder": 2
     },
     {
       "id": "174012107855069",
@@ -657,8 +603,7 @@
       "description": "Whole chicken marinated and cooked in special soy sauce",
       "image": "/uploads/1741795546022-902311851.png",
       "isAvailable": true,
-      "itemOrder": 3,
-      "isBestseller": false
+      "itemOrder": 3
     },
     {
       "id": "174012107855070",
@@ -669,8 +614,7 @@
       "description": "Whole chicken with special spicy coating",
       "image": "/uploads/1741795554754-278670199.png",
       "isAvailable": true,
-      "itemOrder": 4,
-      "isBestseller": false
+      "itemOrder": 4
     },
     {
       "id": "174012107855071",
@@ -681,8 +625,7 @@
       "description": "Signature deep-fried pork leg",
       "image": "/uploads/1741795564483-181146570.png",
       "isAvailable": true,
-      "itemOrder": 5,
-      "isBestseller": true
+      "itemOrder": 5
     },
     {
       "id": "174012107855072",
@@ -693,8 +636,7 @@
       "description": "Braised pork leg in special sauce",
       "image": "/uploads/1741795570618-241337458.png",
       "isAvailable": true,
-      "itemOrder": 6,
-      "isBestseller": false
+      "itemOrder": 6
     },
     {
       "id": "174012107855073",
@@ -705,8 +647,7 @@
       "description": "Whole chicken in gravy on sizzling plate",
       "image": "/uploads/1741795576025-774155597.png",
       "isAvailable": true,
-      "itemOrder": 7,
-      "isBestseller": false
+      "itemOrder": 7
     },
     {
       "id": "174012107855074",
@@ -717,8 +658,7 @@
       "description": "Crispy fried pork head",
       "image": "/uploads/1741795581318-14407512.png",
       "isAvailable": true,
-      "itemOrder": 8,
-      "isBestseller": false
+      "itemOrder": 8
     },
     {
       "id": "174012107855075",
@@ -729,8 +669,7 @@
       "description": "Braised ox tongue asado-style",
       "image": "/uploads/1741795593720-217821472.png",
       "isAvailable": true,
-      "itemOrder": 60,
-      "isBestseller": false
+      "itemOrder": 60
     },
     {
       "id": "174012107855076",
@@ -741,8 +680,7 @@
       "description": "Special pork asado",
       "image": "/uploads/1741795599162-337289260.png",
       "isAvailable": true,
-      "itemOrder": 61,
-      "isBestseller": false
+      "itemOrder": 61
     },
     {
       "id": "174012107855077",
@@ -753,8 +691,7 @@
       "description": "Mix of different asado varieties",
       "image": "/uploads/1741795603885-173951066.png",
       "isAvailable": true,
-      "itemOrder": 62,
-      "isBestseller": false
+      "itemOrder": 62
     },
     {
       "id": "174012107855078",
@@ -765,8 +702,7 @@
       "description": "Chinese-inspired soup with mixed meat and vegetables",
       "image": "/uploads/1741795627925-432387958.png",
       "isAvailable": true,
-      "itemOrder": 63,
-      "isBestseller": false
+      "itemOrder": 63
     },
     {
       "id": "174012107855079",
@@ -777,8 +713,7 @@
       "description": "Clear glass noodle soup with vegetables",
       "image": "/uploads/1741795633895-647033084.png",
       "isAvailable": true,
-      "itemOrder": 64,
-      "isBestseller": false
+      "itemOrder": 64
     },
     {
       "id": "174012107855080",
@@ -789,8 +724,7 @@
       "description": "Chicken and mushroom soup",
       "image": "/uploads/1741795639890-902255676.png",
       "isAvailable": true,
-      "itemOrder": 65,
-      "isBestseller": false
+      "itemOrder": 65
     },
     {
       "id": "174012107855081",
@@ -801,8 +735,7 @@
       "description": "Thin rice noodles stir-fry",
       "image": "/uploads/1741795655590-878552990.png",
       "isAvailable": true,
-      "itemOrder": 66,
-      "isBestseller": false
+      "itemOrder": 66
     },
     {
       "id": "174012107855082",
@@ -813,8 +746,7 @@
       "description": "Yellow wheat noodles stir-fry",
       "image": "/uploads/1741795661159-589341589.png",
       "isAvailable": true,
-      "itemOrder": 67,
-      "isBestseller": false
+      "itemOrder": 67
     },
     {
       "id": "174012107855083",
@@ -825,8 +757,7 @@
       "description": "Combination of rice and wheat noodles stir-fry",
       "image": "/uploads/1741795667010-608368031.png",
       "isAvailable": true,
-      "itemOrder": 68,
-      "isBestseller": false
+      "itemOrder": 68
     },
     {
       "id": "174012107855084",
@@ -837,8 +768,7 @@
       "description": "Dark soy sauce based noodle dish",
       "image": "/uploads/1741795672928-487103038.png",
       "isAvailable": true,
-      "itemOrder": 69,
-      "isBestseller": false
+      "itemOrder": 69
     },
     {
       "id": "174012107855085",
@@ -849,8 +779,7 @@
       "description": "Thick egg noodles in thick savory soup",
       "image": "/uploads/1741795678791-27662739.png",
       "isAvailable": true,
-      "itemOrder": 70,
-      "isBestseller": false
+      "itemOrder": 70
     },
     {
       "id": "174012107855086",
@@ -861,8 +790,7 @@
       "description": "Combination of egg and rice noodles",
       "image": "/uploads/1741795684228-637687188.png",
       "isAvailable": true,
-      "itemOrder": 71,
-      "isBestseller": false
+      "itemOrder": 71
     },
     {
       "id": "174012107855087",
@@ -873,8 +801,7 @@
       "description": "Stir-fried glass noodles with vegetables and meat",
       "image": "/uploads/1741795689804-423607323.png",
       "isAvailable": true,
-      "itemOrder": 72,
-      "isBestseller": false
+      "itemOrder": 72
     },
     {
       "id": "174012107855088",
@@ -885,8 +812,7 @@
       "description": "Rice topped with buttered chicken and soup",
       "image": "/uploads/1741795709502-550416978.png",
       "isAvailable": true,
-      "itemOrder": 73,
-      "isBestseller": false
+      "itemOrder": 73
     },
     {
       "id": "174012107855089",
@@ -897,8 +823,7 @@
       "description": "Rice topped with crispy pork belly and soup",
       "image": "/uploads/1741795980861-852234623.png",
       "isAvailable": true,
-      "itemOrder": 74,
-      "isBestseller": false
+      "itemOrder": 74
     },
     {
       "id": "174012107855090",
@@ -909,8 +834,7 @@
       "description": "Rice topped with mixed vegetables and soup",
       "image": "/uploads/1741795990009-432988747.png",
       "isAvailable": true,
-      "itemOrder": 75,
-      "isBestseller": false
+      "itemOrder": 75
     },
     {
       "id": "174012107855091",
@@ -921,8 +845,7 @@
       "description": "Rice topped with sizzling sisig and soup",
       "image": "/uploads/1741796007857-242050592.png",
       "isAvailable": true,
-      "itemOrder": 76,
-      "isBestseller": false
+      "itemOrder": 76
     },
     {
       "id": "174012107855092",
@@ -933,8 +856,7 @@
       "description": "Rice topped with spicy chicken and soup",
       "image": "/uploads/1741796219863-136624866.png",
       "isAvailable": true,
-      "itemOrder": 77,
-      "isBestseller": false
+      "itemOrder": 77
     },
     {
       "id": "174012107855093",
@@ -945,8 +867,7 @@
       "description": "Rice topped with beef steak and soup",
       "image": "/uploads/1741796231515-761178239.png",
       "isAvailable": true,
-      "itemOrder": 78,
-      "isBestseller": false
+      "itemOrder": 78
     },
     {
       "id": "174012107855094",
@@ -957,8 +878,7 @@
       "description": "Steamed white rice",
       "image": "/uploads/1741796272476-166143154.png",
       "isAvailable": true,
-      "itemOrder": 79,
-      "isBestseller": false
+      "itemOrder": 79
     },
     {
       "id": "174012107855095",
@@ -969,8 +889,7 @@
       "description": "Fried rice with garlic",
       "image": "/uploads/1741796981514-12128343.png",
       "isAvailable": true,
-      "itemOrder": 80,
-      "isBestseller": false
+      "itemOrder": 80
     },
     {
       "id": "174012107855096",
@@ -981,8 +900,7 @@
       "description": "Chinese-style fried rice with mixed vegetables and meat",
       "image": "/uploads/1741796987115-764441242.png",
       "isAvailable": true,
-      "itemOrder": 81,
-      "isBestseller": false
+      "itemOrder": 81
     },
     {
       "id": "174012107855097",
@@ -993,8 +911,7 @@
       "description": "Regular-sized Coke Royal or Sprite",
       "image": "/uploads/1741797411560-504059473.png",
       "isAvailable": true,
-      "itemOrder": 82,
-      "isBestseller": false
+      "itemOrder": 82
     },
     {
       "id": "174012107855098",
@@ -1005,8 +922,7 @@
       "description": "1.5 liter Coke Royal or Sprite",
       "image": "/uploads/1741797585455-921410589.png",
       "isAvailable": true,
-      "itemOrder": 83,
-      "isBestseller": false
+      "itemOrder": 83
     },
     {
       "id": "174012107855099",
@@ -1017,8 +933,7 @@
       "description": "Bottled mineral water",
       "image": "/uploads/1741797815902-617741411.png",
       "isAvailable": true,
-      "itemOrder": 84,
-      "isBestseller": false
+      "itemOrder": 84
     }
   ],
   "categories": [
@@ -1098,5 +1013,5 @@
       "order": 14
     }
   ],
-  "lastUpdated": "2025-03-14T13:58:40.257Z"
+  "lastUpdated": "2025-03-14T17:03:16.176Z"
 }

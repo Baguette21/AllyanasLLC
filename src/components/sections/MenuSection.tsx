@@ -1,6 +1,7 @@
 import React, { useState, useRef, useEffect } from "react";
 import { useCart } from '../../context/CartContext';
 import { Cart } from '../Cart';
+import { API_BASE_URL } from '@/config/api';
 
 interface MenuItem {
   id: string;
@@ -62,7 +63,7 @@ export const MenuSection = ({ orderInfo, onBack, onCheckout }: MenuSectionProps)
   useEffect(() => {
     const fetchMenuData = async () => {
       try {
-        const response = await fetch('http://localhost:3001/api/menu');
+        const response = await fetch(`${API_BASE_URL}/api/menu`);
         const data = await response.json() as MenuData;
         
         // Sort categories by their order

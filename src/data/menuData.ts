@@ -27,7 +27,8 @@ interface CategoryUpdateRequest {
   oldCategoryName: string;
 }
 
-const API_URL = 'http://localhost:3001/api';
+import { API_BASE_URL } from '@/config/api';
+const API_URL = `${API_BASE_URL}/api`;
 
 const MAX_BULK_ITEMS = 50;
 
