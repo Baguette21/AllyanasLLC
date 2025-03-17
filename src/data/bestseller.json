@@ -3,513 +3,428 @@
     {
       "id": "174012107855015",
       "name": "Crispy Chicken",
-      "quantity": 0,
-      "category": "Chicken"
+      "quantity": 0
     },
     {
       "id": "174012107855016",
       "name": "Buttered Chicken",
-      "quantity": 0,
-      "category": "Chicken"
+      "quantity": 0
     },
     {
       "id": "174012107855017",
       "name": "Spicy Chicken",
-      "quantity": 0,
-      "category": "Chicken"
+      "quantity": 0
     },
     {
       "id": "174012107855018",
       "name": "Sweet & Sour Chicken",
-      "quantity": 0,
-      "category": "Chicken"
+      "quantity": 0
     },
     {
       "id": "174012107855019",
       "name": "Chili Chicken",
-      "quantity": 0,
-      "category": "Chicken"
+      "quantity": 0
     },
     {
       "id": "174012107855020",
       "name": "Fried Chicken (HALF)",
-      "quantity": 0,
-      "category": "Chicken"
+      "quantity": 0
     },
     {
       "id": "174012107855021",
       "name": "Hongkong Chicken (HALF)",
-      "quantity": 0,
-      "category": "Chicken"
+      "quantity": 0
     },
     {
       "id": "174012107855022",
       "name": "Soy Chicken (HALF)",
-      "quantity": 0,
-      "category": "Chicken"
+      "quantity": 0
     },
     {
       "id": "174012107855023",
       "name": "Beef Ampalaya",
-      "quantity": 0,
-      "category": "Beef"
+      "quantity": 0
     },
     {
       "id": "174012107855024",
       "name": "Beef Broccoli",
-      "quantity": 0,
-      "category": "Beef"
+      "quantity": 0
     },
     {
       "id": "174012107855025",
       "name": "Beef Curry",
-      "quantity": 0,
-      "category": "Beef"
+      "quantity": 0
     },
     {
       "id": "174012107855026",
       "name": "Beef Mushroom",
-      "quantity": 0,
-      "category": "Beef"
+      "quantity": 0
     },
     {
       "id": "174012107855027",
       "name": "Beef Steak",
-      "quantity": 0,
-      "category": "Beef"
+      "quantity": 0
     },
     {
       "id": "174012107855028",
       "name": "Beef Young Corn",
-      "quantity": 0,
-      "category": "Beef"
+      "quantity": 0
     },
     {
       "id": "174012107855029",
       "name": "Chili Pork",
-      "quantity": 0,
-      "category": "Pork"
+      "quantity": 0
     },
     {
       "id": "174012107855030",
       "name": "Lechong Kawali",
-      "quantity": 0,
-      "category": "Pork"
+      "quantity": 0
     },
     {
       "id": "174012107855031",
       "name": "Pork Steak",
-      "quantity": 0,
-      "category": "Pork"
+      "quantity": 0
     },
     {
       "id": "174012107855032",
       "name": "Sinigang na Baboy",
-      "quantity": 0,
-      "category": "Pork"
+      "quantity": 0
     },
     {
       "id": "174012107855033",
       "name": "Pork Mushroom",
-      "quantity": 0,
-      "category": "Pork"
+      "quantity": 0
     },
     {
       "id": "174012107855034",
       "name": "Sweet & Sour Pork",
-      "quantity": 0,
-      "category": "Pork"
+      "quantity": 0
     },
     {
       "id": "174012107855035",
       "name": "Lumpiang Shanghai",
-      "quantity": 0,
-      "category": "Pork"
+      "quantity": 0
     },
     {
       "id": "174012107855036",
       "name": "Salt & Peper Spareribs",
-      "quantity": 0,
-      "category": "Pork"
+      "quantity": 0
     },
     {
       "id": "174012107855037",
       "name": "Sisig",
-      "quantity": 0,
-      "category": "Pork"
+      "quantity": 0
     },
     {
       "id": "174012107855038",
       "name": "Spareribs in Tausi Sauce",
-      "quantity": 0,
-      "category": "Pork"
+      "quantity": 0
     },
     {
       "id": "174012107855039",
       "name": "Lechong Kawali with Tausi & Tofu",
-      "quantity": 0,
-      "category": "Pork"
+      "quantity": 0
     },
     {
       "id": "174012107855040",
       "name": "Patatim (HALF)",
-      "quantity": 0,
-      "category": "Pork"
+      "quantity": 0
     },
     {
       "id": "174012107855041",
       "name": "Crispy Shrimp",
-      "quantity": 0,
-      "category": "Shrimp"
+      "quantity": 0
     },
     {
       "id": "174012107855042",
       "name": "Camaroon Rebusado",
-      "quantity": 0,
-      "category": "Shrimp"
+      "quantity": 0
     },
     {
       "id": "174012107855043",
       "name": "Sinigang na Hipon",
-      "quantity": 0,
-      "category": "Shrimp"
+      "quantity": 0
     },
     {
       "id": "174012107855044",
       "name": "Chili Shrimp",
-      "quantity": 0,
-      "category": "Shrimp"
+      "quantity": 0
     },
     {
       "id": "174012107855045",
       "name": "Halabos",
-      "quantity": 0,
-      "category": "Shrimp"
+      "quantity": 0
     },
     {
       "id": "174012107855046",
       "name": "Shrimp with Salt & Pepper",
-      "quantity": 0,
-      "category": "Shrimp"
+      "quantity": 0
     },
     {
       "id": "174012107855047",
       "name": "Shrimp Broccoli",
-      "quantity": 0,
-      "category": "Shrimp"
+      "quantity": 0
     },
     {
       "id": "174012107855048",
       "name": "Shrimp Mixed Vegetables",
-      "quantity": 0,
-      "category": "Shrimp"
+      "quantity": 0
     },
     {
       "id": "174012107855049",
       "name": "Shrimp Mushroom",
-      "quantity": 0,
-      "category": "Shrimp"
+      "quantity": 0
     },
     {
       "id": "174012107855050",
       "name": "Calamares",
-      "quantity": 0,
-      "category": "Squid"
+      "quantity": 0
     },
     {
       "id": "174012107855051",
       "name": "Salt & Pepper Squid",
-      "quantity": 0,
-      "category": "Squid"
+      "quantity": 0
     },
     {
       "id": "174012107855052",
       "name": "Sizzling Lengua",
-      "quantity": 0,
-      "category": "Sizzling"
+      "quantity": 0
     },
     {
       "id": "174012107855053",
       "name": "Sizzling Mixed Seafood",
-      "quantity": 0,
-      "category": "Sizzling"
+      "quantity": 0
     },
     {
       "id": "174012107855054",
       "name": "Sizzling Pusit",
-      "quantity": 0,
-      "category": "Sizzling"
+      "quantity": 0
     },
     {
       "id": "174012107855055",
       "name": "Sizzling Chicken",
-      "quantity": 0,
-      "category": "Sizzling"
+      "quantity": 0
     },
     {
       "id": "174012107855056",
       "name": "Sizzling Sisig",
-      "quantity": 0,
-      "category": "Sizzling"
+      "quantity": 0
     },
     {
       "id": "174012107855057",
       "name": "Fish Fillet Fried",
-      "quantity": 0,
-      "category": "Fish"
+      "quantity": 0
     },
     {
       "id": "174012107855058",
       "name": "Sweet & Sour Fish",
-      "quantity": 0,
-      "category": "Fish"
+      "quantity": 0
     },
     {
       "id": "174012107855059",
       "name": "Fish Fillet with Tausi & Tofu",
-      "quantity": 0,
-      "category": "Fish"
+      "quantity": 0
     },
     {
       "id": "174012107855060",
       "name": "Fish Fillet in White Sauce",
-      "quantity": 0,
-      "category": "Fish"
+      "quantity": 0
     },
     {
       "id": "174012107855061",
       "name": "Chopsuey",
-      "quantity": 0,
-      "category": "Vegetables"
+      "quantity": 0
     },
     {
       "id": "174012107855062",
       "name": "Lohan Chay",
-      "quantity": 0,
-      "category": "Vegetables"
+      "quantity": 0
     },
     {
       "id": "174012107855063",
       "name": "Broccoli",
-      "quantity": 0,
-      "category": "Vegetables"
+      "quantity": 0
     },
     {
       "id": "174012107855064",
       "name": "Gising - Gising",
-      "quantity": 0,
-      "category": "Vegetables"
+      "quantity": 0
     },
     {
       "id": "174012107855065",
       "name": "Tortang Macao",
-      "quantity": 0,
-      "category": "Vegetables"
+      "quantity": 0
     },
     {
       "id": "174012107855066",
       "name": "Yana's Fried Chicken",
-      "quantity": 0,
-      "category": "House Specialty"
+      "quantity": 0
     },
     {
       "id": "174012107855067",
       "name": "Yana's Buttered Chicken",
-      "quantity": 0,
-      "category": "House Specialty"
+      "quantity": 0
     },
     {
       "id": "174012107855068",
       "name": "Yana's Hongkong Chicken",
-      "quantity": 0,
-      "category": "House Specialty"
+      "quantity": 0
     },
     {
       "id": "174012107855069",
       "name": "Yana's Soy Chicken",
-      "quantity": 0,
-      "category": "House Specialty"
+      "quantity": 0
     },
     {
       "id": "174012107855070",
       "name": "Yana's Spicy Chicken",
-      "quantity": 0,
-      "category": "House Specialty"
+      "quantity": 0
     },
     {
       "id": "174012107855071",
       "name": "Yana's Crispy Pata",
-      "quantity": 0,
-      "category": "House Specialty"
+      "quantity": 0
     },
     {
       "id": "174012107855072",
       "name": "Yana's Patatim",
-      "quantity": 0,
-      "category": "House Specialty"
+      "quantity": 0
     },
     {
       "id": "174012107855073",
       "name": "Yana's Whole Sizzling Chicken",
-      "quantity": 0,
-      "category": "House Specialty"
+      "quantity": 0
     },
     {
       "id": "174012107855074",
       "name": "Yana's Crispy Ulo",
-      "quantity": 0,
-      "category": "House Specialty"
+      "quantity": 0
     },
     {
       "id": "174012107855075",
       "name": "Asadong Dila",
-      "quantity": 0,
-      "category": "Asado"
+      "quantity": 0
     },
     {
       "id": "174012107855076",
       "name": "Asadong Tito",
-      "quantity": 0,
-      "category": "Asado"
+      "quantity": 0
     },
     {
       "id": "174012107855077",
       "name": "Assorted Asado",
-      "quantity": 0,
-      "category": "Asado"
+      "quantity": 0
     },
     {
       "id": "174012107855078",
       "name": "Hototay",
-      "quantity": 0,
-      "category": "Soup"
+      "quantity": 0
     },
     {
       "id": "174012107855079",
       "name": "Sotanghon Soup",
-      "quantity": 0,
-      "category": "Soup"
+      "quantity": 0
     },
     {
       "id": "174012107855080",
       "name": "Chicken Mushroom",
-      "quantity": 0,
-      "category": "Soup"
+      "quantity": 0
     },
     {
       "id": "174012107855081",
       "name": "Bihon",
-      "quantity": 0,
-      "category": "Noodles"
+      "quantity": 0
     },
     {
       "id": "174012107855082",
       "name": "Canton",
-      "quantity": 0,
-      "category": "Noodles"
+      "quantity": 0
     },
     {
       "id": "174012107855083",
       "name": "Canton Bihon",
-      "quantity": 0,
-      "category": "Noodles"
+      "quantity": 0
     },
     {
       "id": "174012107855084",
       "name": "Chami",
-      "quantity": 0,
-      "category": "Noodles"
+      "quantity": 0
     },
     {
       "id": "174012107855085",
       "name": "Lomi",
-      "quantity": 0,
-      "category": "Noodles"
+      "quantity": 0
     },
     {
       "id": "174012107855086",
       "name": "Miki Bihon",
-      "quantity": 0,
-      "category": "Noodles"
+      "quantity": 0
     },
     {
       "id": "174012107855087",
       "name": "Sotanghon Guisado",
-      "quantity": 0,
-      "category": "Noodles"
+      "quantity": 0
     },
     {
       "id": "174012107855088",
       "name": "Buttered Chicken",
-      "quantity": 0,
-      "category": "Rice Toppings"
+      "quantity": 0
     },
     {
       "id": "174012107855089",
       "name": "Lechong Kawali",
-      "quantity": 0,
-      "category": "Rice Toppings"
+      "quantity": 0
     },
     {
       "id": "174012107855090",
       "name": "Chopsuey",
-      "quantity": 0,
-      "category": "Rice Toppings"
+      "quantity": 0
     },
     {
       "id": "174012107855091",
       "name": "Sisig",
-      "quantity": 0,
-      "category": "Rice Toppings"
+      "quantity": 0
     },
     {
       "id": "174012107855092",
       "name": "Chili Chicken",
-      "quantity": 0,
-      "category": "Rice Toppings"
+      "quantity": 0
     },
     {
       "id": "174012107855093",
       "name": "Beef Steak",
-      "quantity": 0,
-      "category": "Rice Toppings"
+      "quantity": 0
     },
     {
       "id": "174012107855094",
       "name": "Plain",
-      "quantity": 0,
-      "category": "Rice"
+      "quantity": 0
     },
     {
       "id": "174012107855095",
       "name": "Garlic Rice",
-      "quantity": 0,
-      "category": "Rice"
+      "quantity": 0
     },
     {
       "id": "174012107855096",
       "name": "Yang Chow Rice",
-      "quantity": 0,
-      "category": "Rice"
+      "quantity": 0
     },
     {
       "id": "174012107855097",
       "name": "MISMO",
-      "quantity": 0,
-      "category": "Drinks"
+      "quantity": 0
     },
     {
       "id": "174012107855098",
       "name": "1.5",
-      "quantity": 0,
-      "category": "Drinks"
+      "quantity": 0
     },
     {
       "id": "174012107855099",
       "name": "Mineral Water",
-      "quantity": 0,
-      "category": "Drinks"
+      "quantity": 0
     }
   ],
-  "lastUpdated": "2025-03-14T17:13:15.663Z"
+  "lastUpdated": "2025-03-17T11:41:16.190Z"
 }

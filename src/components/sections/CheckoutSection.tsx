@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useCart } from '../../context/CartContext';
+import { Header } from '@/components/layout/Header'; 
 import { API_BASE_URL } from '@/config/api';
 
 interface CheckoutSectionProps {
@@ -111,22 +112,22 @@ export const CheckoutSection: React.FC<CheckoutSectionProps> = ({ onBack, orderI
   };
 
   return (
-    <section className="bg-[rgba(245,242,238,1)] min-h-screen">
+    <>
+    <Header isSticky />
+    <section className="bg-[#F5F2EE] min-h-[836px]">
       <div className="container mx-auto px-4 py-6">
-        {/* Header */}
         <div className="flex justify-between items-center mb-8">
-          <h2 className="text-2xl font-bold">Checkout</h2>
+          <h2 className="text-2xl font-bold text-[#473E1D]">Checkout</h2>
           <button
             onClick={onBack}
-            className="bg-[#4CAF50] text-white px-6 py-2 rounded-lg hover:bg-[#45a049] transition-colors"
+            className="text-[#473E1D] px-6 py-2 rounded-lg hover:bg-[#E3E2E1] transition-colors"
           >
-            Back to Menu
+            Add More Items
           </button>
         </div>
 
-        {/* Order Summary */}
-        <div className="bg-white rounded-lg shadow-md p-6 mb-8">
-          <h3 className="text-xl font-semibold mb-4">Order Summary</h3>
+        <div className="bg-[#F5F2EE] rounded-lg shadow-md p-6 mb-8 border-2 border-[#473E1D]">
+          <h3 className="text-xl font-semibold mb-4 text-[#473E1D]">Order Summary</h3>
           <div className="space-y-4">
             {/* Order Info */}
             <div className="pb-4 border-b">
@@ -143,8 +144,6 @@ export const CheckoutSection: React.FC<CheckoutSectionProps> = ({ onBack, orderI
                 <p>Additional Info: {orderInfo.additionalInfo}</p>
               )}
             </div>
-
-            {/* Items */}
             <div className="space-y-2">
               {items.map((item, index) => (
                 <div key={`${item.item_name}-${index}`} className="flex justify-between">
@@ -156,7 +155,6 @@ export const CheckoutSection: React.FC<CheckoutSectionProps> = ({ onBack, orderI
               ))}
             </div>
 
-            {/* Total */}
             <div className="pt-4 border-t">
               <div className="flex justify-between text-xl font-bold">
                 <span>Total</span>
@@ -166,7 +164,6 @@ export const CheckoutSection: React.FC<CheckoutSectionProps> = ({ onBack, orderI
           </div>
         </div>
 
-        {/* Confirm Order Button */}
         <div className="flex justify-end">
           <button
             onClick={handleConfirmOrder}
@@ -182,5 +179,6 @@ export const CheckoutSection: React.FC<CheckoutSectionProps> = ({ onBack, orderI
         </div>
       </div>
     </section>
+    </>
   );
 };

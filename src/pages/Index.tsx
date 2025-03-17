@@ -160,19 +160,28 @@ const Index = () => {
   };
 
   const footerBg =
-    currentSection === "login" ||
-    currentSection === "homepage" ||
-    currentSection === "check-orders" ||
-    currentSection === "completed-orders" ||
-    currentSection === "staff-menu" ||
-    currentSection === "staff-data"
-      ? "#94332d"
-      : "#F5F2EE";
+  currentSection === "login" ||
+  currentSection === "homepage" ||
+  currentSection === "check-orders" ||
+  currentSection === "completed-orders" ||
+  currentSection === "staff-menu" ||
+  currentSection === "staff-data"
+    ? "#94332d"
+    : currentSection === "contact"
+    ? "#473E1D"
+    : currentSection === "order-type"
+    ? "#892C28"
+    : "#F5F2EE";
 
   return (
     <CartProvider>
       <div className="min-h-screen flex flex-col">
-        {currentSection !== "startup" && currentSection !== "login" && (
+        {currentSection !== "startup" && 
+        currentSection !== "login" && 
+        currentSection !== "order-type" && 
+        currentSection !== "menu" && 
+        currentSection !== "checkout" &&
+        currentSection !== "contact" &&(
           <Header />
         )}
         <main className="flex-grow">{renderSection()}</main>

@@ -21,12 +21,12 @@ export const Cart: React.FC<CartProps> = ({ onCheckout }) => {
       {/* Cart Button */}
       <button
         onClick={() => setIsOpen(!isOpen)}
-        className="bg-[rgba(148,51,45,1)] text-white p-4 rounded-full shadow-lg hover:bg-[rgba(148,51,45,0.8)] transition-colors relative"
+        className="bg-[#473E1D] text-white p-4 rounded-full shadow-lg hover:bg-[#5c4f26] transition-colors relative"
       >
         <span className="sr-only">Shopping Cart</span>
         🛒
         {totalItems > 0 && (
-          <span className="absolute -top-2 -right-2 bg-[rgba(238,167,51,1)] text-black w-6 h-6 rounded-full flex items-center justify-center text-sm font-bold">
+          <span className="absolute -top-2 -right-2 bg-[#EEA733] text-black w-6 h-6 rounded-full flex items-center justify-center text-sm font-bold">
             {totalItems}
           </span>
         )}
@@ -34,10 +34,10 @@ export const Cart: React.FC<CartProps> = ({ onCheckout }) => {
 
       {/* Cart Panel */}
       {isOpen && (
-        <div className="absolute bottom-16 right-0 w-96 bg-white rounded-lg shadow-xl">
+        <div className="absolute bottom-16 right-0 w-96 bg-[#F5F2EE] rounded-lg shadow-xl border-2 border-[#473E1D]">
           <div className="p-4">
             <div className="flex justify-between items-center mb-4">
-              <h3 className="text-lg font-semibold">Your Cart</h3>
+              <h3 className="text-lg font-semibold text-[#473E1D]">Your Cart</h3>
               <button
                 onClick={() => setIsOpen(false)}
                 className="text-gray-500 hover:text-gray-700"
@@ -58,7 +58,7 @@ export const Cart: React.FC<CartProps> = ({ onCheckout }) => {
                     >
                       <div className="flex-1">
                         <h4 className="font-medium">{item.item_name}</h4>
-                        <p className="text-sm text-gray-500">₱{item.price.toFixed(2)}</p>
+                        <p className="text-sm ">₱{item.price.toFixed(2)}</p>
                       </div>
                       <div className="flex items-center gap-2">
                         <button
@@ -90,7 +90,7 @@ export const Cart: React.FC<CartProps> = ({ onCheckout }) => {
                     <span className="font-bold">₱{total.toFixed(2)}</span>
                   </div>
                   <button
-                    className="w-full bg-[rgba(148,51,45,1)] text-white py-2 rounded-lg hover:bg-[rgba(148,51,45,0.8)] transition-colors"
+                    className="w-full bg-[#473E1D] text-white py-2 rounded-lg hover:bg-[#5c4f26] transition-colors"
                     onClick={handleCheckout}
                   >
                     Proceed to Checkout

@@ -1,3 +1,32 @@
 {
-  "orders": []
+  "orders": [
+    {
+      "id": "ORD001",
+      "orderType": "dine-in",
+      "customerName": "Table Order",
+      "table": "1",
+      "contactNumber": null,
+      "timeOfOrder": "2025-03-17T11:35:18.938Z",
+      "price": 2070,
+      "items": [
+        {
+          "name": "Yana's Fried Chicken",
+          "quantity": 1
+        },
+        {
+          "name": "Yana's Buttered Chicken",
+          "quantity": 1
+        },
+        {
+          "name": "Yana's Crispy Pata",
+          "quantity": 1
+        },
+        {
+          "name": "Yana's Patatim",
+          "quantity": 1
+        }
+      ],
+      "additionalInfo": "Hello"
+    }
+  ]
 }
