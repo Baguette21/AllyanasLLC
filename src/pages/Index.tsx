@@ -101,7 +101,9 @@ const Index = () => {
           <ManageMenuSection onBack={() => setCurrentSection("homepage")} />
         );
         case "staff-data":
-          return <SalesDataSection />;
+          return <SalesDataSection 
+          onBack={() => setCurrentSection("homepage")}
+          />;
         
       case "check-orders":
         return (
