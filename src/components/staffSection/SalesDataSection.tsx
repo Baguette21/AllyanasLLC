@@ -3,9 +3,19 @@ import { useNavigate } from "react-router-dom";
 import { BarChart, Bar, XAxis, YAxis, Tooltip, Legend, ResponsiveContainer } from "recharts";
 import completedOrdersData from "@/data/CompletedOrders.json";
 
-export const SalesDataSection: React.FC = () => {
+interface SalesDataSectionProps {
+  onBack?: () => void;
+}
+
+export const SalesDataSection: React.FC<SalesDataSectionProps> = ({ onBack }) => {
   const navigate = useNavigate();
-  const onBack = () => navigate(-1);
+  const handleBack = () => {
+    if (onBack) {
+      onBack();
+    } else {
+      navigate(-1);
+    }
+  };
   const [totalSalesToday, setTotalSalesToday] = useState(0);
   const [totalOrders, setTotalOrders] = useState(0);
   const [productsSold, setProductsSold] = useState(0);
@@ -89,7 +99,7 @@ export const SalesDataSection: React.FC = () => {
     <div className="bg-[#7A2E24] text-white p-6 rounded-lg shadow-lg">
       <div className="flex justify-between items-center mb-4">
         <div className="flex gap-4">
-          <button onClick={onBack} className="text-[#473E1D] hover:text-[#5C4F26] transition-colors">
+          <button onClick={handleBack} className="text-[#473E1D] hover:text-[#5C4F26] transition-colors">
             ← Back
           </button>
           <button onClick={exportCSV} className="bg-green-500 px-4 py-2 rounded-md hover:bg-green-600">
