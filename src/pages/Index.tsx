@@ -100,15 +100,9 @@ const Index = () => {
         return (
           <ManageMenuSection onBack={() => setCurrentSection("homepage")} />
         );
-      case "staff-data":
-        return (
-          <SalesDataSection
-            totalSales={10000}
-            totalOrders={250}
-            productsSold={500}
-            newCustomers={50}
-          />
-        );
+        case "staff-data":
+          return <SalesDataSection />;
+        
       case "check-orders":
         return (
           <div>
