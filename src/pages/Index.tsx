@@ -100,11 +100,18 @@ const Index = () => {
         return (
           <ManageMenuSection onBack={() => setCurrentSection("homepage")} />
         );
+<<<<<<< HEAD
         case "staff-data":
           return <SalesDataSection 
           onBack={() => setCurrentSection("homepage")}
           />;
         
+=======
+      case "staff-data":
+        return (
+          <SalesDataSection onBack={() => setCurrentSection("homepage")} />
+        );
+>>>>>>> 8db2584d31f8b0ddd3da92b2996000e409a11c26
       case "check-orders":
         return (
           <div>

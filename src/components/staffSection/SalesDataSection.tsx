@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { BarChart, Bar, XAxis, YAxis, Tooltip, Legend, ResponsiveContainer } from "recharts";
 import completedOrdersData from "@/data/CompletedOrders.json";
 
+<<<<<<< HEAD
 //THIS IS WHERE THE BACK BUTTON STARTS
 interface SalesProps {
   onBack: () => void;
@@ -10,6 +11,21 @@ interface SalesProps {
 
 export const SalesDataSection: React.FC<SalesProps>= ({ onBack }) => {
   const navigate = useNavigate();
+=======
+interface SalesDataSectionProps {
+  onBack?: () => void;
+}
+
+export const SalesDataSection: React.FC<SalesDataSectionProps> = ({ onBack }) => {
+  const navigate = useNavigate();
+  const handleBack = () => {
+    if (onBack) {
+      onBack();
+    } else {
+      navigate(-1);
+    }
+  };
+>>>>>>> 8db2584d31f8b0ddd3da92b2996000e409a11c26
   const [totalSalesToday, setTotalSalesToday] = useState(0);
   const [totalOrders, setTotalOrders] = useState(0);
   const [productsSold, setProductsSold] = useState(0);
@@ -93,11 +109,16 @@ export const SalesDataSection: React.FC<SalesProps>= ({ onBack }) => {
     <div className="bg-mt-6 p-6 bg-[#5A1E16] rounded-lg">
       <div className="flex justify-between items-center mb-4">
         <div className="flex gap-4">
+<<<<<<< HEAD
           <button 
             onClick={onBack} 
             className="bg-white text-[#473e1d] px-4 py-2 rounded-md hover:bg-gray-100 transition-colors"
           >
             Back
+=======
+          <button onClick={handleBack} className="text-[#473E1D] hover:text-[#5C4F26] transition-colors">
+            ← Back
+>>>>>>> 8db2584d31f8b0ddd3da92b2996000e409a11c26
           </button>
           <button onClick={exportCSV} className="bg-green-500 px-4 py-2 rounded-md hover:bg-green-600">
             Export CSV
