@@ -105,41 +105,11 @@ export const SalesDataSection: React.FC<SalesProps>= ({ onBack }) => {
         </div>
       </div>
 
-      {/*The four boxes*/}
-      <div className="flex items-start gap-6 h-screen">
-          <div className="bg-white p-6 rounded-lg shadow-md h-full flex flex-col items-center w-[25%]">
-            <h1 className="text-2xl font-bold mb-4">Today's Sales</h1>
-            <div className="grid grid-cols-1 gap-4 w-full h-full">
-              <div className="bg-[#3E5423] p-4 rounded-lg flex flex-col justify-between h-full">
-                <h2 className="text-xl font-bold">Total Sales Today</h2>
-                <p className="text-5xl text-center font-bold">₱{totalSalesToday}</p>
-                <p className="text-sm text-green-400"></p>
-            </div>
-
-            <div className="bg-[#D98E04] p-4 rounded-lg flex flex-col justify-between h-full">
-              <h2 className="text-xl font-bold">Total Orders</h2>
-              <p className="text-5xl text-center font-bold">{totalOrders}</p>
-              <p className="text-sm text-yellow-400"></p>
-            </div>
-
-            <div className="bg-[#D98E04] p-4 rounded-lg flex flex-col justify-between h-full">
-              <h2 className="text-xl font-bold">Products Sold</h2>
-              <p className="text-5xl text-center font-bold">{productsSold}</p>
-              <p className="text-sm text-orange-400"></p>
-            </div>
-
-            <div className="bg-[#3E5423] p-4 rounded-lg flex flex-col justify-between h-full">
-              <h2 className="text-xl font-bold">Sales (Last 7 Days)</h2>
-              <p className="text-5xl text-center font-bold">₱{last7DaysSales}</p>
-              <p className="text-sm text-green-400">Total revenue from this past week</p>
-            </div>
-          </div>
-        </div>
-
-        {/*The bar chart*/}
-        <div className="p-4 bg-white rounded-lg shadow-md flex-1 h-full">
+      {/* The bar chart */}
+      <div className="flex flex-wrap gap-6 h-screen">
+      <div className="p-4 bg-white rounded-lg shadow-md flex-1 h-full">
           <h2 className="text-lg font-bold text-black">Total Revenue (Last 7 Days)</h2>
-            <ResponsiveContainer width="100%" height="90%">
+          <ResponsiveContainer width="100%" height="90%">
             <BarChart data={revenueData}>
               <XAxis dataKey="date" />
               <YAxis />
@@ -149,6 +119,36 @@ export const SalesDataSection: React.FC<SalesProps>= ({ onBack }) => {
               <Bar dataKey="revenueDineIn" fill="#3E5423" name="Dine-in Sales" />
             </BarChart>
           </ResponsiveContainer>
+        </div>
+
+      {/* The four boxes */}
+        <div className="bg-white p-6 rounded-lg shadow-md h-full flex flex-col items-center w-full md:w-[25%]">
+          <h1 className="text-2xl font-bold mb-4">Today's Sales</h1>
+          <div className="grid grid-cols-1 gap-4 w-full h-full">
+            <div className="bg-[#3E5423] p-4 rounded-lg flex flex-col items-center justify-center flex-1 min-h-[20%] w-full">
+              <h2 className="text-xl font-bold text-center">Total Sales Today</h2>
+              <p className="text-5xl text-center font-bold">₱{totalSalesToday}</p>
+              <p className="text-sm text-green-400"></p>
+            </div>
+
+            <div className="bg-[#D98E04] p-4 rounded-lg flex flex-col items-center justify-center flex-1 min-h-[20%] w-full">
+              <h2 className="text-xl font-bold text-center">Total Orders</h2>
+              <p className="text-5xl text-center font-bold">{totalOrders}</p>
+              <p className="text-sm text-yellow-400"></p>
+            </div>
+
+            <div className="bg-[#D98E04] p-4 rounded-lg flex flex-col items-center justify-center flex-1 min-h-[20%] w-full">
+              <h2 className="text-xl font-bold text-center">Products Sold</h2>
+              <p className="text-5xl text-center font-bold">{productsSold}</p>
+              <p className="text-sm text-orange-400"></p>
+            </div>
+
+            <div className="bg-[#3E5423] p-4 rounded-lg flex flex-col items-center justify-center flex-1 min-h-[20%] w-full">
+              <h2 className="text-xl font-bold text-center">Sales (Last 7 Days)</h2>
+              <p className="text-5xl text-center font-bold">₱{last7DaysSales}</p>
+              <p className="text-sm text-green-400">Total revenue from this past week</p>
+            </div>
+          </div>
         </div>
       </div>
     </div>
