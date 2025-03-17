@@ -3,7 +3,6 @@ import { useNavigate } from "react-router-dom";
 import { BarChart, Bar, XAxis, YAxis, Tooltip, Legend, ResponsiveContainer } from "recharts";
 import completedOrdersData from "@/data/CompletedOrders.json";
 
-<<<<<<< HEAD
 //THIS IS WHERE THE BACK BUTTON STARTS
 interface SalesProps {
   onBack: () => void;
@@ -11,21 +10,6 @@ interface SalesProps {
 
 export const SalesDataSection: React.FC<SalesProps>= ({ onBack }) => {
   const navigate = useNavigate();
-=======
-interface SalesDataSectionProps {
-  onBack?: () => void;
-}
-
-export const SalesDataSection: React.FC<SalesDataSectionProps> = ({ onBack }) => {
-  const navigate = useNavigate();
-  const handleBack = () => {
-    if (onBack) {
-      onBack();
-    } else {
-      navigate(-1);
-    }
-  };
->>>>>>> 8db2584d31f8b0ddd3da92b2996000e409a11c26
   const [totalSalesToday, setTotalSalesToday] = useState(0);
   const [totalOrders, setTotalOrders] = useState(0);
   const [productsSold, setProductsSold] = useState(0);
@@ -109,16 +93,11 @@ export const SalesDataSection: React.FC<SalesDataSectionProps> = ({ onBack }) =>
     <div className="bg-mt-6 p-6 bg-[#5A1E16] rounded-lg">
       <div className="flex justify-between items-center mb-4">
         <div className="flex gap-4">
-<<<<<<< HEAD
           <button 
             onClick={onBack} 
             className="bg-white text-[#473e1d] px-4 py-2 rounded-md hover:bg-gray-100 transition-colors"
           >
             Back
-=======
-          <button onClick={handleBack} className="text-[#473E1D] hover:text-[#5C4F26] transition-colors">
-            ← Back
->>>>>>> 8db2584d31f8b0ddd3da92b2996000e409a11c26
           </button>
           <button onClick={exportCSV} className="bg-green-500 px-4 py-2 rounded-md hover:bg-green-600">
             Export CSV
@@ -128,31 +107,31 @@ export const SalesDataSection: React.FC<SalesDataSectionProps> = ({ onBack }) =>
 
       {/*The four boxes*/}
       <div className="flex items-start gap-6 h-screen">
-          <div className="bg-white p-6 rounded-lg shadow-md">
-            <h1 className="text-2xl font-bold">Today's Sales</h1>
-            <div className="grid grid-cols-2 gap-4 w-fit">
+          <div className="bg-white p-6 rounded-lg shadow-md h-full flex flex-col items-center w-[25%]">
+            <h1 className="text-2xl font-bold mb-4">Today's Sales</h1>
+            <div className="grid grid-cols-1 gap-4 w-full h-full">
               <div className="bg-[#3E5423] p-4 rounded-lg flex flex-col justify-between h-full">
                 <h2 className="text-xl font-bold">Total Sales Today</h2>
-                <p className="text-3xl">₱{totalSalesToday}</p>
-                <p className="text-sm text-green-400">dont hardcode this</p>
+                <p className="text-5xl text-center font-bold">₱{totalSalesToday}</p>
+                <p className="text-sm text-green-400"></p>
             </div>
 
             <div className="bg-[#D98E04] p-4 rounded-lg flex flex-col justify-between h-full">
               <h2 className="text-xl font-bold">Total Orders</h2>
-              <p className="text-3xl">{totalOrders}</p>
-              <p className="text-sm text-yellow-400">dont hardcode this</p>
+              <p className="text-5xl text-center font-bold">{totalOrders}</p>
+              <p className="text-sm text-yellow-400"></p>
             </div>
 
             <div className="bg-[#D98E04] p-4 rounded-lg flex flex-col justify-between h-full">
               <h2 className="text-xl font-bold">Products Sold</h2>
-              <p className="text-3xl">{productsSold}</p>
-              <p className="text-sm text-orange-400">dont hardcode this</p>
+              <p className="text-5xl text-center font-bold">{productsSold}</p>
+              <p className="text-sm text-orange-400"></p>
             </div>
 
             <div className="bg-[#3E5423] p-4 rounded-lg flex flex-col justify-between h-full">
               <h2 className="text-xl font-bold">Sales (Last 7 Days)</h2>
-              <p className="text-3xl">₱{last7DaysSales}</p>
-              <p className="text-sm text-blue-400">Total revenue from past week</p>
+              <p className="text-5xl text-center font-bold">₱{last7DaysSales}</p>
+              <p className="text-sm text-green-400">Total revenue from this past week</p>
             </div>
           </div>
         </div>
