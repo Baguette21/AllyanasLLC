@@ -622,7 +622,7 @@
       "image": "/uploads/1741795529932-824765009.png",
       "isAvailable": true,
       "itemOrder": 0,
-      "isBestseller": false
+      "isBestseller": true
     },
     {
       "id": "174012107855067",
@@ -634,7 +634,7 @@
       "image": "/uploads/1741795535349-128427212.png",
       "isAvailable": true,
       "itemOrder": 1,
-      "isBestseller": false
+      "isBestseller": true
     },
     {
       "id": "174012107855068",
@@ -682,7 +682,7 @@
       "image": "/uploads/1741795564483-181146570.png",
       "isAvailable": true,
       "itemOrder": 5,
-      "isBestseller": false
+      "isBestseller": true
     },
     {
       "id": "174012107855072",
@@ -694,7 +694,7 @@
       "image": "/uploads/1741795570618-241337458.png",
       "isAvailable": true,
       "itemOrder": 6,
-      "isBestseller": false
+      "isBestseller": true
     },
     {
       "id": "174012107855073",
@@ -1098,5 +1098,5 @@
       "order": 14
     }
   ],
-  "lastUpdated": "2025-03-17T08:16:21.135Z"
+  "lastUpdated": "2025-03-18T14:58:18.214Z"
 }
