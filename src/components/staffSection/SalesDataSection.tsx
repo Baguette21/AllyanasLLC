@@ -66,6 +66,30 @@ export const SalesDataSection: React.FC<SalesProps>= ({ onBack }) => {
       order.timeCompleted.startsWith(today)
     );
 
+    // Calculate sales by order type
+    const dineInSales = todayOrders
+      .filter(order => order.orderType === "dine-in")
+      .reduce((acc, order) => acc + order.price, 0);
+    
+    const pickUpSales = todayOrders
+      .filter(order => order.orderType === "pick-up")
+      .reduce((acc, order) => acc + order.price, 0);
+    
+    const totalSales = dineInSales + pickUpSales;
+
+    // Format date and time helper function
+    const formatDateTime = (isoString: string) => {
+      const date = new Date(isoString);
+      return date.toLocaleString('en-US', {
+        year: 'numeric',
+        month: '2-digit',
+        day: '2-digit',
+        hour: '2-digit',
+        minute: '2-digit',
+        hour12: true
+      });
+    };
+
     const csvData = [
       ["Order ID", "Order Type", "Customer Name", "Price", "Time Completed"],
       ...todayOrders.map(order => [
@@ -73,8 +97,12 @@ export const SalesDataSection: React.FC<SalesProps>= ({ onBack }) => {
         order.orderType,
         order.customerName,
         order.price,
-        order.timeCompleted,
+        formatDateTime(order.timeCompleted),
       ]),
+      [], // Empty row for spacing
+      ["Dine In Sales", "", "", dineInSales, ""],
+      ["Pick Up Sales", "", "", pickUpSales, ""],
+      ["Total Sales", "", "", totalSales, ""]
     ]
       .map(row => row.join(","))
       .join("\n");
@@ -83,7 +111,7 @@ export const SalesDataSection: React.FC<SalesProps>= ({ onBack }) => {
     const url = URL.createObjectURL(blob);
     const link = document.createElement("a");
     link.href = url;
-    link.download = `Today's_Orders_${today}.csv`;
+    link.download = `Sales_Report_${today}.csv`;
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
