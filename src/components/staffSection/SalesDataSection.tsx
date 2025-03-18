@@ -91,7 +91,7 @@ export const SalesDataSection: React.FC<SalesProps>= ({ onBack }) => {
 
   return (
     <div className="bg-mt-6 p-6 bg-[#5A1E16] rounded-lg">
-      <div className="flex justify-between items-center mb-4">
+      <div className="flex justify-end items-center mb-4">
         <div className="flex gap-4">
           <button 
             onClick={onBack} 

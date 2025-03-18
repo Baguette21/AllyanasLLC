@@ -13,22 +13,22 @@ export const HomepageSection: React.FC<HomepageSectionProps> = ({
 }) => {
   return (
     <section className="bg-[#94332d] flex items-center justify-center py-8 px-4 relative">
-      <div className="grid grid-cols-1 sm:grid-cols-3 gap-12 w-full max-w-7xl min-h-[78vh]">
+      <div className="flex flex-wrap justify-center gap-12 w-full max-w-7xl min-h-[78vh]">
         <button
           onClick={onManageMenu}
-          className="px-7 py-9 bg-[#F5F2EE] text-[#473e1d] text-5xl font-bold rounded-lg hover:bg-[#e0e0e0] transition-colors"
+          className="flex-1 min-w-[250px] max-w-[300px] px-7 py-9 bg-[#F5F2EE] text-[#473e1d] text-5xl font-bold rounded-lg hover:bg-[#e0e0e0] transition-colors"
         >
           Manage Menu
         </button>
         <button
           onClick={onCheckOrder}
-          className="px-7 py-9 bg-[#F5F2EE] text-[#473e1d] text-5xl font-bold rounded-lg hover:bg-[#e0e0e0] transition-colors"
+          className="flex-1 min-w-[250px] max-w-[300px] px-7 py-9 bg-[#F5F2EE] text-[#473e1d] text-5xl font-bold rounded-lg hover:bg-[#e0e0e0] transition-colors"
         >
           Check Orders
         </button>
         <button
           onClick={onSalesData}
-          className="px-7 py-9 bg-[#F5F2EE] text-[#473e1d] text-5xl font-bold rounded-lg hover:bg-[#e0e0e0] transition-colors"
+          className="flex-1 min-w-[250px] max-w-[300px] px-7 py-9 bg-[#F5F2EE] text-[#473e1d] text-5xl font-bold rounded-lg hover:bg-[#e0e0e0] transition-colors"
         >
           Sales Data
         </button>
