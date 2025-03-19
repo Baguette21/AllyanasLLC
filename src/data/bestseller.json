@@ -1,6 +1,21 @@
 {
   "items": [
     {
+      "id": "174012107855073",
+      "name": "Yana's Whole Sizzling Chicken",
+      "quantity": 7
+    },
+    {
+      "id": "174012107855068",
+      "name": "Yana's Hongkong Chicken",
+      "quantity": 5
+    },
+    {
+      "id": "174012107855066",
+      "name": "Yana's Fried Chicken",
+      "quantity": 3
+    },
+    {
       "id": "174012107855015",
       "name": "Crispy Chicken",
       "quantity": 0
@@ -256,18 +271,8 @@
       "quantity": 0
     },
     {
-      "id": "174012107855066",
-      "name": "Yana's Fried Chicken",
-      "quantity": 0
-    },
-    {
       "id": "174012107855067",
       "name": "Yana's Buttered Chicken",
-      "quantity": 0
-    },
-    {
-      "id": "174012107855068",
-      "name": "Yana's Hongkong Chicken",
       "quantity": 0
     },
     {
@@ -288,11 +293,6 @@
     {
       "id": "174012107855072",
       "name": "Yana's Patatim",
-      "quantity": 0
-    },
-    {
-      "id": "174012107855073",
-      "name": "Yana's Whole Sizzling Chicken",
       "quantity": 0
     },
     {
@@ -426,5 +426,5 @@
       "quantity": 0
     }
   ],
-  "lastUpdated": "2025-03-18T15:01:58.832Z"
+  "lastUpdated": "2025-03-19T02:48:48.889Z"
 }
