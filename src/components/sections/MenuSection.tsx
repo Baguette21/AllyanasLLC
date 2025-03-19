@@ -223,12 +223,26 @@ export const MenuSection = ({ orderInfo, onBack, onCheckout }: MenuSectionProps)
                 <div
                   key={item.id}
                   className={`flex bg-transparent rounded-lg shadow-md overflow-hidden items-center p-5 ${!item.isAvailable ? 'opacity-75' : ''} border border-[#473E1D]`}
-                  style={{ height: 'auto' }} 
+                  style={{ height: 'auto', position: 'relative' }} 
                 >
                   <div
                     className="relative bg-[#473E1D] flex items-center justify-center rounded-2xl"
                     style={{ width: '160px', height: '110px', padding: '8px', minWidth: '160px', minHeight: '110px' }}
                   >
+                    {item.isBestseller && (
+                      <img 
+                        src="/bestseller.png" 
+                        alt="Bestseller" 
+                        className="absolute z-20" 
+                        style={{ 
+                          width: '60px', 
+                          height: '60px',
+                          top: '0',
+                          left: '0',
+                          transform: 'translate(-10px, -10px)'
+                        }}
+                      />
+                    )}
                     <div
                       className="absolute top-1/2 left-1/2 flex-shrink-0 overflow-hidden rounded-full transform -translate-x-1/2 -translate-y-1/2 border-4 border-[#F5F2EE]"
                       style={{ width: '130px', height: '130px' }}

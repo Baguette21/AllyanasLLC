@@ -646,7 +646,7 @@
       "image": "/uploads/1741795540448-686862273.png",
       "isAvailable": true,
       "itemOrder": 2,
-      "isBestseller": false
+      "isBestseller": true
     },
     {
       "id": "174012107855069",
@@ -706,7 +706,7 @@
       "image": "/uploads/1741795576025-774155597.png",
       "isAvailable": true,
       "itemOrder": 7,
-      "isBestseller": false
+      "isBestseller": true
     },
     {
       "id": "174012107855074",
