@@ -81,32 +81,30 @@ export const CheckOrders: React.FC<CheckOrdersProps> = ({ onBack }) => {
 
   const renderOrderItems = (items: any, maxItems = 5) => {
     if (!items || !Array.isArray(items) || items.length === 0) {
-      return <p className="text-gray-500">No items in this order</p>;
+      return <p className="text-gray-500 text-sm">No items in this order</p>;
     }
     
     const displayItems = items.slice(0, maxItems);
     const hasMoreItems = items.length > maxItems;
     
-    {/*start of design*/}
     return (
-      <div className="min-h-screen bg-[#FFFFFF] p-8">
+      <div className="bg-gray-50 p-3 rounded-md">
         {displayItems.map((item, index) => {
           const isObjectItem = typeof item === 'object' && item !== null;
           const itemName = isObjectItem ? (item as any).name : item;
           const quantity = isObjectItem ? (item as any).quantity : 1;
           
           return (
-            <div key={index} className="mb-1">
-              <span className="text-green-600 font-medium">{quantity}x</span>{' '}
-              <span>{itemName}</span>
+            <div key={index} className="flex justify-between py-1">
+              <span>{quantity}× {itemName}</span>
             </div>
           );
         })}
         
         {hasMoreItems && (
-          <div className="mt-2 text-sm text-gray-500 italic">
-            + {items.length - maxItems} more items
-          </div>
+          <p className="text-sm text-gray-500 mt-2">
+            + {items.length - maxItems} more items...
+          </p>
         )}
       </div>
     );
@@ -114,79 +112,67 @@ export const CheckOrders: React.FC<CheckOrdersProps> = ({ onBack }) => {
 
   return (
     <div className="min-h-screen bg-[#473e1d] p-8">
-      <div className="flex justify-between items-center mb-8 px-7">
-        <h1 className="text-2xl font-bold text-black bg-white p-7 rounded-md gap-12">Incoming Orders</h1>
-
-      
+      <div className="flex justify-between items-center mb-8">
+        <h1 className="text-2xl font-bold text-white">Incoming Orders</h1>
         <div className="flex items-center gap-4">
+          <div className="bg-white px-4 py-2 rounded-md shadow-md flex items-center gap-2">
+            <span className="text-xl">🕒</span>
+            <div>
+              <p className="text-base font-semibold">{orders.length}</p>
+              <p className="text-gray-500 text-xs">Orders</p>
+            </div>  
+          </div>
           <button
             onClick={onBack}
             className="bg-white text-[#473e1d] px-4 py-2 rounded-md hover:bg-gray-100 transition-colors"
           >
             Back
           </button>
-
-          {/*For the number of orders on the top right*/}
-          <div className="bg-white px-6 py-3 rounded-md shadow-md ml-auto flex items-center gap-4">
-            <span className="text-2xl">🕒</span>
-            <div>
-              <p className="text-lg font-semibold">{orders.length}</p>
-              <p className="text-gray-500 text-sm">Number of Orders</p>
-            </div>  
-          </div>
         </div>
       </div>
 
-      <div className="min-h-[50vh] flex flex-wrap justify-center items-end gap-6 px-4">
-        {orders.slice(0,4).map((order) => (
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        {orders.map((order) => (
           <div
             key={order.id}
-            className="flex-1 basis-1/4 min-w-[280px] max-w-[400px] bg-white rounded-lg p-6 shadow-lg"
+            className="bg-white rounded-lg p-6 shadow-lg space-y-4"
           >
             <div className="flex justify-between items-start">
               <div>
-                <div className="flex flex-col justify-center items-center gap-3">
-                  <h2 className="text-3xl font-bold text-center">Order #{order.id}</h2>
+                <div className="flex items-center gap-3 mb-1">
+                  <h2 className="text-xl font-semibold">Order #{order.id}</h2>
                 </div>
-                <p className="text-align text-lg text-gray-600">{order.orderType}</p>
+                <p className="text-gray-600">{order.orderType}</p>
               </div>
+              <button
+                onClick={() => handleViewOrder(order)}
+                className="text-[#473e1d] hover:text-[#5c4f26] font-medium"
+              >
+                View Details
+              </button>
             </div>
 
-            <div className="mt-4">
-              <p className="font-medium text-xl">Customer: {order.customerName}</p>
-              <p className="text-gray-600 text-lg">
+            <div>
+              <p className="font-medium">Customer: {order.customerName}</p>
+              <p className="text-gray-600">
                 {order.table ? `Table: ${order.table}` : `Contact: ${order.contactNumber}`}
               </p>
-              <p className="text-gray-600 text-lg">Time: {new Date(order.timeOfOrder as string).toLocaleString()}</p>
+              <p className="text-gray-600">Time: {new Date(order.timeOfOrder as string).toLocaleString()}</p>
             </div>
 
-            <div className="mt-4">
+            <div>
               <h3 className="font-medium mb-2">Items:</h3>
               {renderOrderItems(order.items)}
             </div>
 
             {order.additionalInfo && (
-              <div className="bg-gray-50 p-3 rounded-md mt=4">
-                <h3 className="font-medium mb-1 text-lg">Additional Notes:</h3>
-                <p className="text-gray-600 text-lg">{order.additionalInfo}</p>
+              <div className="bg-gray-50 p-3 rounded-md">
+                <h3 className="font-medium mb-1 text-sm">Additional Notes:</h3>
+                <p className="text-gray-600 text-sm">{order.additionalInfo}</p>
               </div>
             )}
 
-            <div
-              key={order.id}
-              className="flex-1 basis-1/4 min-w-[280px] max-w-[400px] bg-white rounded-lg p-6 shadow-lg flex flex-col justify-between"
-            >
-              <div className="flex justify-end mt-4">
-                <button
-                  onClick={() => handleViewOrder(order)}
-                  className="text-[#473e1d] hover:text-[#5c4f26] font-medium"
-                >
-                  View Details
-                </button>
-              </div>
-            </div>
-            
-            <div className="flex gap-3 mt-4">
+            <div className="flex gap-3">
               <button
                 onClick={() => handleCompleteOrder(order.id)}
                 className="flex-1 bg-green-600 text-white py-2 rounded-md hover:bg-green-700 transition-colors"
@@ -206,28 +192,34 @@ export const CheckOrders: React.FC<CheckOrdersProps> = ({ onBack }) => {
 
       {isViewModalOpen && selectedOrder && (
         <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
-          <div className="bg-white rounded-lg p-6 max-w-2xl w-full max-h-[90vh] overflow-y-auto">
-            <div className="flex justify-between items-start mb-4">
+          <div className="bg-white rounded-lg p-4 max-w-md w-full max-h-[90vh] overflow-y-auto">
+            <div className="flex justify-between items-start mb-3">
               <div>
-                <h2 className="text-2xl font-bold">Order #{selectedOrder.id}</h2>
-                <p className="text-gray-500">{new Date(selectedOrder.timeOfOrder as string).toLocaleString()}</p>
+                <h2 className="text-xl font-bold">Order #{selectedOrder.id}</h2>
                 <p className="text-gray-500">{selectedOrder.orderType}</p>
               </div>
+              <button 
+                onClick={handleCloseModals} 
+                className="text-gray-500 hover:text-gray-700"
+              >
+                ✕
+              </button>
             </div>
 
-            <div className="space-y-4">
+            <div className="space-y-3">
               <div>
-                <h3 className="font-semibold mb-2">Customer Details</h3>
-                <p>Name: {selectedOrder.customerName}</p>
+                <h3 className="font-semibold text-sm mb-1">Customer Details</h3>
+                <p className="text-sm">Customer: {selectedOrder.customerName}</p>
                 {selectedOrder.table ? (
-                  <p>Table: {selectedOrder.table}</p>
+                  <p className="text-sm">Table: {selectedOrder.table}</p>
                 ) : (
-                  <p>Contact: {selectedOrder.contactNumber}</p>
+                  <p className="text-sm">Contact: {selectedOrder.contactNumber}</p>
                 )}
+                <p className="text-sm text-gray-500">Ordered: {new Date(selectedOrder.timeOfOrder as string).toLocaleString()}</p>
               </div>
 
               <div>
-                <h3 className="font-semibold mb-2">Order Items</h3>
+                <h3 className="font-semibold text-sm mb-1">Order Items</h3>
                 <div className="bg-gray-50 p-3 rounded-md">
                   {selectedOrder.items && Array.isArray(selectedOrder.items) && selectedOrder.items.map((item, index) => {
                     const isObjectItem = typeof item === 'object' && item !== null;
@@ -235,9 +227,8 @@ export const CheckOrders: React.FC<CheckOrdersProps> = ({ onBack }) => {
                     const quantity = isObjectItem ? (item as any).quantity : 1;
                     
                     return (
-                      <div key={index} className="mb-1">
-                        <span className="text-green-600 font-medium">{quantity}x</span>{' '}
-                        <span>{itemName}</span>
+                      <div key={index} className="flex justify-between py-1">
+                        <span>{quantity}× {itemName}</span>
                       </div>
                     );
                   })}
@@ -245,29 +236,29 @@ export const CheckOrders: React.FC<CheckOrdersProps> = ({ onBack }) => {
               </div>
 
               {selectedOrder.additionalInfo && (
-                <div className="border-t pt-4">
-                  <h3 className="font-semibold mb-2">Additional Notes</h3>
-                  <p className="text-gray-600 bg-gray-50 p-3 rounded-md">{selectedOrder.additionalInfo}</p>
+                <div>
+                  <h3 className="font-semibold text-sm mb-1">Additional Notes</h3>
+                  <p className="text-xs bg-gray-50 p-3 rounded-md">{selectedOrder.additionalInfo}</p>
                 </div>
               )}
             </div>
 
-            <div className="mt-6 flex justify-end gap-3">
+            <div className="mt-4 flex justify-end gap-2">
               <button 
                 onClick={() => handleCompleteOrder(selectedOrder.id)}
-                className="bg-green-600 text-white px-6 py-2 rounded-md hover:bg-green-700 transition-colors"
+                className="bg-green-600 text-white px-4 py-2 rounded-md hover:bg-green-700 transition-colors"
               >
                 Complete
               </button>
               <button 
                 onClick={() => handleCancelOrder(selectedOrder.id)}
-                className="bg-red-600 text-white px-6 py-2 rounded-md hover:bg-red-700 transition-colors"
+                className="bg-red-600 text-white px-4 py-2 rounded-md hover:bg-red-700 transition-colors"
               >
                 Cancel
               </button>
               <button 
                 onClick={handleCloseModals} 
-                className="bg-[#473e1d] text-white px-6 py-2 rounded-md hover:bg-[#5c4f26] transition-colors"
+                className="bg-gray-200 text-gray-800 px-4 py-2 rounded-md hover:bg-gray-300 transition-colors"
               >
                 Close
               </button>
