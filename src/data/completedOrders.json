@@ -1,42 +1,89 @@
 {
   "completedOrders": [
     {
+      "id": "ORD003",
+      "orderType": "dine-in",
+      "customerName": "Table Order",
+      "table": "12",
+      "contactNumber": null,
+      "timeOfOrder": "2025-07-02T04:39:33.160Z",
+      "price": 1580,
+      "items": [
+        {
+          "name": "Yana's Spicy Chicken",
+          "quantity": 2
+        },
+        {
+          "name": "Yana's Hongkong Chicken",
+          "quantity": 1
+        },
+        {
+          "name": "Yana's Fried Chicken",
+          "quantity": 1
+        }
+      ],
+      "additionalInfo": "dadsa",
+      "paymentMethod": "gcash",
+      "gcashReferenceNumber": "312312312312",
+      "isPaid": true,
+      "status": "paid",
+      "paidAt": "2025-07-02T04:40:09.357Z",
+      "timeCompleted": "2025-07-02T04:41:37.741Z",
+      "completedAt": "2025-07-02T04:41:37.741Z"
+    },
+    {
       "id": "ORD002",
       "orderType": "dine-in",
       "customerName": "Table Order",
       "table": "12",
       "contactNumber": null,
-      "timeOfOrder": "2025-03-18T15:05:04.777Z",
-      "price": 3360,
+      "timeOfOrder": "2025-07-02T04:34:40.670Z",
+      "price": 1130,
       "items": [
         {
           "name": "Yana's Whole Sizzling Chicken",
-          "quantity": 7
-        }
-      ],
-      "additionalInfo": "dasdasdas",
-      "timeCompleted": "2025-03-18T15:05:08.232Z"
-    },
-    {
-      "id": "ORD001",
-      "orderType": "pick-up",
-      "customerName": "euegen",
-      "table": null,
-      "contactNumber": "0923278788",
-      "timeOfOrder": "2025-03-18T15:04:54.342Z",
-      "price": 3700,
-      "items": [
-        {
-          "name": "Yana's Fried Chicken",
-          "quantity": 3
+          "quantity": 1
         },
         {
-          "name": "Yana's Hongkong Chicken",
-          "quantity": 5
+          "name": "Yana's Crispy Pata",
+          "quantity": 1
         }
       ],
-      "additionalInfo": "ddd",
-      "timeCompleted": "2025-03-18T15:05:08.729Z"
+      "additionalInfo": "dsfadsf",
+      "paymentMethod": "gcash",
+      "gcashReferenceNumber": "23323232",
+      "isPaid": true,
+      "status": "paid",
+      "paidAt": "2025-07-02T04:43:10.479Z",
+      "timeCompleted": "2025-07-02T04:43:31.224Z",
+      "completedAt": "2025-07-02T04:43:31.224Z"
+    },
+    {
+      "id": "ORD002",
+      "orderType": "dine-in",
+      "customerName": "Table Order",
+      "table": "12",
+      "contactNumber": null,
+      "timeOfOrder": "2025-07-02T04:42:45.814Z",
+      "price": 770,
+      "items": [
+        {
+          "name": "Yana's Soy Chicken",
+          "quantity": 1
+        },
+        {
+          "name": "Yana's Buttered Chicken",
+          "quantity": 1
+        }
+      ],
+      "additionalInfo": "asdas",
+      "paymentMethod": "cash",
+      "gcashReferenceNumber": null,
+      "isPaid": true,
+      "status": "paid",
+      "paidAt": "2025-07-02T04:43:11.226Z",
+      "timeCompleted": "2025-07-02T04:43:31.821Z",
+      "completedAt": "2025-07-02T04:43:31.821Z"
     }
   ]
 }

@@ -1,3 +1,26 @@
 {
-  "orders": []
+  "orders": [
+    {
+      "id": "ORD001",
+      "orderType": "pick-up",
+      "customerName": "dsadasd",
+      "table": null,
+      "contactNumber": "312312312312",
+      "timeOfOrder": "2025-07-02T04:46:07.819Z",
+      "price": 1100,
+      "items": [
+        {
+          "name": "Yana's Crispy Pata",
+          "quantity": 1
+        },
+        {
+          "name": "Yana's Soy Chicken",
+          "quantity": 1
+        }
+      ],
+      "additionalInfo": "dasdad",
+      "paymentMethod": "gcash",
+      "gcashReferenceNumber": "213123213"
+    }
+  ]
 }

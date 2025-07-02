@@ -14,8 +14,14 @@ export interface Order {
   timeOfOrder: string;
   items: OrderItem[];
   additionalInfo?: string;
+  paymentMethod?: string;
+  gcashReferenceNumber?: string;
 }
 
 export interface CompletedOrder extends Order {
   timeCompleted: string;
+  completedAt?: string;
+  isPaid?: boolean;
+  status?: string;
+  paidAt?: string;
 }

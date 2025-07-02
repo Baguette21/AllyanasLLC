@@ -17,6 +17,15 @@ interface CheckoutSectionProps {
 export const CheckoutSection: React.FC<CheckoutSectionProps> = ({ onBack, orderInfo }) => {
   const { items, total, clearCart } = useCart();
   const [isProcessing, setIsProcessing] = useState(false);
+  const [selectedPaymentMethod, setSelectedPaymentMethod] = useState<string>('');
+  const [gcashReferenceNumber, setGcashReferenceNumber] = useState<string>('');
+
+  // Auto-select GCash for pick-up orders
+  React.useEffect(() => {
+    if (orderInfo.selectedType === 'pick-up' && selectedPaymentMethod !== 'gcash') {
+      setSelectedPaymentMethod('gcash');
+    }
+  }, [orderInfo.selectedType, selectedPaymentMethod]);
 
   const validateOrder = () => {
     if (!orderInfo.selectedType) {
@@ -51,6 +60,16 @@ export const CheckoutSection: React.FC<CheckoutSectionProps> = ({ onBack, orderI
       return false;
     }
 
+    if (!selectedPaymentMethod) {
+      alert('Please select a payment method');
+      return false;
+    }
+
+    if (selectedPaymentMethod === 'gcash' && !gcashReferenceNumber.trim()) {
+      alert('Please enter the GCash reference number');
+      return false;
+    }
+
     return true;
   };
 
@@ -72,7 +91,9 @@ export const CheckoutSection: React.FC<CheckoutSectionProps> = ({ onBack, orderI
           name: item.item_name,
           quantity: item.quantity
         })),
-        additionalInfo: orderInfo.additionalInfo
+        additionalInfo: orderInfo.additionalInfo,
+        paymentMethod: selectedPaymentMethod,
+        gcashReferenceNumber: selectedPaymentMethod === 'gcash' ? gcashReferenceNumber : null
       };
 
       const response = await fetch(`${API_BASE_URL}/api/orders`, {
@@ -161,21 +182,161 @@ export const CheckoutSection: React.FC<CheckoutSectionProps> = ({ onBack, orderI
                 <span>₱{total.toFixed(2)}</span>
               </div>
             </div>
+
+            {/* Payment Options */}
+            <div className="pt-4 border-t">
+              <h4 className="text-lg font-semibold mb-3 text-[#473E1D]">Payment Option</h4>
+              
+              {/* Show note for pick-up orders */}
+              {orderInfo.selectedType === 'pick-up' && (
+                <div className="mb-3 p-3 bg-blue-50 border border-blue-200 rounded-md">
+                  <p className="text-sm text-blue-700">
+                    <span className="font-medium">Pick-up orders:</span> Payment must be completed online via GCash before Order is processed.
+                  </p>
+                </div>
+              )}
+              
+              <div className="space-y-3">
+                {/* Only show Cash option for dine-in orders */}
+                {orderInfo.selectedType === 'dine-in' && (
+                  <div className="flex items-center">
+                    <input
+                      type="radio"
+                      id="cash"
+                      name="paymentMethod"
+                      value="cash"
+                      checked={selectedPaymentMethod === 'cash'}
+                      onChange={(e) => setSelectedPaymentMethod(e.target.value)}
+                      className="w-4 h-4 text-[#473E1D] border-gray-300 focus:ring-[#473E1D]"
+                    />
+                    <label htmlFor="cash" className="ml-3 text-gray-700 font-medium">
+                      Cash
+                    </label>
+                  </div>
+                )}
+
+                <div className="flex items-center">
+                  <input
+                    type="radio"
+                    id="gcash"
+                    name="paymentMethod"
+                    value="gcash"
+                    checked={selectedPaymentMethod === 'gcash'}
+                    onChange={(e) => setSelectedPaymentMethod(e.target.value)}
+                    className="w-4 h-4 text-[#473E1D] border-gray-300 focus:ring-[#473E1D]"
+                  />
+                  <label htmlFor="gcash" className="ml-3 text-gray-700 font-medium">
+                    GCash
+                  </label>
+                </div>
+              </div>
+
+              {/* Cash Payment Details */}
+              {selectedPaymentMethod === 'cash' && (
+                <div className="mt-6 p-4 bg-green-50 rounded-lg border border-green-200">
+                  <h5 className="text-lg font-semibold mb-4 text-[#473E1D]">Cash Payment</h5>
+                  
+                  <div className="text-center mb-4">
+                    <div className="text-2xl mb-2">💵</div>
+                    <p className="text-lg font-medium text-[#473E1D]">
+                      Please ask for a waitress to collect payment
+                    </p>
+                  </div>
+
+                  {/* Cash Payment Instructions */}
+                  <div className="text-sm text-gray-700">
+                    <p className="font-medium mb-2">Payment Instructions:</p>
+                    <ol className="list-decimal list-inside space-y-1">
+                      <li>Call for a waitress or raise your hand</li>
+                      <li>Inform them you're ready to pay for your order</li>
+                      <li>Total amount to pay: ₱{total.toFixed(2)}</li>
+                      <li>Complete your cash payment with the waitress</li>
+                      <li>Keep your receipt for reference</li>
+                    </ol>
+                  </div>
+
+                  <div className="mt-4 p-3 bg-yellow-50 border border-yellow-200 rounded-md">
+                    <p className="text-sm text-yellow-700">
+                      <span className="font-medium">Note:</span> Please ensure you have the exact amount or sufficient change will be provided.
+                    </p>
+                  </div>
+                </div>
+              )}
+
+              {/* GCash Payment Details */}
+              {selectedPaymentMethod === 'gcash' && (
+                <div className="mt-6 p-4 bg-blue-50 rounded-lg border border-blue-200">
+                  <h5 className="text-lg font-semibold mb-4 text-[#473E1D]">GCash Payment</h5>
+                  
+                  {/* QR Code Section */}
+                  <div className="text-center mb-6">
+                    <p className="text-sm text-gray-600 mb-3">
+                      Scan this QR code with your GCash app to pay ₱{total.toFixed(2)}
+                    </p>
+                    <div className="inline-block p-4 bg-white rounded-lg border-2 border-gray-300">
+                      <img 
+                        src="/GCASHQR.jpg" 
+                        alt="GCash QR Code for Payment"
+                        className="w-48 h-48 object-contain"
+                      />
+                    </div>
+                    <p className="text-sm font-medium text-[#473E1D] mt-2">
+                      Amount: ₱{total.toFixed(2)}
+                    </p>
+                  </div>
+
+                  {/* Payment Instructions */}
+                  <div className="mb-4 text-sm text-gray-700">
+                    <p className="font-medium mb-2">Payment Instructions:</p>
+                    <ol className="list-decimal list-inside space-y-1">
+                      <li>Open your GCash app</li>
+                      <li>Scan the QR code above</li>
+                      <li>If QR is Invalid send payment to 09********</li>
+                      <li>Confirm the payment amount (₱{total.toFixed(2)})</li>
+                      <li>Complete the payment</li>
+                      <li>Enter the reference number below</li>
+                    </ol>
+                  </div>
+
+                  {/* Reference Number Input */}
+                  <div>
+                    <label htmlFor="gcashRef" className="block text-sm font-medium text-gray-700 mb-2">
+                      GCash Reference Number *
+                    </label>
+                    <input
+                      type="text"
+                      id="gcashRef"
+                      value={gcashReferenceNumber}
+                      onChange={(e) => setGcashReferenceNumber(e.target.value)}
+                      placeholder="Enter reference number from GCash transaction"
+                      className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#473E1D] focus:border-transparent"
+                    />
+                    <p className="text-xs text-gray-500 mt-1">
+                      This reference number serves as proof of payment
+                    </p>
+                  </div>
+                </div>
+              )}
+            </div>
           </div>
         </div>
 
         <div className="flex justify-end">
-          <button
-            onClick={handleConfirmOrder}
-            disabled={isProcessing}
-            className={`
-              bg-[#473E1D] text-white px-8 py-3 rounded-lg text-lg
-              ${isProcessing ? 'opacity-50 cursor-not-allowed' : 'hover:bg-[#5c4f26]'}
-              transition-colors
-            `}
-          >
-            {isProcessing ? 'Processing...' : 'Confirm Order'}
-          </button>
+          {/* Only show Confirm Order button if payment method is selected and requirements are met */}
+          {(selectedPaymentMethod === 'cash' || 
+           (selectedPaymentMethod === 'gcash' && gcashReferenceNumber.trim())) && (
+            <button
+              onClick={handleConfirmOrder}
+              disabled={isProcessing}
+              className={`
+                bg-[#473E1D] text-white px-8 py-3 rounded-lg text-lg
+                ${isProcessing ? 'opacity-50 cursor-not-allowed' : 'hover:bg-[#5c4f26]'}
+                transition-colors
+              `}
+            >
+              {isProcessing ? 'Processing...' : 'Confirm Order'}
+            </button>
+          )}
         </div>
       </div>
     </section>

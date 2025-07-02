@@ -14,6 +14,7 @@ import { ManageMenuSection } from "@/components/staffSection/ManageMenuSection";
 import { SalesDataSection } from "@/components/staffSection/SalesDataSection";
 import { CheckOrders } from "@/components/staffSection/CheckOrders";
 import { CompletedOrders } from "@/components/staffSection/CompletedOrders";
+import { PaidOrders } from "@/components/staffSection/PaidOrders";
 
 type Section =
   | "startup"
@@ -26,6 +27,7 @@ type Section =
   | "staff-menu"
   | "staff-data"
   | "check-orders"
+  | "paid-orders"
   | "completed-orders";
 
 interface OrderInfo {
@@ -116,6 +118,12 @@ const Index = () => {
                 Incoming Orders
               </button>
               <button
+                onClick={() => setCurrentSection("paid-orders")}
+                className="bg-transparent text-white border border-white px-6 py-2 rounded-md hover:bg-white/10 transition-colors"
+              >
+                Paid Orders
+              </button>
+              <button
                 onClick={() => setCurrentSection("completed-orders")}
                 className="bg-transparent text-white border border-white px-6 py-2 rounded-md hover:bg-white/10 transition-colors"
               >
@@ -123,6 +131,32 @@ const Index = () => {
               </button>
             </div>
             <CheckOrders onBack={() => setCurrentSection("homepage")} />
+          </div>
+        );
+      case "paid-orders":
+        return (
+          <div>
+            <div className="flex justify-center gap-4 py-4 bg-[#473e1d]">
+              <button
+                onClick={() => setCurrentSection("check-orders")}
+                className="bg-transparent text-white border border-white px-6 py-2 rounded-md hover:bg-white/10 transition-colors"
+              >
+                Incoming Orders
+              </button>
+              <button
+                onClick={() => setCurrentSection("paid-orders")}
+                className="bg-white text-[#473e1d] px-6 py-2 rounded-md hover:bg-gray-100 transition-colors"
+              >
+                Paid Orders
+              </button>
+              <button
+                onClick={() => setCurrentSection("completed-orders")}
+                className="bg-transparent text-white border border-white px-6 py-2 rounded-md hover:bg-white/10 transition-colors"
+              >
+                Order History
+              </button>
+            </div>
+            <PaidOrders onBack={() => setCurrentSection("homepage")} />
           </div>
         );
       case "completed-orders":
@@ -134,6 +168,12 @@ const Index = () => {
                 className="bg-transparent text-white border border-white px-6 py-2 rounded-md hover:bg-white/10 transition-colors"
               >
                 Incoming Orders
+              </button>
+              <button
+                onClick={() => setCurrentSection("paid-orders")}
+                className="bg-transparent text-white border border-white px-6 py-2 rounded-md hover:bg-white/10 transition-colors"
+              >
+                Paid Orders
               </button>
               <button
                 onClick={() => setCurrentSection("completed-orders")}
@@ -159,6 +199,7 @@ const Index = () => {
   currentSection === "login" ||
   currentSection === "homepage" ||
   currentSection === "check-orders" ||
+  currentSection === "paid-orders" ||
   currentSection === "completed-orders" ||
   currentSection === "staff-menu" ||
   currentSection === "staff-data"

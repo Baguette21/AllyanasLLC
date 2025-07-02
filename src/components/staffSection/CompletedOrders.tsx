@@ -331,6 +331,21 @@ export const CompletedOrders: React.FC<CompletedOrdersProps> = ({ onBack }) => {
                 <p className="text-gray-600 text-sm">{order.additionalInfo}</p>
               </div>
             )}
+
+            {order.paymentMethod && (
+              <div className={`p-3 rounded-md ${order.paymentMethod === 'cash' ? 'bg-green-50' : 'bg-blue-50'}`}>
+                <h3 className="font-medium mb-1 text-sm">Payment Method:</h3>
+                <p className="text-gray-600 text-sm capitalize">{order.paymentMethod}</p>
+                {order.gcashReferenceNumber && (
+                  <div className="mt-2">
+                    <h4 className="font-medium text-sm">Reference Number:</h4>
+                    <p className="text-gray-800 text-sm font-mono bg-white px-2 py-1 rounded border">
+                      {order.gcashReferenceNumber}
+                    </p>
+                  </div>
+                )}
+              </div>
+            )}
           </div>
         ))}
       </div>
@@ -380,6 +395,23 @@ export const CompletedOrders: React.FC<CompletedOrdersProps> = ({ onBack }) => {
                 <div className="border-t pt-4">
                   <h3 className="font-semibold mb-2">Additional Notes</h3>
                   <p className="text-gray-600 bg-gray-50 p-3 rounded-md">{selectedOrder.additionalInfo}</p>
+                </div>
+              )}
+
+              {selectedOrder.paymentMethod && (
+                <div className="border-t pt-4">
+                  <h3 className="font-semibold mb-2">Payment Information</h3>
+                  <div className={`p-3 rounded-md ${selectedOrder.paymentMethod === 'cash' ? 'bg-green-50' : 'bg-blue-50'}`}>
+                    <p className="font-medium">Method: <span className="capitalize">{selectedOrder.paymentMethod}</span></p>
+                    {selectedOrder.gcashReferenceNumber && (
+                      <div className="mt-2">
+                        <p className="font-medium">Reference Number:</p>
+                        <p className="font-mono bg-white px-2 py-1 rounded border mt-1">
+                          {selectedOrder.gcashReferenceNumber}
+                        </p>
+                      </div>
+                    )}
+                  </div>
                 </div>
               )}
             </div>

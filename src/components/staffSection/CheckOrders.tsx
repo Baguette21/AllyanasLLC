@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Order } from '@/types/order';
+import { API_BASE_URL } from '@/config/api';
 
 interface CheckOrdersProps {
   onBack: () => void;
@@ -12,7 +13,7 @@ export const CheckOrders: React.FC<CheckOrdersProps> = ({ onBack }) => {
 
   const fetchOrders = async () => {
     try {
-      const response = await fetch('/api/orders');
+      const response = await fetch(`${API_BASE_URL}/api/orders`);
       if (!response.ok) throw new Error('Failed to fetch orders');
       const data = await response.json();
       setOrders(data.orders || []);
@@ -35,9 +36,9 @@ export const CheckOrders: React.FC<CheckOrdersProps> = ({ onBack }) => {
     setSelectedOrder(null);
   };
 
-  const handleCompleteOrder = async (orderId: string) => {
+  const handleMarkAsPaid = async (orderId: string) => {
     try {
-      const response = await fetch('/api/orders/complete', {
+      const response = await fetch(`${API_BASE_URL}/api/orders/mark-paid`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -46,20 +47,20 @@ export const CheckOrders: React.FC<CheckOrdersProps> = ({ onBack }) => {
       });
 
       if (!response.ok) {
-        throw new Error('Failed to complete order');
+        throw new Error('Failed to mark order as paid');
       }
 
       await fetchOrders();
       if (isViewModalOpen) handleCloseModals();
     } catch (error) {
-      console.error('Error completing order:', error);
-      alert('Failed to complete order. Please try again.');
+      console.error('Error marking order as paid:', error);
+      alert('Failed to mark order as paid. Please try again.');
     }
   };
 
   const handleCancelOrder = async (orderId: string) => {
     try {
-      const response = await fetch('/api/orders/cancel', {
+      const response = await fetch(`${API_BASE_URL}/api/orders/cancel`, {
         method: 'DELETE',
         headers: {
           'Content-Type': 'application/json',
@@ -172,12 +173,27 @@ export const CheckOrders: React.FC<CheckOrdersProps> = ({ onBack }) => {
               </div>
             )}
 
+            {order.paymentMethod && (
+              <div className={`p-3 rounded-md ${order.paymentMethod === 'cash' ? 'bg-green-50' : 'bg-blue-50'}`}>
+                <h3 className="font-medium mb-1 text-sm">Payment Method:</h3>
+                <p className="text-gray-600 text-sm capitalize">{order.paymentMethod}</p>
+                {order.gcashReferenceNumber && (
+                  <div className="mt-2">
+                    <h4 className="font-medium text-sm">Reference Number:</h4>
+                    <p className="text-gray-800 text-sm font-mono bg-white px-2 py-1 rounded border">
+                      {order.gcashReferenceNumber}
+                    </p>
+                  </div>
+                )}
+              </div>
+            )}
+
             <div className="flex gap-3">
               <button
-                onClick={() => handleCompleteOrder(order.id)}
+                onClick={() => handleMarkAsPaid(order.id)}
                 className="flex-1 bg-green-600 text-white py-2 rounded-md hover:bg-green-700 transition-colors"
               >
-                Complete
+                Paid
               </button>
               <button
                 onClick={() => handleCancelOrder(order.id)}
@@ -241,14 +257,31 @@ export const CheckOrders: React.FC<CheckOrdersProps> = ({ onBack }) => {
                   <p className="text-xs bg-gray-50 p-3 rounded-md">{selectedOrder.additionalInfo}</p>
                 </div>
               )}
+
+              {selectedOrder.paymentMethod && (
+                <div>
+                  <h3 className="font-semibold text-sm mb-1">Payment Information</h3>
+                  <div className={`p-3 rounded-md ${selectedOrder.paymentMethod === 'cash' ? 'bg-green-50' : 'bg-blue-50'}`}>
+                    <p className="text-sm font-medium">Method: <span className="capitalize">{selectedOrder.paymentMethod}</span></p>
+                    {selectedOrder.gcashReferenceNumber && (
+                      <div className="mt-2">
+                        <p className="text-sm font-medium">Reference Number:</p>
+                        <p className="text-sm font-mono bg-white px-2 py-1 rounded border mt-1">
+                          {selectedOrder.gcashReferenceNumber}
+                        </p>
+                      </div>
+                    )}
+                  </div>
+                </div>
+              )}
             </div>
 
             <div className="mt-4 flex justify-end gap-2">
               <button 
-                onClick={() => handleCompleteOrder(selectedOrder.id)}
+                onClick={() => handleMarkAsPaid(selectedOrder.id)}
                 className="bg-green-600 text-white px-4 py-2 rounded-md hover:bg-green-700 transition-colors"
               >
-                Complete
+                Paid
               </button>
               <button 
                 onClick={() => handleCancelOrder(selectedOrder.id)}
