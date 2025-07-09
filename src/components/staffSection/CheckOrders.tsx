@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Order } from '@/types/order';
 import { API_BASE_URL } from '@/config/api';
+import { formatPrice } from '@/lib/utils';
 
 interface CheckOrdersProps {
   onBack: () => void;
@@ -166,6 +167,13 @@ export const CheckOrders: React.FC<CheckOrdersProps> = ({ onBack }) => {
               {renderOrderItems(order.items)}
             </div>
 
+            <div className="bg-blue-50 p-3 rounded-md">
+              <div className="flex justify-between items-center">
+                <span className="font-medium text-blue-800">Total Amount:</span>
+                <span className="font-bold text-blue-800 text-lg">{formatPrice(order.price)}</span>
+              </div>
+            </div>
+
             {order.additionalInfo && (
               <div className="bg-gray-50 p-3 rounded-md">
                 <h3 className="font-medium mb-1 text-sm">Additional Notes:</h3>
@@ -248,6 +256,16 @@ export const CheckOrders: React.FC<CheckOrdersProps> = ({ onBack }) => {
                       </div>
                     );
                   })}
+                </div>
+              </div>
+
+              <div>
+                <h3 className="font-semibold text-sm mb-1">Order Total</h3>
+                <div className="bg-blue-50 p-3 rounded-md">
+                  <div className="flex justify-between items-center">
+                    <span className="font-medium text-blue-800">Total Amount:</span>
+                    <span className="font-bold text-blue-800 text-lg">{formatPrice(selectedOrder.price)}</span>
+                  </div>
                 </div>
               </div>
 

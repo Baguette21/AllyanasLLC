@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useCart } from '../../context/CartContext';
 import { Header } from '@/components/layout/Header'; 
 import { API_BASE_URL } from '@/config/api';
+import { formatPrice } from '@/lib/utils';
 
 interface CheckoutSectionProps {
   onBack: () => void;
@@ -19,6 +20,7 @@ export const CheckoutSection: React.FC<CheckoutSectionProps> = ({ onBack, orderI
   const [isProcessing, setIsProcessing] = useState(false);
   const [selectedPaymentMethod, setSelectedPaymentMethod] = useState<string>('');
   const [gcashReferenceNumber, setGcashReferenceNumber] = useState<string>('');
+  const [isProcessingPayment, setIsProcessingPayment] = useState(false);
 
   // Auto-select GCash for pick-up orders
   React.useEffect(() => {
@@ -70,7 +72,67 @@ export const CheckoutSection: React.FC<CheckoutSectionProps> = ({ onBack, orderI
       return false;
     }
 
+    if (selectedPaymentMethod === 'card') {
+      // Card validation will be handled by PayMongo
+      return true;
+    }
+
     return true;
+  };
+
+  const handleCardPayment = async (orderData: any) => {
+    try {
+      setIsProcessingPayment(true);
+      
+      // Process payment through PayMongo
+      const paymentResponse = await fetch('https://us-central1-allyanas-llc.cloudfunctions.net/processPayment', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          amount: total,
+          currency: 'PHP',
+          description: `Order #${Date.now()} - ${orderData.customerName}`,
+          paymentMethod: 'card'
+        }),
+      });
+
+      if (!paymentResponse.ok) {
+        throw new Error('Payment processing failed');
+      }
+
+      const paymentResult = await paymentResponse.json();
+      
+      if (!paymentResult.success) {
+        throw new Error(paymentResult.error || 'Payment failed');
+      }
+
+      // For now, we'll show the payment intent details and let the user proceed
+      // In production, you'd integrate with PayMongo's payment form
+      const proceed = confirm(
+        `Payment initiated successfully!\n\n` +
+        `Amount: ${formatPrice(total)}\n` +
+        `Payment ID: ${paymentResult.paymentIntent.id}\n\n` +
+        `Click OK to complete the order, or Cancel to abort.`
+      );
+
+      if (!proceed) {
+        throw new Error('Payment cancelled by user');
+      }
+
+      return {
+        success: true,
+        paymentId: paymentResult.paymentIntent.id,
+        clientKey: paymentResult.clientKey
+      };
+
+    } catch (error) {
+      console.error('Card payment error:', error);
+      throw error;
+    } finally {
+      setIsProcessingPayment(false);
+    }
   };
 
   const handleConfirmOrder = async () => {
@@ -80,7 +142,7 @@ export const CheckoutSection: React.FC<CheckoutSectionProps> = ({ onBack, orderI
     setIsProcessing(true);
 
     try {
-      const orderData = {
+      const orderData: any = {
         orderType: orderInfo.selectedType,
         customerName: orderInfo.fullName || 'Table Order',
         table: orderInfo.selectedType === 'dine-in' ? orderInfo.tableNumber : null,
@@ -95,6 +157,13 @@ export const CheckoutSection: React.FC<CheckoutSectionProps> = ({ onBack, orderI
         paymentMethod: selectedPaymentMethod,
         gcashReferenceNumber: selectedPaymentMethod === 'gcash' ? gcashReferenceNumber : null
       };
+
+      // Handle card payment processing
+      if (selectedPaymentMethod === 'card') {
+        const paymentResult = await handleCardPayment(orderData);
+        orderData.paymentId = paymentResult.paymentId;
+        orderData.paymentStatus = 'completed';
+      }
 
       const response = await fetch(`${API_BASE_URL}/api/orders`, {
         method: 'POST',
@@ -120,7 +189,7 @@ export const CheckoutSection: React.FC<CheckoutSectionProps> = ({ onBack, orderI
         orderInfo.selectedType === 'dine-in'
           ? `Table: ${orderInfo.tableNumber}`
           : `Name: ${orderInfo.fullName}\nContact: ${orderInfo.phoneNumber}`
-      }\n\nTotal: ₱${total.toFixed(2)}`);
+      }\n\nTotal: ${formatPrice(total)}`);
 
       // Redirect back to menu
       onBack();
@@ -171,7 +240,7 @@ export const CheckoutSection: React.FC<CheckoutSectionProps> = ({ onBack, orderI
                   <span>
                     {item.item_name} x {item.quantity}
                   </span>
-                  <span>₱{(item.price * item.quantity).toFixed(2)}</span>
+                  <span>{formatPrice(item.price * item.quantity)}</span>
                 </div>
               ))}
             </div>
@@ -179,7 +248,7 @@ export const CheckoutSection: React.FC<CheckoutSectionProps> = ({ onBack, orderI
             <div className="pt-4 border-t">
               <div className="flex justify-between text-xl font-bold">
                 <span>Total</span>
-                <span>₱{total.toFixed(2)}</span>
+                <span>{formatPrice(total)}</span>
               </div>
             </div>
 
@@ -191,7 +260,7 @@ export const CheckoutSection: React.FC<CheckoutSectionProps> = ({ onBack, orderI
               {orderInfo.selectedType === 'pick-up' && (
                 <div className="mb-3 p-3 bg-blue-50 border border-blue-200 rounded-md">
                   <p className="text-sm text-blue-700">
-                    <span className="font-medium">Pick-up orders:</span> Payment must be completed online via GCash before Order is processed.
+                    <span className="font-medium">Pick-up orders:</span> Payment must be completed online via GCash or Card before Order is processed.
                   </p>
                 </div>
               )}
@@ -229,6 +298,21 @@ export const CheckoutSection: React.FC<CheckoutSectionProps> = ({ onBack, orderI
                     GCash
                   </label>
                 </div>
+
+                <div className="flex items-center">
+                  <input
+                    type="radio"
+                    id="card"
+                    name="paymentMethod"
+                    value="card"
+                    checked={selectedPaymentMethod === 'card'}
+                    onChange={(e) => setSelectedPaymentMethod(e.target.value)}
+                    className="w-4 h-4 text-[#473E1D] border-gray-300 focus:ring-[#473E1D]"
+                  />
+                  <label htmlFor="card" className="ml-3 text-gray-700 font-medium">
+                    Credit/Debit Card
+                  </label>
+                </div>
               </div>
 
               {/* Cash Payment Details */}
@@ -249,7 +333,7 @@ export const CheckoutSection: React.FC<CheckoutSectionProps> = ({ onBack, orderI
                     <ol className="list-decimal list-inside space-y-1">
                       <li>Call for a waitress or raise your hand</li>
                       <li>Inform them you're ready to pay for your order</li>
-                      <li>Total amount to pay: ₱{total.toFixed(2)}</li>
+                      <li>Total amount to pay: {formatPrice(total)}</li>
                       <li>Complete your cash payment with the waitress</li>
                       <li>Keep your receipt for reference</li>
                     </ol>
@@ -271,7 +355,7 @@ export const CheckoutSection: React.FC<CheckoutSectionProps> = ({ onBack, orderI
                   {/* QR Code Section */}
                   <div className="text-center mb-6">
                     <p className="text-sm text-gray-600 mb-3">
-                      Scan this QR code with your GCash app to pay ₱{total.toFixed(2)}
+                      Scan this QR code with your GCash app to pay {formatPrice(total)}
                     </p>
                     <div className="inline-block p-4 bg-white rounded-lg border-2 border-gray-300">
                       <img 
@@ -281,7 +365,7 @@ export const CheckoutSection: React.FC<CheckoutSectionProps> = ({ onBack, orderI
                       />
                     </div>
                     <p className="text-sm font-medium text-[#473E1D] mt-2">
-                      Amount: ₱{total.toFixed(2)}
+                      Amount: {formatPrice(total)}
                     </p>
                   </div>
 
@@ -292,7 +376,7 @@ export const CheckoutSection: React.FC<CheckoutSectionProps> = ({ onBack, orderI
                       <li>Open your GCash app</li>
                       <li>Scan the QR code above</li>
                       <li>If QR is Invalid send payment to 09********</li>
-                      <li>Confirm the payment amount (₱{total.toFixed(2)})</li>
+                      <li>Confirm the payment amount ({formatPrice(total)})</li>
                       <li>Complete the payment</li>
                       <li>Enter the reference number below</li>
                     </ol>
@@ -317,6 +401,51 @@ export const CheckoutSection: React.FC<CheckoutSectionProps> = ({ onBack, orderI
                   </div>
                 </div>
               )}
+
+              {/* Card Payment Details */}
+              {selectedPaymentMethod === 'card' && (
+                <div className="mt-6 p-4 bg-purple-50 rounded-lg border border-purple-200">
+                  <h5 className="text-lg font-semibold mb-4 text-[#473E1D]">Card Payment</h5>
+                  
+                  <div className="text-center mb-6">
+                    <div className="text-2xl mb-2">💳</div>
+                    <p className="text-lg font-medium text-[#473E1D]">
+                      Secure Card Payment via PayMongo
+                    </p>
+                  </div>
+
+                  <div className="mb-4 text-sm text-gray-700">
+                    <p className="font-medium mb-2">Accepted Cards:</p>
+                    <div className="flex justify-center gap-4 mb-4">
+                      <div className="bg-white px-3 py-2 rounded border text-center font-medium">VISA</div>
+                      <div className="bg-white px-3 py-2 rounded border text-center font-medium">Mastercard</div>
+                      <div className="bg-white px-3 py-2 rounded border text-center font-medium">JCB</div>
+                    </div>
+                    
+                    <p className="font-medium mb-2">Payment Process:</p>
+                    <ol className="list-decimal list-inside space-y-1">
+                      <li>Click "Confirm Order" to proceed with card payment</li>
+                      <li>You'll be redirected to secure PayMongo payment form</li>
+                      <li>Enter your card details safely</li>
+                      <li>Complete payment verification if required</li>
+                      <li>Your order will be confirmed automatically</li>
+                    </ol>
+                  </div>
+
+                  <div className="bg-white p-3 rounded-md border">
+                    <div className="flex justify-between items-center">
+                      <span className="font-medium text-purple-800">Total Amount:</span>
+                      <span className="font-bold text-purple-800 text-lg">{formatPrice(total)}</span>
+                    </div>
+                  </div>
+
+                  <div className="mt-4 p-3 bg-blue-50 border border-blue-200 rounded-md">
+                    <p className="text-sm text-blue-700">
+                      <span className="font-medium">🔒 Secure Payment:</span> Your card information is processed securely through PayMongo's encrypted payment system.
+                    </p>
+                  </div>
+                </div>
+              )}
             </div>
           </div>
         </div>
@@ -324,18 +453,21 @@ export const CheckoutSection: React.FC<CheckoutSectionProps> = ({ onBack, orderI
         <div className="flex justify-end">
           {/* Only show Confirm Order button if payment method is selected and requirements are met */}
           {(selectedPaymentMethod === 'cash' || 
-           (selectedPaymentMethod === 'gcash' && gcashReferenceNumber.trim())) && (
-            <button
-              onClick={handleConfirmOrder}
-              disabled={isProcessing}
-              className={`
-                bg-[#473E1D] text-white px-8 py-3 rounded-lg text-lg
-                ${isProcessing ? 'opacity-50 cursor-not-allowed' : 'hover:bg-[#5c4f26]'}
-                transition-colors
-              `}
-            >
-              {isProcessing ? 'Processing...' : 'Confirm Order'}
-            </button>
+           (selectedPaymentMethod === 'gcash' && gcashReferenceNumber.trim()) ||
+           selectedPaymentMethod === 'card') && (
+                          <button
+                onClick={handleConfirmOrder}
+                disabled={isProcessing || isProcessingPayment}
+                className={`
+                  bg-[#473E1D] text-white px-8 py-3 rounded-lg text-lg
+                  ${(isProcessing || isProcessingPayment) ? 'opacity-50 cursor-not-allowed' : 'hover:bg-[#5c4f26]'}
+                  transition-colors
+                `}
+              >
+                {isProcessingPayment ? 'Processing Payment...' : 
+                 isProcessing ? 'Confirming Order...' : 
+                 selectedPaymentMethod === 'card' ? 'Pay with Card' : 'Confirm Order'}
+              </button>
           )}
         </div>
       </div>

@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { CompletedOrder } from '@/types/order';
+import { formatPrice } from '@/lib/utils';
 
 interface CompletedOrdersProps {
   onBack: () => void;
@@ -325,6 +326,13 @@ export const CompletedOrders: React.FC<CompletedOrdersProps> = ({ onBack }) => {
               {renderOrderItems(order.items)}
             </div>
 
+            <div className="bg-gray-100 p-3 rounded-md">
+              <div className="flex justify-between items-center">
+                <span className="font-medium text-gray-800">Total Amount:</span>
+                <span className="font-bold text-gray-800 text-lg">{formatPrice(order.price)}</span>
+              </div>
+            </div>
+
             {order.additionalInfo && (
               <div className="bg-gray-50 p-3 rounded-md">
                 <h3 className="font-medium mb-1 text-sm">Additional Notes:</h3>
@@ -388,6 +396,16 @@ export const CompletedOrders: React.FC<CompletedOrdersProps> = ({ onBack }) => {
                       </div>
                     );
                   })}
+                </div>
+              </div>
+
+              <div>
+                <h3 className="font-semibold mb-2">Order Total</h3>
+                <div className="bg-gray-100 p-3 rounded-md">
+                  <div className="flex justify-between items-center">
+                    <span className="font-medium text-gray-800">Total Amount:</span>
+                    <span className="font-bold text-gray-800 text-lg">{formatPrice(selectedOrder.price)}</span>
+                  </div>
                 </div>
               </div>
 

@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { CompletedOrder } from '@/types/order';
 import { API_BASE_URL } from '@/config/api';
+import { formatPrice } from '@/lib/utils';
 
 interface PaidOrdersProps {
   onBack: () => void;
@@ -101,7 +102,7 @@ export const PaidOrders: React.FC<PaidOrdersProps> = ({ onBack }) => {
           return (
             <div key={index} className="flex justify-between py-1">
               <span>{quantity}× {itemName}</span>
-              {price > 0 && <span>${(price * quantity).toFixed(2)}</span>}
+              {price > 0 && <span>{formatPrice(price * quantity)}</span>}
             </div>
           );
         })}
@@ -115,7 +116,12 @@ export const PaidOrders: React.FC<PaidOrdersProps> = ({ onBack }) => {
     );
   };
 
-  const calculateOrderTotal = (items: any) => {
+  const calculateOrderTotal = (items: any, orderPrice?: number) => {
+    // If order has a stored price, use that instead of calculating
+    if (orderPrice !== undefined && orderPrice !== null) {
+      return orderPrice;
+    }
+    
     if (!items || !Array.isArray(items)) return 0;
     
     return items.reduce((total, item) => {
@@ -193,7 +199,7 @@ export const PaidOrders: React.FC<PaidOrdersProps> = ({ onBack }) => {
               <div className="flex justify-between items-center">
                 <span className="font-medium text-green-800">Total Amount:</span>
                 <span className="font-bold text-green-800">
-                  ${calculateOrderTotal(order.items).toFixed(2)}
+                  {formatPrice(calculateOrderTotal(order.items, order.price))}
                 </span>
               </div>
             </div>
@@ -293,7 +299,7 @@ export const PaidOrders: React.FC<PaidOrdersProps> = ({ onBack }) => {
                 <div className="flex justify-between items-center">
                   <span className="font-medium text-green-800">Total Amount:</span>
                   <span className="font-bold text-green-800">
-                    ${calculateOrderTotal(selectedOrder.items).toFixed(2)}
+                    {formatPrice(calculateOrderTotal(selectedOrder.items, selectedOrder.price))}
                   </span>
                 </div>
               </div>

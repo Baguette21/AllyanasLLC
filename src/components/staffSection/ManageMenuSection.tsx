@@ -15,6 +15,7 @@ import {
   reorderMenuItems
 } from '../../data/menuData';
 import { API_BASE_URL } from '@/config/api';
+import { formatPrice } from '@/lib/utils';
 
 interface EditableMenuItem extends MenuItem {
   isEditing: boolean;
@@ -818,7 +819,7 @@ export const ManageMenuSection = ({ onBack }: ManageMenuSectionProps) => {
                                   />
                                   <div>
                                     <h3 className="font-medium">{item.name}</h3>
-                                    <p className="text-sm text-gray-500">₱{item.price}</p>
+                                    <p className="text-sm text-gray-500">{formatPrice(item.price)}</p>
                                   </div>
                                 </div>
                                 <span className="text-gray-500">↕</span>
@@ -849,7 +850,7 @@ export const ManageMenuSection = ({ onBack }: ManageMenuSectionProps) => {
                         />
                         <div>
                           <h3 className="font-medium">{item.name}</h3>
-                          <p className="text-sm text-gray-500">₱{item.price}</p>
+                          <p className="text-sm text-gray-500">{formatPrice(item.price)}</p>
                           <div className="flex gap-2 mt-2">
                             <button
                               onClick={() => handleEditItem(item.id)}

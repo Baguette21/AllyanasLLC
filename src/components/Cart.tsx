@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useCart } from '../context/CartContext';
+import { formatPrice } from '../lib/utils';
 
 interface CartProps {
   onCheckout: () => void;
@@ -58,7 +59,7 @@ export const Cart: React.FC<CartProps> = ({ onCheckout }) => {
                     >
                       <div className="flex-1">
                         <h4 className="font-medium">{item.item_name}</h4>
-                        <p className="text-sm ">₱{item.price.toFixed(2)}</p>
+                        <p className="text-sm ">{formatPrice(item.price)}</p>
                       </div>
                       <div className="flex items-center gap-2">
                         <button
@@ -87,7 +88,7 @@ export const Cart: React.FC<CartProps> = ({ onCheckout }) => {
                 <div className="mt-4 pt-4 border-t">
                   <div className="flex justify-between items-center mb-4">
                     <span className="font-semibold">Total:</span>
-                    <span className="font-bold">₱{total.toFixed(2)}</span>
+                    <span className="font-bold">{formatPrice(total)}</span>
                   </div>
                   <button
                     className="w-full bg-[#473E1D] text-white py-2 rounded-lg hover:bg-[#5c4f26] transition-colors"

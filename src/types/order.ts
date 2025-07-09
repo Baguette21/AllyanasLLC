@@ -12,6 +12,7 @@ export interface Order {
   table: string | null;
   contactNumber: string | null;
   timeOfOrder: string;
+  price: number;
   items: OrderItem[];
   additionalInfo?: string;
   paymentMethod?: string;

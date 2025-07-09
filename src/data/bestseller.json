@@ -3,6 +3,16 @@
     {
       "id": "174012107855070",
       "name": "Yana's Spicy Chicken",
+      "quantity": 6
+    },
+    {
+      "id": "174012107855067",
+      "name": "Yana's Buttered Chicken",
+      "quantity": 2
+    },
+    {
+      "id": "174012107855069",
+      "name": "Yana's Soy Chicken",
       "quantity": 2
     },
     {
@@ -11,18 +21,8 @@
       "quantity": 1
     },
     {
-      "id": "174012107855067",
-      "name": "Yana's Buttered Chicken",
-      "quantity": 1
-    },
-    {
       "id": "174012107855068",
       "name": "Yana's Hongkong Chicken",
-      "quantity": 1
-    },
-    {
-      "id": "174012107855069",
-      "name": "Yana's Soy Chicken",
       "quantity": 1
     },
     {
@@ -426,5 +426,5 @@
       "quantity": 0
     }
   ],
-  "lastUpdated": "2025-07-02T04:43:39.536Z"
+  "lastUpdated": "2025-07-09T03:05:45.645Z"
 }

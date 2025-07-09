@@ -4,6 +4,7 @@ import { useCart } from '../../context/CartContext';
 import { Cart } from '../Cart';
 import { Header } from '@/components/layout/Header'; 
 import { API_BASE_URL } from '@/config/api';
+import { formatPrice } from '@/lib/utils';
 
 interface MenuItem {
   id: string;
@@ -268,7 +269,7 @@ export const MenuSection = ({ orderInfo, onBack, onCheckout }: MenuSectionProps)
                   >
                     <h3 className="text-xl text-[#473E1D]">{item.name}</h3>
                     <p className="text-gray-600 text-xs text-[#473E1D]">{item.description}</p>
-                    <span className="block text-sm font-bold mb-2 text-[#473E1D]">₱{item.price}</span>
+                    <span className="block text-sm font-bold mb-2 text-[#473E1D]">{formatPrice(item.price)}</span>
 
                     {!item.isAvailable ? (
                       <div className="bg-red-100 text-red-800 text-center py-1 rounded text-sm">

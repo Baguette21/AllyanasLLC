@@ -1,0 +1,20 @@
+{
+  "name": "allyanas-payment-processing",
+  "version": "1.0.0",
+  "description": "PayMongo payment processing for Allyanas Restaurant",
+  "main": "processPayment.js",
+  "engines": {
+    "node": "18"
+  },
+  "dependencies": {
+    "@google-cloud/functions-framework": "^3.3.0",
+    "axios": "^1.6.0"
+  },
+  "scripts": {
+    "start": "functions-framework --target=processPayment",
+    "deploy": "gcloud functions deploy processPayment --runtime nodejs18 --trigger-http --allow-unauthenticated --region=asia-southeast1"
+  },
+  "keywords": ["payments", "paymongo", "restaurant", "cloud-function"],
+  "author": "Allyanas Restaurant",
+  "license": "MIT"
+} 
